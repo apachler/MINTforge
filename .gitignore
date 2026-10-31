@@ -1,0 +1,44 @@
+# Abhängigkeiten und Build-Ausgaben
+node_modules/
+dist/
+build/
+.astro/
+target/
+.gradle/
+out/
+run/
+
+# Test-Ausgaben (Referenzbilder der visuellen Tests werden dagegen committet)
+test-results/
+playwright-report/
+.lighthouseci/
+
+# Geheimnisse
+.env
+.env.*
+*.local.yml
+secrets.env
+
+# Server-Laufzeitdaten (ab Phase 4)
+*.jar
+!**/gradle/wrapper/gradle-wrapper.jar
+world*/
+logs/
+backups/
+*.db
+*.sqlite
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# Claude Code – persönliche Einstellungen
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Python-Cache
+__pycache__/

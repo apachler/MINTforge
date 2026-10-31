@@ -1,0 +1,9 @@
+# Hält GitHub Actions aktuell (Pull Requests, monatlich). npm (Website) und Gradle (Plugins) kommen mit Phase 1 bzw. 4 dazu.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci

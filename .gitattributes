@@ -1,0 +1,13 @@
+# Alles mit LF ins Repo – CI und Server laufen unter Linux.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+gradlew text eol=lf
+*.jar binary
+*.png binary
+*.jpg binary
+*.avif binary
+*.webp binary
+*.ico binary
+*.woff2 binary
