@@ -404,20 +404,34 @@ Phase 3 und 4 können parallel laufen, sobald das Quest-Format steht.
 | **Ton** | ermutigend, klar, kein Marketing-Sprech; gegenüber Lehrkräften fachlich, gegenüber Schüler:innen direkt und auf Augenhöhe |
 | **Abgrenzung** | kein offizielles Minecraft-Produkt; eigene Bildsprache, keine Mojang-Grafiken, kein Minecraft-Font |
 
-### Visuelle Richtung (Vorschlag als Ausgangspunkt)
+### Markensystem (entschieden am 01.11.2026)
 
-- **Hauptfarbe Minzgrün** – das Wortspiel MINT/Minze trägt die Marke, ohne Erklärung.
-- **Vier Säulenfarben**, eine je Bereich: Mathematik, Informatik, Naturwissenschaften, Technik. Sie kennzeichnen Reiche,
-  Quests und Badges durchgängig auf Website, Plattform und im Spiel.
-- **Bildmarke:** ein „M“ aus vier Blöcken in den Säulenfarben – Pixel-Ästhetik, aber eigenständig.
-- **Wortmarke:** eigene Pixel-Schrift für „MINT“, gut lesbare Grotesk für „craft“ und alle Texte.
-- **Schrift:** frei lizenziert (OFL) und selbst gehostet, z. B. Atkinson Hyperlegible – entwickelt für Lesbarkeit,
-  hilfreich bei Sehschwäche und Leseschwierigkeiten.
-- **Hell als Standard** (Schule, Beamer, Druck), dunkler Modus als Variante.
+Eine Dachmarke und fünf Bereiche, zusammengehalten durch gemeinsame Regeln.
 
-Alle Logos entstehen aus einem **Generator-Skript** (`brand/build_brand.py`, Prinzip aus VioletVein), nie von Hand.
-Farben stehen an einer Stelle (Design-Tokens) und werden von Logos, Website und später Plattform und Server verwendet.
-Für die Entscheidung erzeugen wir **zwei bis drei Varianten** und vergleichen sie anhand der CI-Screenshots.
+| Ebene | Gestaltung | Einsatz |
+|---|---|---|
+| **Dachmarke „Esse“** | Schmiede: Eisen #1A1714, Glut #FF8A2B, Funke #FFB45E, Stahl #8A96A3, Licht #F4EDE4; Amboss mit glühendem Block | Logo, Website, Auftritt gegenüber Schulen und Förderstellen |
+| **Blaupause** | Blaupausenblau, Maßlinien, Rasterpapier | Technik, Mathematik |
+| **Labor** | Petrol, Flieder, Laborkacheln | Naturwissenschaften |
+| **Biom** | Wald, Moos, Lehm, Blattpunkte | Ökologie, fächerübergreifende Systemprojekte |
+| **Informatik** (Schaltwerk oder Netzwerk, Entscheidung offen) | Platine mit Leiterbahnen bzw. Knoten und Verbindungen | Informatik |
+| **Pixelpuls** | Neon auf Dunkel, Pixelschrift | **nur** Ebene für Schüler:innen im Spiel und im Dashboard, nicht auf der Website |
+
+**Gemeinsame Regeln:**
+
+- **Ein Logo:** Amboss und Schriftzug „MINT**forge**“ bleiben überall gleich; Bereiche ergänzen nur ein eigenes Symbol.
+- **Eine Schriftfamilie:** Big Shoulders Display (Überschriften), Work Sans (Text), JetBrains Mono (Daten, Kennzeichnungen);
+  Silkscreen nur in Pixelpuls. Alle frei lizenziert (OFL), selbst gehostet.
+- **Minze #3FD6A6 als roter Faden:** bedeutet überall dasselbe – erledigt, freigeschaltet, nächster Schritt.
+- **Gleiche Bausteine:** Quest-Karte, Stufen Bronze/Silber/Gold, Kennzeichnung von Fach, Stufe und Dauer.
+- **Block-Raster:** Symbole und Illustrationen aus Quadraten und geraden Linien, 8-px-Raster, kleine Radien.
+- **Website hell** mit dunklen Akzenten aus der Dachmarke (Kopf, Fuß, Hero); dunkler Modus als Variante.
+- **Slogan vorerst:** „Wissen schmieden.“
+- Untere Schulstufen bekommen später eigene Design-Patterns innerhalb dieser Regeln.
+
+Alle Logos und Farben entstehen aus einem **Generator-Skript** (`brand/build_brand.py`, Prinzip aus VioletVein), nie
+von Hand. Farben stehen an einer Stelle (Design-Tokens) und werden von Logos, Website und später Dienst und Spiel
+verwendet.
 
 ### Website-Aufbau
 
@@ -440,7 +454,7 @@ wo Schulstufen erklärt werden.
 | Entscheidung | Wahl | Warum |
 |---|---|---|
 | Hosting | **GitHub Pages**, Deploy über GitHub Actions | kostenlos für öffentliche Repos, HTTPS, eigene Domain möglich |
-| Aufbau | **statische Seite mit kleinem Build-Schritt** (Vorschlag: Astro) | der Quest-Katalog wird aus `quests/` erzeugt, Schemas prüfen Inhalte beim Bauen; Ausgabe ist reines HTML/CSS |
+| Aufbau | **Astro** (entschieden), statische Ausgabe | der Quest-Katalog wird aus `quests/` erzeugt, Schemas prüfen Inhalte beim Bauen; Ausgabe ist reines HTML/CSS |
 | JavaScript | nur wo nötig (z. B. Katalog-Filter), Seite funktioniert ohne | Schulnetze, alte Geräte, Barrierefreiheit |
 | Externe Ressourcen | keine – Schriften und Bilder selbst gehostet, keine Tracker, keine Cookies | Datenschutz an Schulen, keine Cookie-Banner |
 | Domain | Vorschlag `mintcraft.at` (Verfügbarkeit prüfen), sonst `apachler.github.io/mintcraft` | |
@@ -546,7 +560,7 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 
 | Was | Lizenz | Warum |
 |---|---|---|
-| Code (Website, Plugins, Werkzeuge) | MIT oder EUPL-1.2 | offen, auch für Schulen und Länder nutzbar |
+| Code (Website, Dienst, Werkzeuge) | **EUPL-1.2** (entschieden) | offen, Copyleft, im EU-Recht abgestimmt, beliebt bei der öffentlichen Hand |
 | Quests und Unterrichtsmaterial | **CC BY-SA 4.0** | Open Educational Resource – Lehrkräfte dürfen anpassen und weitergeben |
 | Marke (Name, Logo) | geschützt, nicht frei | damit „MINTforge“ für Qualität steht |
 
@@ -558,11 +572,11 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 
 | # | Frage | Wann | Vorschlag |
 |---|---|---|---|
-| 1 | Name: MINTforge freigeben? | Validierung, vor Logo-Final | Register prüfen, anwaltliche Einschätzung, Ausweichnamen |
+| 1 | Name: MINTforge freigeben? | Validierung, vor Logo-Final | Andreas prüft zuerst selbst (TMview, Patentamt, Domains); danach ggf. anwaltliche Einschätzung |
 | 2 | Domain | nach #1 | `mintforge.at` prüfen, sonst Alternativen |
-| 3 | Static-Site-Generator | Phase 1, Start | Astro (Inhaltsschemas, reines HTML als Ausgabe) |
-| 4 | Brand-Variante | Phase 1 | 2–3 Varianten im PR vergleichen |
-| 5 | Lizenz für Code | Phase 1 | EUPL-1.2 oder MIT |
+| 3 | Static-Site-Generator | ✅ entschieden | Astro |
+| 4 | Markensystem | ✅ entschieden | Dachmarke Esse, Bereiche Blaupause, Labor, Biom, Informatik; Pixelpuls nur für Schüler:innen; Informatik-Variante (Schaltwerk/Netzwerk) offen |
+| 5 | Lizenz für Code | ✅ entschieden | EUPL-1.2; Quests und Material CC BY-SA 4.0 |
 | 6 | erster Kern | ✅ entschieden | höhere Schulen mit technischem Unterricht (HTL, AHS-Oberstufe): Informatik, Mathematik, Technik; untere Stufen später mit eigenen Design-Patterns |
 | 7 | Anbindung an Lernplattformen | ✅ entschieden | eigener Dienst als LTI-1.3-Werkzeug statt Moodle-Plugin |
 | 8 | Hauptplattform: Minecraft Education oder Luanti mit Web-Client | nach den Prototypen | beide testen, mit Daten entscheiden; die andere bleibt Alternative |
