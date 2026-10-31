@@ -457,7 +457,7 @@ wo Schulstufen erklärt werden.
 | Aufbau | **Astro** (entschieden), statische Ausgabe | der Quest-Katalog wird aus `quests/` erzeugt, Schemas prüfen Inhalte beim Bauen; Ausgabe ist reines HTML/CSS |
 | JavaScript | nur wo nötig (z. B. Katalog-Filter), Seite funktioniert ohne | Schulnetze, alte Geräte, Barrierefreiheit |
 | Externe Ressourcen | keine – Schriften und Bilder selbst gehostet, keine Tracker, keine Cookies | Datenschutz an Schulen, keine Cookie-Banner |
-| Domain | Vorschlag `mintcraft.at` (Verfügbarkeit prüfen), sonst `apachler.github.io/mintcraft` | |
+| Domain | Vorschlag `mintforge.at` (nach Markenprüfung), bis dahin `apachler.github.io/mintforge` | |
 
 **Unterschiede zu VioletVein (Hetzner-Webhosting):** GitHub Pages kennt keine `.htaccess` und keine eigenen
 HTTP-Header. Die Content Security Policy kommt daher als `<meta>`-Tag in jede Seite, HTTPS erzwingt Pages selbst,
