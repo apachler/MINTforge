@@ -7,7 +7,8 @@ Regeln hier gelten für alle Änderungen im Repo. Das ausführliche Konzept steh
 
 MINTcraft ist eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik im deutschsprachigen Raum,
 von der Volksschule bis zur HTL. Minecraft ist das Labor, die Lernplattform der Schule (z. B. eduvidual/Moodle, angebunden über LTI 1.3) das
-Forschungsheft. Spielplattform: Minecraft Education zuerst, Luanti als lizenzfreie Alternative.
+Forschungsheft. Spielplattform: Minecraft Education und Luanti (Web-Client im Browser) werden als Prototypen verglichen;
+Spielserver stellt später ein Self-Service-Backend in der Hetzner Cloud bereit.
 Zielgruppe der Website sind vor allem **Lehrkräfte, Schulen und Förderstellen**.
 
 **Aktuelle Phase: 1 – Brand und Website.** Lernplattform (Phase 3) und Minecraft-Server (Phase 4) kommen später;

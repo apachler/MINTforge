@@ -17,7 +17,7 @@
 - **Einsatz an Schulen:** realistisch als Nische mit klarem Kern (Digitale Grundbildung, Mathematik Unterstufe,
   MINT-Schwerpunkte, HTL-Informatik) – wenn es mit vorhandenen Lizenzen, vorhandenen Geräten und der vorhandenen
   Lernplattform ohne Installation funktioniert.
-- **Folgen:** Minecraft Education zuerst, Luanti als lizenzfreie Alternative, LTI 1.3 statt Moodle-Plugin, enger Start,
+- **Folgen:** keine Java-Lizenzen; Minecraft Education und Luanti mit Web-Client als Prototypen vergleichen, LTI 1.3 statt Moodle-Plugin, enger Start,
   Validierung mit Lehrkräften vor größerem Bau.
 
 ## 1. Markenrecherche „MINTcraft“
@@ -88,7 +88,7 @@ Welt und Rückmeldung in die Lernplattform der Schule.
 
 | Hürde | Folge für MINTcraft |
 |---|---|
-| Java braucht eine Lizenz pro Kind und läuft nicht auf iPads/Chromebooks | **Minecraft Education zuerst** |
+| Java braucht eine Lizenz pro Kind und läuft nicht auf iPads/Chromebooks | **Minecraft Education oder Luanti mit Web-Client** |
 | Auf eduvidual können Schulen keine eigenen Plugins installieren | **LTI-1.3-Werkzeug** statt Moodle-Plugin |
 | Anmelden und Starten kosten in 50 Minuten viel Zeit | Start mit einem Klick, fertige Stundenbilder, Welten vorbereitet |
 | Lehrkräfte haben wenig Zeit für Einarbeitung | Fortbildungen über Pädagogische Hochschulen, Material ohne Vorbereitung nutzbar |
@@ -116,7 +116,12 @@ Luanti (früher Minetest) ist eine freie Blockwelt-Engine ([luanti.org](https://
 | Lehrerwerkzeuge | kein fertiger Klassenmodus; müssten wir selbst bauen |
 | EduLuanti als Basis | als Ideenquelle und für Mods nützlich, als Fundament zu klein (französisch, Förderung bis 2025, keine Lernplattform-Anbindung) |
 
-**Folgerung:** Luanti löst das Lizenz- und Datenschutzproblem, schafft aber ein Geräteproblem (iPad). Deshalb
+**Web-Client:** Mit [minetest-wasm](https://github.com/paradust7/minetest-wasm) gibt es einen experimentellen
+WebAssembly-Port von Luanti (MIT, [Live-Demo](https://minetest.dustlabs.io/)); Mehrspieler läuft über einen
+WebSocket-Proxy. Ein darauf aufbauender Client im Browser bzw. als PWA würde das iPad-Problem lösen und Installation
+überflüssig machen. Ob er auf Schul-iPads flüssig läuft, ist offen – deshalb Prototyp (siehe Konzept).
+
+**Folgerung:** Luanti löst das Lizenz- und Datenschutzproblem, schafft aber ohne Web-Client ein Geräteproblem (iPad). Deshalb
 Minecraft Education als Hauptplattform und Luanti als zweites Standbein – besonders für Deutschland und Schulen
 ohne Microsoft-Lizenz. Weil Quests als Daten im Repo stehen und der MINTcraft-Dienst die Prüfung übernimmt, kann
 dieselbe Quest auf beiden Plattformen laufen.
@@ -128,4 +133,6 @@ dieselbe Quest auf beiden Plattformen laufen.
 - [ ] Erlaubt eduvidual Lehrkräften, externe LTI-1.3-Werkzeuge selbst einzubinden, oder braucht es eine Freigabe?
 - [ ] Geräteverteilung heute (die Zahlen sind von 2021)
 - [ ] Machbarkeit: Skript-API von Minecraft Education für Prüfung und Verbindung zum Dienst
+- [ ] Machbarkeit: Luanti-Web-Client auf Schul-iPad, Chromebook und Windows-Gerät
+- [ ] Läuft der Dedicated Server von Minecraft Education unter Linux in Containern?
 - [ ] 5–10 Gespräche mit Lehrkräften: Geräte, Lizenzen, Lernplattform, Fach, Hürden

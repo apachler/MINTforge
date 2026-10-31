@@ -48,13 +48,16 @@ Drei Dinge machen MINTcraft im Unterricht wirklich einsetzbar:
 
 Zwei Grundentscheidungen folgen aus der [Marktrecherche](marktrecherche.md):
 
-- **Minecraft Education zuerst:** Schulen haben die Lizenzen oft schon, es läuft auf Windows, iPad und Chromebook.
-  Java-Lizenzen pro Kind sind an Schulen unrealistisch.
+- **Keine Java-Lizenzen:** Java pro Kind ist an Schulen unrealistisch. Zwei Wege werden als Prototypen verglichen:
+  Minecraft Education (Lizenzen an Schulen oft vorhanden) und Luanti mit eigenem Web-Client – ohne Installation,
+  ohne Lizenz, auch auf iPads.
 - **MINTcraft als LTI-Werkzeug statt Moodle-Plugin:** Lehrkräfte binden es selbst in eduvidual, jedes Moodle oder
   andere Lernplattformen ein, ohne dass jemand etwas installieren muss.
+- **Self-Service-Backend:** Spielwelten je Klasse entstehen automatisch nach Stundenplan in der Hetzner Cloud und
+  verschwinden danach wieder.
 
 Gebaut wird in Phasen. **Zuerst die Marke und die Website**, weil sie Lehrkräfte, Schulen und Förderstellen überzeugen
-müssen, bevor es Technik gibt. Lernplattform und Minecraft-Server folgen. Von Anfang an prüft CI jede Änderung –
+müssen, bevor es Technik gibt. Parallel prüfen zwei Prototypen die Technik; MINTcraft-Dienst und Spielserver folgen. Von Anfang an prüft CI jede Änderung –
 Funktion, Barrierefreiheit und Aussehen.
 
 ## 2. Die Idee
@@ -185,10 +188,11 @@ flowchart TB
     CI --> W["🌐 Website<br/>GitHub Pages<br/>Marke + Quest-Katalog"]
     CI --> T["🧩 MINTcraft-Dienst<br/>LTI-1.3-Werkzeug<br/>Quests, Dashboard, Prüfung"]
     LMS["📚 Lernplattform der Schule<br/>eduvidual, Moodle, …"] <-- "LTI 1.3:<br/>Anmeldung, Aufgabe,<br/>Bewertung" --> T
-    T <-- "Quest starten,<br/>Ergebnis" --> S["⛏️ Minecraft-Server<br/>Education Dedicated Server<br/>MINTcraft-Add-on"]
+    T -- "Self-Service:<br/>Welten starten/stoppen" --> H["☁️ Hetzner Cloud<br/>Spielserver je Klasse<br/>Education oder Luanti"]
+    H -- "Ergebnis" --> T
     L["👩‍🏫 Lehrkraft"] --> LMS
     K["🧒 Schüler:in"] --> LMS
-    K --> S
+    K -- "Minecraft Education<br/>oder Browser (PWA)" --> H
 ```
 
 **Kernprinzip aus VioletVein SMP übernommen: Das Repo ist die einzige Quelle der Wahrheit.** Quests, Marke, Website,
@@ -231,9 +235,9 @@ und Eltern bleiben in der Lernplattform der Schule – dort, wo Lehrkräfte ohne
 
 Für Entwicklung und CI läuft eine Moodle-Testinstanz in Docker; der Dienst wird dort wie an einer Schule eingebunden.
 
-### Minecraft-Server
+### Spielplattform
 
-**Entscheidung: Minecraft Education zuerst.** Schulen haben die Lizenz oft schon (Microsoft-Schulvertrag bzw.
+**Ausgangspunkt: Minecraft Education oder Luanti – Java scheidet aus.** Für Minecraft Education spricht: Schulen haben die Lizenz oft schon (Microsoft-Schulvertrag bzw.
 Microsoft 365 Education A3/A5), es läuft auf allen gängigen Schulgeräten, und seit August 2026 funktionieren Dedicated
 Server auch über Schulgrenzen hinweg. Java ist an Schulen kaum lizenzierbar und läuft nicht auf iPads oder Chromebooks.
 
@@ -254,12 +258,102 @@ Server auch über Schulgrenzen hinweg. Java ist an Schulen kaum lizenzierbar und
 | **Lehrer-Werkzeuge** | Klassenmodus von Education plus eigene Befehle: alle zu mir holen, Bauen sperren, Welt zurücksetzen |
 | **Code-Quests** | Code Builder (Blöcke, Python) |
 
-**Luanti als zweites Standbein:** Für Schulen ohne Microsoft-Lizenz oder mit Datenschutzbedenken (in Deutschland
-häufig) ist Luanti die lizenzfreie Alternative – technisch sogar die offenere Plattform. Weil Quests als Daten im Repo
+**Für Luanti spricht:** keine Lizenzen, keine Microsoft-Konten (wichtig bei Datenschutzbedenken, in Deutschland
+häufig), technisch die offenere Plattform – und mit eigenem Web-Client (unten) ohne Installation auf allen Geräten. Weil Quests als Daten im Repo
 stehen und der MINTcraft-Dienst die Prüfung übernimmt, kann dieselbe Quest später auf beiden Plattformen laufen.
 Java/Paper bleibt Option für HTL-Projekte und außerschulische Angebote; die Erfahrung aus VioletVein hilft dort.
-Die technische Machbarkeit (Skript-API, Verbindung zum Dienst, Netzwerk an Schulen) prüfen wir **früh mit einem
-Prototyp** an echten Schulgeräten, nicht erst in Phase 4.
+Die technische Machbarkeit prüfen wir **früh mit zwei Prototypen** an echten Schulgeräten, nicht erst in Phase 4:
+Minecraft Education mit Add-on und der Luanti-Web-Client (unten). Danach entscheiden wir mit Daten, welche Plattform
+Hauptplattform wird.
+
+### Luanti-Web-Client (Prototyp)
+
+Ein Luanti-Client, der **im Browser** läuft – auch auf iPads, Chromebooks und gesperrten Schul-PCs, als PWA direkt vom
+Startbildschirm. Damit entfallen Installation, Lizenzen und Microsoft-Konten, und das iPad-Problem von Luanti (kein
+App Store) ist gelöst.
+
+Grundlage ist der bestehende experimentelle Port [minetest-wasm](https://github.com/paradust7/minetest-wasm)
+(WebAssembly/Emscripten, MIT, [Live-Demo](https://minetest.dustlabs.io/)) – ein Fork, kein Neubau.
+
+```mermaid
+flowchart LR
+    LMS["📚 Moodle / eduvidual"] -- "LTI-Launch<br/>(ein Klick)" --> PWA["📱 MINTcraft-PWA<br/>Luanti als WebAssembly<br/>Touch-Steuerung"]
+    PWA -- "WebSocket (wss)" --> P["🔀 Proxy<br/>WebSocket ↔ UDP"]
+    P --> LS["⛏️ Luanti-Server<br/>Klassen-Welt<br/>MINTcraft-Mod"]
+    LS -- "Ergebnis" --> T["🧩 MINTcraft-Dienst"]
+```
+
+| Baustein | Aufgabe |
+|---|---|
+| **WebAssembly-Client** | Fork von minetest-wasm, auf aktuelle Luanti-Version gebracht, ohne Hauptmenü: startet direkt in die Klassen-Welt |
+| **Anmeldung** | LTI-Launch erzeugt ein kurzlebiges Token; der Client meldet sich damit unter Pseudonym an – kein Passwort |
+| **Touch-Steuerung** | Steuerkreuz und Gesten für Tablets (iOS kennt keine Mauszeiger-Sperre) |
+| **PWA** | Manifest, Service Worker, Symbol am Startbildschirm; Client-Dateien werden zwischengespeichert, Welten liegen am Server |
+| **WebSocket-Proxy** | Browser können kein UDP; der Proxy auf Hetzner übersetzt WebSocket in das Luanti-Protokoll |
+| **MINTcraft-Mod** (Lua) | Quest starten, automatisch prüfen, Lehrer-Werkzeuge, Ergebnis an den Dienst |
+
+**Was der Prototyp beweisen muss** (auf einem Schul-iPad, einem Chromebook und einem Windows-Schulgerät):
+
+- [ ] Start aus Moodle in die Welt in unter 30 Sekunden
+- [ ] flüssig spielbar (Ziel ≥ 30 Bilder pro Sekunde) mit 25 Schüler:innen in einer Welt
+- [ ] Touch-Steuerung ist für Kinder ohne Erklärung bedienbar
+- [ ] läuft im Schulnetz (nur HTTPS/WSS über Port 443)
+- [ ] eine Quest wird automatisch geprüft, das Ergebnis landet in Moodle
+
+Risiken: Der Port ist experimentell und nur unter Ubuntu getestet; Leistung und Speichergrenzen von Safari auf älteren
+iPads sind offen; die Pflege eines eigenen Forks kostet laufend Zeit.
+
+### Self-Service-Backend auf Hetzner
+
+Der MINTcraft-Dienst wird zur **Steuerzentrale** (Control Plane): Schulen und Lehrkräfte klicken, das Backend stellt
+Spielserver, Welten und Speicher selbstständig in der Hetzner Cloud bereit, und baut sie wieder ab.
+
+```mermaid
+flowchart TB
+    subgraph CP["🧩 MINTcraft-Dienst (Control Plane)"]
+        R["Mandanten<br/>Schulen, LTI-Registrierungen"]
+        PL["Planer<br/>Stundenplan → Welten"]
+        O["Orchestrierung<br/>Hetzner-Cloud-API"]
+    end
+    SA["🏫 Schule"] -- "Registrierung" --> R
+    LK["👩‍🏫 Lehrkraft"] -- "Quest im Kurs" --> PL
+    PL --> O
+    O --> POOL
+    subgraph POOL["☁️ Hetzner Cloud: Server-Pool (wächst und schrumpft)"]
+        C1["Container<br/>Welt 3a"]
+        C2["Container<br/>Welt 4b"]
+        C3["Container<br/>Welt 2c"]
+    end
+    POOL <--> OS["🗄️ Object Storage<br/>Welten, Sicherungen"]
+```
+
+**Ablauf für eine Schule:**
+
+1. **Registrieren:** Die Schule legt einen Mandanten an und bekommt die LTI-Daten für ihr Moodle oder eduvidual.
+2. **Quest einfügen:** Die Lehrkraft wählt im Kurs eine Quest; das Backend erzeugt die Klassen-Welt aus der Vorlage
+   im Repo.
+3. **Nach Stundenplan:** Die Welt startet kurz vor der Stunde, wird danach gesichert und gestoppt. Hetzner rechnet
+   stundenweise ab – bezahlt wird im Wesentlichen die Unterrichtszeit.
+4. **Zurücksetzen, wiederholen, weitergeben:** Welten liegen versioniert im Object Storage.
+
+**Technische Grundsätze:**
+
+| Grundsatz | Umsetzung |
+|---|---|
+| Container statt VM pro Klasse | ein Spielserver je Klasse als Container, startet in Sekunden; die VMs bilden einen Pool, den die Hetzner-Cloud-API nach Bedarf vergrößert und verkleinert |
+| Infrastruktur als Code | Pool, Netz, Firewall, Object Storage mit OpenTofu im Repo; Images und Container gebaut und getestet in CI |
+| Mandantentrennung | jede Schule in eigenem Netzbereich, eigene Schlüssel, keine Daten über Schulgrenzen |
+| Datensparsamkeit | nur Pseudonyme aus LTI, keine Klarnamen im Spiel, Löschfristen automatisch |
+| EU-Hosting | Rechenzentren von Hetzner in Deutschland bzw. Finnland, Auftragsverarbeitungsvertrag mit jeder Schule |
+| Beobachtbarkeit | Gesundheitschecks je Welt, Kosten je Schule, Warnung bei Ausfall (Muster aus `uptime` von VioletVein) |
+
+Für Luanti passt das ideal (kleiner Server, läuft unter Linux in Containern). Ob der Dedicated Server von Minecraft
+Education unter Linux und in Containern läuft, klärt der Machbarkeitsprototyp.
+
+**Betriebsmodell:** Mit dem Backend wird MINTcraft ein Dienst für Schulen – mit Verfügbarkeit, Support, Datenschutz-
+verträgen und laufenden Serverkosten. Wer das trägt (Förderung, Schullizenz, Land, Verein), ist eine offene
+Entscheidung, die vor dem Pilot geklärt sein muss.
+
 
 ## 8. Phasenplan
 
@@ -278,11 +372,11 @@ flowchart LR
 | Phase | Ergebnis | Fertig, wenn |
 |---|---|---|
 | **0 · Grundlagen** | Repo, Regeln für Assistenten, CI-Grundgerüst, dieses Konzept | Konzept abgenommen |
-| **Validierung** (parallel zu Phase 1) | Markenprüfung des Namens, 5–10 Gespräche mit Lehrkräften, Machbarkeitsprototyp mit Minecraft Education | Name freigegeben oder ersetzt; Erkenntnisse aus den Gesprächen im Konzept; Prototyp zeigt Quest-Start und Ergebnis an einem Schulgerät |
+| **Validierung** (parallel zu Phase 1) | Markenprüfung des Namens, 5–10 Gespräche mit Lehrkräften, zwei Machbarkeitsprototypen: Minecraft Education mit Add-on und Luanti-Web-Client, beide auf einem Testserver bei Hetzner | Name freigegeben oder ersetzt; Erkenntnisse aus den Gesprächen im Konzept; Prüfliste des Web-Client-Prototyps abgearbeitet; Entscheidung über die Hauptplattform |
 | **1 · Brand und Website** | Name geprüft, Markenkern, Logo, Farben, Schrift, Website live auf GitHub Pages | Website live, alle CI-Prüfungen grün, Brand-Seite fertig |
 | **2 · Quest-Format** | `quest.yml`-Schema, Vorlage, 8–10 Quests für die Unterstufe, Quest-Katalog auf der Website | Katalog live, jede Quest von einer Lehrkraft gegengelesen |
 | **3 · MINTcraft-Dienst** | LTI-1.3-Werkzeug mit Quest-Auswahl, Aufgabe, Reflexion, Dashboard; Moodle-Testinstanz (Docker) in CI | Lehrkraft fügt Quest in Moodle ein, Schüler:in meldet sich ohne zweites Passwort an, Bewertung landet in Moodle |
-| **4 · Minecraft-Server** | Education Dedicated Server, Klassen-Welten, MINTcraft-Add-on | Quest startet und wird automatisch geprüft, Ergebnis kommt über den Dienst in Moodle an |
+| **4 · Spielserver und Self-Service** | Self-Service-Backend auf Hetzner (Pool, Container, Object Storage, Stundenplan), Klassen-Welten, MINTcraft-Add-on bzw. -Mod, Web-Client produktionsreif (falls Luanti) | Schule registriert sich selbst, Welt startet nach Stundenplan, Quest wird automatisch geprüft, Ergebnis kommt über den Dienst in Moodle an |
 | **5 · Pilot** | eine Klasse, eine engagierte Lehrkraft, 4–6 Wochen | Feedback ausgewertet, Pilotbericht als Grundlage für Förderanträge |
 
 Phase 3 und 4 können parallel laufen, sobald das Quest-Format steht.
@@ -364,6 +458,8 @@ nachvollziehbar, ohne lokal etwas zu starten.
 | `quests` (ab Phase 2) | Push, PR in `quests/` | JSON-Schema, Pflichtfelder, Lehrplanbezug, Rechtschreibung |
 | `service` (ab Phase 3) | Push, PR | Unit-Tests des MINTcraft-Dienstes; End-to-End-Test gegen eine Moodle-Testinstanz in Docker: Quest per LTI einfügen, als Schüler:in starten, Bewertung kommt an |
 | `addon` (ab Phase 4) | Push, PR | Add-on bzw. Mods bauen und testen; Integrationstest: Server in CI starten, Quest automatisiert durchspielen |
+| `webclient` (ab Validierung) | Push, PR | WebAssembly-Build, Playwright startet den Client in Chromium und WebKit (Safari-Engine), verbindet zu einem Test-Server, prüft Ladezeit, Bildrate und PWA-Manifest |
+| `infra` (ab Phase 4) | Push, PR | OpenTofu `validate` und `plan` gegen ein Test-Projekt, Container-Images bauen und auf Schwachstellen prüfen; auf `main` nach Freigabe anwenden |
 
 ### Visuelle Prüfung im Detail
 
@@ -411,7 +507,7 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 | Skills und Copilot-Prompts (`/website-update`, `/new-plugin` …) | 🔁 Muster | je Phase eigene Skills, z. B. `/new-quest`, `/brand-variant` |
 | `plugins-src/_template` (Paper 1.21.11, Java 21, Gradle Kotlin DSL) und `build-plugins` | ⏳ nur für Java-Angebote | HTL-Projekte, außerschulisch; Education braucht Bedrock-Add-ons |
 | `server.yml` + `tools/mc.py` + Workflow `updates` (Plugins mit Prüfsumme, wöchentliche Update-PRs) | 🔁 Prinzip | „alles mit Version und Prüfsumme im Repo“ auch für Education-Server und Luanti-Mods |
-| `scripts/` (deploy, backup, safe-restart, sync), `system/`, `uptime`, `mc_status.py` | 🔁 Phase 4 | Server-Betrieb auf Hetzner, angepasst an Education Dedicated Server bzw. Luanti |
+| `scripts/` (deploy, backup, safe-restart, sync), `system/`, `uptime`, `mc_status.py` | 🔁 Phase 4 | Ideen für das Self-Service-Backend: Sicherung vor jeder Änderung, Neustart mit Vorwarnung, Erreichbarkeits-Check; statt Skripten auf einem Server jetzt Container und Hetzner-Cloud-API |
 | Admin-Anleitung Hetzner | ⏳ Phase 4 | Grundlage für Betriebsdoku |
 | Gameplay-Inhalte (Economy, Crates, PvP, Tools, violettes Thema) | ❌ | passt nicht zu Schule |
 
@@ -458,8 +554,9 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 | 5 | Lizenz für Code | Phase 1 | EUPL-1.2 oder MIT |
 | 6 | erster Kern | ✅ entschieden | Unterstufe, Digitale Grundbildung und Mathematik |
 | 7 | Anbindung an Lernplattformen | ✅ entschieden | eigener Dienst als LTI-1.3-Werkzeug statt Moodle-Plugin |
-| 8 | Spielplattform | ✅ Richtung entschieden | Minecraft Education zuerst, Luanti als lizenzfreie Alternative; Machbarkeitsprototyp bestätigt |
-| 9 | Hosting Server | Phase 4 | Hetzner (EU), Erfahrung aus VioletVein |
+| 8 | Hauptplattform: Minecraft Education oder Luanti mit Web-Client | nach den Prototypen | beide testen, mit Daten entscheiden; die andere bleibt Alternative |
+| 9 | Hosting | ✅ entschieden | Hetzner Cloud (EU), Self-Service-Backend mit Container-Pool |
+| 9a | Betriebsmodell: wer trägt Serverkosten, Support, Verträge? | vor dem Pilot | Förderung für Pilot, danach Schul- oder Landeslizenz prüfen; auch Verein denkbar |
 | 10 | Förderung | ab Pilotplanung | Innovationsstiftung für Bildung, FFG, Erasmus+ |
 | 11 | Pilotschule und Lehrkraft | Phase 2 | – |
 
@@ -467,7 +564,7 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 
 1. **Konzept lesen und abnehmen** – Änderungen direkt in diesem Dokument per Pull Request.
 2. **Validierung starten:** Namen prüfen lassen, 5–10 Gespräche mit Lehrkräften (Geräte, Lizenzen, Lernplattform,
-   Fach, Hürden), Machbarkeitsprototyp mit Minecraft Education.
+   Fach, Hürden), zwei Machbarkeitsprototypen: Minecraft Education mit Add-on und Luanti-Web-Client.
 3. **Phase 1 starten:** Static-Site-Grundgerüst mit allen CI-Prüfungen
    (Build, Links, a11y, visuelle Tests, Deploy auf Pages) – zuerst eine leere, aber vollständig geprüfte Seite.
 4. **Brand-Varianten:** Generator `brand/build_brand.py`, Design-Tokens, zwei bis drei Logo- und Farbvarianten,

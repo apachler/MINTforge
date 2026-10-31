@@ -29,7 +29,7 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 | 1 · Brand und Website | Marke, Logo, Website auf GitHub Pages, CI mit visuellen Tests | ⏭️ als Nächstes |
 | 2 · Quest-Format | Quests als Daten, erste Quests, Katalog | ⏳ |
 | 3 · MINTcraft-Dienst | LTI-1.3-Werkzeug für eduvidual, Moodle und andere Lernplattformen | ⏳ |
-| 4 · Minecraft-Server | Minecraft Education + Add-on, Luanti als Alternative | ⏳ |
+| 4 · Spielserver und Self-Service | Welten je Klasse automatisch in der Hetzner Cloud; Minecraft Education oder Luanti im Browser | ⏳ |
 | 5 · Pilot | eine Klasse | ⏳ |
 
 ## Aufbau
