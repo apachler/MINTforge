@@ -1,4 +1,8 @@
-# MINTcraft – Marken- und Marktrecherche
+# MINTforge – Marken- und Marktrecherche
+
+> **Nachtrag 01.11.2026:** Das Projekt heißt jetzt mit Arbeitsnamen **MINTforge** (siehe Abschnitt 1b), der
+> Schwerpunkt liegt auf höheren Schulen mit technischem Unterricht. Die Recherche unten bezieht sich teils noch auf den
+> alten Namen und den damals geplanten Start in der Unterstufe.
 
 | | |
 |---|---|
@@ -52,6 +56,18 @@ eine Einschätzungsfrage.
 
 **Empfehlung:** kurze Einschätzung einer Markenanwältin oder eines Markenanwalts, bevor Logo und Domain fixiert werden;
 zwei bis drei Ausweichnamen bereithalten.
+
+## 1b. Neuer Arbeitsname „MINTforge“
+
+| Wer / was | Bereich | Bedeutung für uns |
+|---|---|---|
+| [MintForge](https://mintforge.site/terms) | Erstellen von Solana-Token | Krypto-Assoziation wie bei „mintcraft“ |
+| [Mint Forge (Crunchbase)](https://www.crunchbase.com/organization/mint-forge) | Unternehmen, Branche nicht prüfbar | in der Markenprüfung klären |
+| [MintForge (YouTube)](https://www.youtube.com/channel/UCglI9jgjl2XlBWY5P665gmw), [mintforge (GitHub)](https://github.com/Waleed-Ilyas/mintforge) | Kanal, kleines Projekt | gering |
+| „Forge“ als Mod-Loader für Minecraft | Gaming | bekannte Assoziation bei Jugendlichen, keine Mojang-Marke |
+
+Im Bildungsbereich wurde nichts gefunden. Vorteil gegenüber „MINTcraft“: keine Ein-Buchstaben-Nähe zu „Minecraft“ und
+unabhängig von der Spielplattform. Offen: Register (TMview, see.ip, DPMA) und Domains `mintforge.at`, `.de`, `.eu`.
 
 ## 2. Gibt es den Ansatz schon?
 

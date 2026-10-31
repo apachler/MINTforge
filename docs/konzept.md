@@ -1,12 +1,15 @@
-# MINTcraft – Konzeptpapier
+# MINTforge – Konzeptpapier
 
-**Lernen mit Kopf, Hand und Blöcken.** Eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik,
-die Minecraft als Labor und eine Lernplattform als Forschungsheft verbindet – für den deutschsprachigen Raum, von der
-Volksschule bis zur HTL.
+**Wissen schmieden.** Eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik, die eine
+Blockwelt als Labor und die Lernplattform der Schule als Forschungsheft verbindet – für den deutschsprachigen Raum,
+mit Schwerpunkt auf **Oberstufe, HTL und anderen höheren Schulen mit technischem Unterricht**.
+
+> **Arbeitsname MINTforge** (früher MINTcraft). Umbenannt, weil „MINTcraft“ zu nahe an „Minecraft“ liegt und der Name
+> unabhängig von der Spielplattform sein soll. Die Markenprüfung steht noch aus.
 
 | | |
 |---|---|
-| Stand | 31.10.2026, Entwurf 2 (nach [Marken- und Marktrecherche](marktrecherche.md)) |
+| Stand | 01.11.2026, Entwurf 3 (Name MINTforge, Schwerpunkt höhere Schulen) |
 | Verantwortlich | Andreas Pachler |
 | Status | Phase 0 (Grundlagen) abgeschlossen mit diesem Dokument, Phase 1 (Brand und Website) als Nächstes |
 
@@ -33,11 +36,11 @@ Volksschule bis zur HTL.
 
 ## 1. Kurzfassung
 
-MINTcraft ist kein Spiel mit angehängten Aufgaben und keine Lernplattform mit Spielpunkten. Es ist ein **Lernkreislauf**:
+MINTforge ist kein Spiel mit angehängten Aufgaben und keine Lernplattform mit Spielpunkten. Es ist ein **Lernkreislauf**:
 Schüler:innen verstehen ein Konzept auf der Lernplattform, wenden es in Minecraft an, experimentieren, scheitern,
 verbessern – und reflektieren danach wieder auf der Plattform, wo die Lehrkraft Fortschritt sieht und bewertet.
 
-Drei Dinge machen MINTcraft im Unterricht wirklich einsetzbar:
+Drei Dinge machen MINTforge im Unterricht wirklich einsetzbar:
 
 1. **Lehrplanbezug:** Jede Quest ist auf österreichische Lehrpläne und Kompetenzmodelle gemappt, später auch auf
    KMK-Bildungsstandards (DE) und Lehrplan 21 (CH).
@@ -51,13 +54,13 @@ Zwei Grundentscheidungen folgen aus der [Marktrecherche](marktrecherche.md):
 - **Keine Java-Lizenzen:** Java pro Kind ist an Schulen unrealistisch. Zwei Wege werden als Prototypen verglichen:
   Minecraft Education (Lizenzen an Schulen oft vorhanden) und Luanti mit eigenem Web-Client – ohne Installation,
   ohne Lizenz, auch auf iPads.
-- **MINTcraft als LTI-Werkzeug statt Moodle-Plugin:** Lehrkräfte binden es selbst in eduvidual, jedes Moodle oder
+- **MINTforge als LTI-Werkzeug statt Moodle-Plugin:** Lehrkräfte binden es selbst in eduvidual, jedes Moodle oder
   andere Lernplattformen ein, ohne dass jemand etwas installieren muss.
 - **Self-Service-Backend:** Spielwelten je Klasse entstehen automatisch nach Stundenplan in der Hetzner Cloud und
   verschwinden danach wieder.
 
 Gebaut wird in Phasen. **Zuerst die Marke und die Website**, weil sie Lehrkräfte, Schulen und Förderstellen überzeugen
-müssen, bevor es Technik gibt. Parallel prüfen zwei Prototypen die Technik; MINTcraft-Dienst und Spielserver folgen. Von Anfang an prüft CI jede Änderung –
+müssen, bevor es Technik gibt. Parallel prüfen zwei Prototypen die Technik; MINTforge-Dienst und Spielserver folgen. Von Anfang an prüft CI jede Änderung –
 Funktion, Barrierefreiheit und Aussehen.
 
 ## 2. Die Idee
@@ -80,9 +83,9 @@ flowchart LR
 Die Spielwelt wird nicht als Belohnung *nach* dem Lernen verwendet, sondern als Ort, an dem gelernt wird. Wer die Fläche
 eines Geheges falsch berechnet, sieht es: Die Tiere passen nicht hinein.
 
-### Was MINTcraft von bestehenden Angeboten unterscheidet
+### Was MINTforge von bestehenden Angeboten unterscheidet
 
-| Bestehend | Lücke | MINTcraft |
+| Bestehend | Lücke | MINTforge |
 |---|---|---|
 | Minecraft Education mit Lernwelten | meist englisch, Einzelstunden ohne Lehrplanpfad, wenig Bewertungsanbindung | deutschsprachig, durchgehender Pfad von VS bis HTL, Bewertung direkt in der Lernplattform der Schule |
 | Moodle-Kurse | trocken, wenig Handlungsorientierung | Handeln in der Welt, Ergebnis automatisch zurück |
@@ -106,16 +109,16 @@ Jede Quest folgt derselben Struktur – so kennen sich Lehrkräfte und Schüler:
 
 | Feld | Beispiel |
 |---|---|
-| Titel | Das Gehege im Zahlenturm |
-| Fach, Schulstufe | Mathematik, 5.–6. Schulstufe |
-| Lernziel (Kompetenz) | Flächeninhalt von Rechtecken berechnen und anwenden |
-| Lehrplanbezug | Lehrplan MS/AHS-Unterstufe Mathematik, Bereich Geometrie; Bildungsstandards M8 |
+| Titel | Die Rampe zur Ingenieursinsel |
+| Fach, Schulstufe | Mathematik, 10. Schulstufe (AHS-Oberstufe, HTL 2. Jahrgang) |
+| Lernziel (Kompetenz) | Winkelfunktionen im rechtwinkeligen Dreieck anwenden; Steigung in Prozent und Grad umrechnen |
+| Lehrplanbezug | Lehrplan AHS-Oberstufe bzw. HTL Angewandte Mathematik, Bereich Trigonometrie (genaue Zuordnung in Phase 2) |
 | Dauer | 1 Unterrichtseinheit (50 min) |
-| Vorwissen | Multiplikation, Begriff Fläche |
+| Vorwissen | Satz des Pythagoras, Sinus, Cosinus, Tangens |
 | Ablauf | Verstehen (10 min) → Anwenden (25 min) → Reflektieren (15 min) |
-| Stufen | 🥉 Bronze: Rechteck mit 24 m² · 🥈 Silber: zwei Gehege, gesamt 60 m² · 🥇 Gold: größtes Gehege mit 30 m Zaun |
-| Automatische Prüfung | Fläche der eingezäunten Region, Zaun geschlossen |
-| Reflexion | Warum ist das quadratische Gehege bei gleichem Zaun das größte? |
+| Stufen | 🥉 Bronze: Rampe auf 3 Blöcke Höhe mit Steigungswinkel unter 20° · 🥈 Silber: Rampe mit Zwischenpodest, Gesamtlänge minimal · 🥇 Gold: barrierefreie Rampe mit höchstens 6 % Steigung und möglichst wenig Material |
+| Automatische Prüfung | Höhenunterschied, horizontale Länge und Steigung je Abschnitt, Podeste vorhanden |
+| Reflexion | Warum braucht eine barrierefreie Rampe so viel Platz, und wie hängt das mit tan α zusammen? |
 | Lehrerhandreichung | Lösungen, typische Fehler, Differenzierungstipps, Varianten |
 
 ### Didaktische Grundsätze
@@ -163,10 +166,10 @@ das alle sehen.
 | ⚗️ Alchemistenhalle | Chemie | Stoffe, Reaktionen, Brauen als Modell |
 | ⚙️ Ingenieursinsel | Physik, Technik | Mechanik, Energie, Bauwerke, Stromnetze |
 
-Die Geschichte bleibt kindgerecht und gewaltfrei. Für ältere Stufen wird sie zur Kulisse; im Vordergrund stehen echte
-Projekte und Daten.
+Für Oberstufe und HTL ist die Geschichte Kulisse: Im Vordergrund stehen echte Projekte mit Budget, Daten und
+Abnahmekriterien – wie in einer Werkstatt oder einem Ingenieurbüro. Die Geschichte bleibt gewaltfrei.
 
-## 6. Inhalte über alle Schulstufen
+## 6. Schulstufen und Schwerpunkt
 
 | Stufe | Mathematik | Informatik | Naturwissenschaften | Technik |
 |---|---|---|---|---|
@@ -175,10 +178,17 @@ Projekte und Daten.
 | **Oberstufe** (9.–12./13.) | Funktionen, Vektoren, Trigonometrie, Statistik, Wahrscheinlichkeit | Python, Datenstrukturen, Simulation | Reaktionen, Genetik, Experimente mit Datenauswertung | Energie, Wirkungsgrad, Regelkreise |
 | **HTL** | angewandte Mathematik, numerische Verfahren | Redstone-ALU bis Mini-CPU, Python/Lua-Automatisierung, Netzwerke, Datenbanken | Werkstoffe, Prozesse | Elektrotechnik, Automatisierung, Steuerungen, Projektarbeit |
 
-Am Anfang steht **ein enger Kern: Unterstufe (5.–8. Schulstufe), Digitale Grundbildung und Mathematik.**
-Digitale Grundbildung ist seit 2022 Pflichtfach mit einer Wochenstunde und Computational Thinking im Lehrplan –
-der natürlichste Einstieg. Mathematik (Geometrie) ist gut erforscht und passt ideal zur Blockwelt. Weitere Fächer und
-Stufen folgen erst, wenn der Kern im Unterricht funktioniert.
+**Schwerpunkt: höhere Schulen mit technischem Unterricht.** Zuerst HTL und andere berufsbildende höhere Schulen mit
+technischem Schwerpunkt, dazu AHS-Oberstufen mit Informatik oder naturwissenschaftlichem Schwerpunkt. Dort ist der
+Bedarf an handlungsorientierten Projekten am größten, Informatik und Technik werden ohnehin praktisch unterrichtet, und
+die Schüler:innen bringen Spielerfahrung mit.
+
+Der erste Kern sind **Informatik** (Logik, Algorithmen, Programmieren), **Mathematik** (Trigonometrie, Vektoren,
+Funktionen, Statistik) und **Technik** (Mechanik, Elektrotechnik, Automatisierung).
+
+**Volksschule und Unterstufe kommen später** – mit eigenen Design-Patterns: eigene Bildsprache, einfachere Steuerung,
+vorgelesene Aufgaben, Bauvorlagen als Bild. Das Quest-Format und der MINTforge-Dienst sind von Anfang an so gebaut,
+dass diese Stufen ohne Umbau dazukommen können.
 
 ## 7. Systemarchitektur
 
@@ -186,7 +196,7 @@ Stufen folgen erst, wenn der Kern im Unterricht funktioniert.
 flowchart TB
     Q["📂 quests/<br/>Quest-Dateien im Repo<br/>(Single Source of Truth)"] --> CI{"⚙️ CI<br/>Schema, Inhalte, Links"}
     CI --> W["🌐 Website<br/>GitHub Pages<br/>Marke + Quest-Katalog"]
-    CI --> T["🧩 MINTcraft-Dienst<br/>LTI-1.3-Werkzeug<br/>Quests, Dashboard, Prüfung"]
+    CI --> T["🧩 MINTforge-Dienst<br/>LTI-1.3-Werkzeug<br/>Quests, Dashboard, Prüfung"]
     LMS["📚 Lernplattform der Schule<br/>eduvidual, Moodle, …"] <-- "LTI 1.3:<br/>Anmeldung, Aufgabe,<br/>Bewertung" --> T
     T -- "Self-Service:<br/>Welten starten/stoppen" --> H["☁️ Hetzner Cloud<br/>Spielserver je Klasse<br/>Education oder Luanti"]
     H -- "Ergebnis" --> T
@@ -211,10 +221,10 @@ quests/mathe/gehege-zahlenturm/
 └── welt/              Bauvorlage und Startpunkt, ab Phase 4
 ```
 
-CI prüft jede Quest gegen ein JSON-Schema. Die Website zeigt daraus den Quest-Katalog, der MINTcraft-Dienst bietet
+CI prüft jede Quest gegen ein JSON-Schema. Die Website zeigt daraus den Quest-Katalog, der MINTforge-Dienst bietet
 sie Lehrkräften zur Auswahl an, der Server liest Startpunkt und Prüfregeln.
 
-### Lernplattform: MINTcraft als LTI-Werkzeug
+### Lernplattform: MINTforge als LTI-Werkzeug
 
 **Entscheidung: kein eigenes Moodle-Plugin, sondern ein eigener kleiner Dienst, der über LTI 1.3 in jede
 Lernplattform eingebunden wird.** Grund: Auf eduvidual, der zentralen Moodle-Plattform des Bildungsministeriums,
@@ -223,9 +233,9 @@ in ihren Kurs ein – wie ein YouTube-Video, nur mit Anmeldung und Rückmeldung.
 
 Was LTI 1.3 dabei übernimmt:
 
-| LTI-Dienst | Wofür in MINTcraft |
+| LTI-Dienst | Wofür in MINTforge |
 |---|---|
-| **Launch** (sichere Anmeldung) | Schüler:in klickt in Moodle auf die Quest und ist bei MINTcraft angemeldet – ohne zweites Passwort |
+| **Launch** (sichere Anmeldung) | Schüler:in klickt in Moodle auf die Quest und ist bei MINTforge angemeldet – ohne zweites Passwort |
 | **Deep Linking** | Lehrkraft wählt beim Einfügen eine Quest aus dem Katalog |
 | **Assignment and Grade Services** | Stufe und Bewertung landen automatisch in der Bewertungsübersicht von Moodle |
 | **Names and Role Provisioning** | Klassenliste für das Dashboard und die Server-Whitelist, als Pseudonyme |
@@ -249,18 +259,18 @@ Server auch über Schulgrenzen hinweg. Java ist an Schulen kaum lizenzierbar und
 | Eigene Erweiterungen | Bedrock-Add-ons und Skript-API | volle Paper-API | volle Lua-Mod-API, am offensten |
 | Eigene Server | Dedicated Server, schulübergreifend | ja | ja, selbst gehostet |
 | Lernwerkzeuge | Code Builder, Klassenmodus | keine | Mods aus der Community, kein fertiger Klassenmodus |
-| Motivation der Kinder | „echtes Minecraft“ | „echtes Minecraft“ | ähnlich, aber nicht Minecraft |
+| Motivation der Schüler:innen | „echtes Minecraft“ | „echtes Minecraft“ | ähnlich, aber nicht Minecraft |
 
 | Baustein | Aufgabe |
 |---|---|
 | **Education Dedicated Server** | eigene Welten je Klasse, per Knopfdruck zurücksetzbar |
-| **MINTcraft-Add-on** (Skript-API) | Quest starten (Teleport, Material), automatisch prüfen, Ergebnis an den MINTcraft-Dienst |
+| **MINTforge-Add-on** (Skript-API) | Quest starten (Teleport, Material), automatisch prüfen, Ergebnis an den MINTforge-Dienst |
 | **Lehrer-Werkzeuge** | Klassenmodus von Education plus eigene Befehle: alle zu mir holen, Bauen sperren, Welt zurücksetzen |
 | **Code-Quests** | Code Builder (Blöcke, Python) |
 
 **Für Luanti spricht:** keine Lizenzen, keine Microsoft-Konten (wichtig bei Datenschutzbedenken, in Deutschland
 häufig), technisch die offenere Plattform – und mit eigenem Web-Client (unten) ohne Installation auf allen Geräten. Weil Quests als Daten im Repo
-stehen und der MINTcraft-Dienst die Prüfung übernimmt, kann dieselbe Quest später auf beiden Plattformen laufen.
+stehen und der MINTforge-Dienst die Prüfung übernimmt, kann dieselbe Quest später auf beiden Plattformen laufen.
 Java/Paper bleibt Option für HTL-Projekte und außerschulische Angebote; die Erfahrung aus VioletVein hilft dort.
 Die technische Machbarkeit prüfen wir **früh mit zwei Prototypen** an echten Schulgeräten, nicht erst in Phase 4:
 Minecraft Education mit Add-on und der Luanti-Web-Client (unten). Danach entscheiden wir mit Daten, welche Plattform
@@ -277,10 +287,10 @@ Grundlage ist der bestehende experimentelle Port [minetest-wasm](https://github.
 
 ```mermaid
 flowchart LR
-    LMS["📚 Moodle / eduvidual"] -- "LTI-Launch<br/>(ein Klick)" --> PWA["📱 MINTcraft-PWA<br/>Luanti als WebAssembly<br/>Touch-Steuerung"]
+    LMS["📚 Moodle / eduvidual"] -- "LTI-Launch<br/>(ein Klick)" --> PWA["📱 MINTforge-PWA<br/>Luanti als WebAssembly<br/>Touch-Steuerung"]
     PWA -- "WebSocket (wss)" --> P["🔀 Proxy<br/>WebSocket ↔ UDP"]
-    P --> LS["⛏️ Luanti-Server<br/>Klassen-Welt<br/>MINTcraft-Mod"]
-    LS -- "Ergebnis" --> T["🧩 MINTcraft-Dienst"]
+    P --> LS["⛏️ Luanti-Server<br/>Klassen-Welt<br/>MINTforge-Mod"]
+    LS -- "Ergebnis" --> T["🧩 MINTforge-Dienst"]
 ```
 
 | Baustein | Aufgabe |
@@ -290,13 +300,13 @@ flowchart LR
 | **Touch-Steuerung** | Steuerkreuz und Gesten für Tablets (iOS kennt keine Mauszeiger-Sperre) |
 | **PWA** | Manifest, Service Worker, Symbol am Startbildschirm; Client-Dateien werden zwischengespeichert, Welten liegen am Server |
 | **WebSocket-Proxy** | Browser können kein UDP; der Proxy auf Hetzner übersetzt WebSocket in das Luanti-Protokoll |
-| **MINTcraft-Mod** (Lua) | Quest starten, automatisch prüfen, Lehrer-Werkzeuge, Ergebnis an den Dienst |
+| **MINTforge-Mod** (Lua) | Quest starten, automatisch prüfen, Lehrer-Werkzeuge, Ergebnis an den Dienst |
 
 **Was der Prototyp beweisen muss** (auf einem Schul-iPad, einem Chromebook und einem Windows-Schulgerät):
 
 - [ ] Start aus Moodle in die Welt in unter 30 Sekunden
 - [ ] flüssig spielbar (Ziel ≥ 30 Bilder pro Sekunde) mit 25 Schüler:innen in einer Welt
-- [ ] Touch-Steuerung ist für Kinder ohne Erklärung bedienbar
+- [ ] Touch-Steuerung ist ohne Erklärung bedienbar
 - [ ] läuft im Schulnetz (nur HTTPS/WSS über Port 443)
 - [ ] eine Quest wird automatisch geprüft, das Ergebnis landet in Moodle
 
@@ -305,12 +315,12 @@ iPads sind offen; die Pflege eines eigenen Forks kostet laufend Zeit.
 
 ### Self-Service-Backend auf Hetzner
 
-Der MINTcraft-Dienst wird zur **Steuerzentrale** (Control Plane): Schulen und Lehrkräfte klicken, das Backend stellt
+Der MINTforge-Dienst wird zur **Steuerzentrale** (Control Plane): Schulen und Lehrkräfte klicken, das Backend stellt
 Spielserver, Welten und Speicher selbstständig in der Hetzner Cloud bereit, und baut sie wieder ab.
 
 ```mermaid
 flowchart TB
-    subgraph CP["🧩 MINTcraft-Dienst (Control Plane)"]
+    subgraph CP["🧩 MINTforge-Dienst (Control Plane)"]
         R["Mandanten<br/>Schulen, LTI-Registrierungen"]
         PL["Planer<br/>Stundenplan → Welten"]
         O["Orchestrierung<br/>Hetzner-Cloud-API"]
@@ -350,7 +360,7 @@ flowchart TB
 Für Luanti passt das ideal (kleiner Server, läuft unter Linux in Containern). Ob der Dedicated Server von Minecraft
 Education unter Linux und in Containern läuft, klärt der Machbarkeitsprototyp.
 
-**Betriebsmodell:** Mit dem Backend wird MINTcraft ein Dienst für Schulen – mit Verfügbarkeit, Support, Datenschutz-
+**Betriebsmodell:** Mit dem Backend wird MINTforge ein Dienst für Schulen – mit Verfügbarkeit, Support, Datenschutz-
 verträgen und laufenden Serverkosten. Wer das trägt (Förderung, Schullizenz, Land, Verein), ist eine offene
 Entscheidung, die vor dem Pilot geklärt sein muss.
 
@@ -363,7 +373,7 @@ flowchart LR
     P0 --> V["Validierung<br/>Name, Interviews,<br/>Machbarkeit"]
     V --> P1
     P1 --> P2["2 · Quest-Format<br/>+ erste Quests<br/>Katalog auf Website"]
-    P2 --> P3["3 · MINTcraft-Dienst<br/>LTI 1.3"]
+    P2 --> P3["3 · MINTforge-Dienst<br/>LTI 1.3"]
     P2 --> P4["4 · Minecraft-<br/>Server<br/>Education + Add-on"]
     P3 --> P5["5 · Pilot<br/>eine Klasse"]
     P4 --> P5
@@ -374,9 +384,9 @@ flowchart LR
 | **0 · Grundlagen** | Repo, Regeln für Assistenten, CI-Grundgerüst, dieses Konzept | Konzept abgenommen |
 | **Validierung** (parallel zu Phase 1) | Markenprüfung des Namens, 5–10 Gespräche mit Lehrkräften, zwei Machbarkeitsprototypen: Minecraft Education mit Add-on und Luanti-Web-Client, beide auf einem Testserver bei Hetzner | Name freigegeben oder ersetzt; Erkenntnisse aus den Gesprächen im Konzept; Prüfliste des Web-Client-Prototyps abgearbeitet; Entscheidung über die Hauptplattform |
 | **1 · Brand und Website** | Name geprüft, Markenkern, Logo, Farben, Schrift, Website live auf GitHub Pages | Website live, alle CI-Prüfungen grün, Brand-Seite fertig |
-| **2 · Quest-Format** | `quest.yml`-Schema, Vorlage, 8–10 Quests für die Unterstufe, Quest-Katalog auf der Website | Katalog live, jede Quest von einer Lehrkraft gegengelesen |
-| **3 · MINTcraft-Dienst** | LTI-1.3-Werkzeug mit Quest-Auswahl, Aufgabe, Reflexion, Dashboard; Moodle-Testinstanz (Docker) in CI | Lehrkraft fügt Quest in Moodle ein, Schüler:in meldet sich ohne zweites Passwort an, Bewertung landet in Moodle |
-| **4 · Spielserver und Self-Service** | Self-Service-Backend auf Hetzner (Pool, Container, Object Storage, Stundenplan), Klassen-Welten, MINTcraft-Add-on bzw. -Mod, Web-Client produktionsreif (falls Luanti) | Schule registriert sich selbst, Welt startet nach Stundenplan, Quest wird automatisch geprüft, Ergebnis kommt über den Dienst in Moodle an |
+| **2 · Quest-Format** | `quest.yml`-Schema, Vorlage, 8–10 Quests für Oberstufe und HTL, Quest-Katalog auf der Website | Katalog live, jede Quest von einer Lehrkraft gegengelesen |
+| **3 · MINTforge-Dienst** | LTI-1.3-Werkzeug mit Quest-Auswahl, Aufgabe, Reflexion, Dashboard; Moodle-Testinstanz (Docker) in CI | Lehrkraft fügt Quest in Moodle ein, Schüler:in meldet sich ohne zweites Passwort an, Bewertung landet in Moodle |
+| **4 · Spielserver und Self-Service** | Self-Service-Backend auf Hetzner (Pool, Container, Object Storage, Stundenplan), Klassen-Welten, MINTforge-Add-on bzw. -Mod, Web-Client produktionsreif (falls Luanti) | Schule registriert sich selbst, Welt startet nach Stundenplan, Quest wird automatisch geprüft, Ergebnis kommt über den Dienst in Moodle an |
 | **5 · Pilot** | eine Klasse, eine engagierte Lehrkraft, 4–6 Wochen | Feedback ausgewertet, Pilotbericht als Grundlage für Förderanträge |
 
 Phase 3 und 4 können parallel laufen, sobald das Quest-Format steht.
@@ -387,11 +397,11 @@ Phase 3 und 4 können parallel laufen, sobald das Quest-Format steht.
 
 | | |
 |---|---|
-| **Name** | MINTcraft – MINT plus *craft* (Handwerk, Bauen). Groß „MINT“, klein „craft“. |
+| **Name** | MINTforge – MINT plus *forge* (Schmiede, etwas selbst herstellen). Groß „MINT“, klein „forge“. Arbeitsname bis zur Markenprüfung. |
 | **Versprechen** | MINT begreifen, indem man es baut. |
-| **Claim-Ideen** | „Lernen mit Kopf, Hand und Blöcken.“ · „Bau dir dein Verständnis.“ · „Wo Wissen Form annimmt.“ |
+| **Claim-Ideen** | „Wissen schmieden.“ · „Bau dir dein Verständnis.“ · „Wo Wissen Form annimmt.“ · „Erst planen. Dann bauen. Dann verstehen.“ |
 | **Werte** | neugierig, handfest, fair, offen (OER), sicher |
-| **Ton** | ermutigend, klar, kein Marketing-Sprech; gegenüber Lehrkräften fachlich, gegenüber Kindern einfach |
+| **Ton** | ermutigend, klar, kein Marketing-Sprech; gegenüber Lehrkräften fachlich, gegenüber Schüler:innen direkt und auf Augenhöhe |
 | **Abgrenzung** | kein offizielles Minecraft-Produkt; eigene Bildsprache, keine Mojang-Grafiken, kein Minecraft-Font |
 
 ### Visuelle Richtung (Vorschlag als Ausgangspunkt)
@@ -456,7 +466,7 @@ nachvollziehbar, ohne lokal etwas zu starten.
 | `deploy` | Push auf `main` | Website auf GitHub Pages veröffentlichen – nur wenn alle Prüfungen grün sind |
 | `attribution` | Push, PR | keine Werbung von Coding-Assistenten in Commits und PRs (aus VioletVein) |
 | `quests` (ab Phase 2) | Push, PR in `quests/` | JSON-Schema, Pflichtfelder, Lehrplanbezug, Rechtschreibung |
-| `service` (ab Phase 3) | Push, PR | Unit-Tests des MINTcraft-Dienstes; End-to-End-Test gegen eine Moodle-Testinstanz in Docker: Quest per LTI einfügen, als Schüler:in starten, Bewertung kommt an |
+| `service` (ab Phase 3) | Push, PR | Unit-Tests des MINTforge-Dienstes; End-to-End-Test gegen eine Moodle-Testinstanz in Docker: Quest per LTI einfügen, als Schüler:in starten, Bewertung kommt an |
 | `addon` (ab Phase 4) | Push, PR | Add-on bzw. Mods bauen und testen; Integrationstest: Server in CI starten, Quest automatisiert durchspielen |
 | `webclient` (ab Validierung) | Push, PR | WebAssembly-Build, Playwright startet den Client in Chromium und WebKit (Safari-Engine), verbindet zu einem Test-Server, prüft Ladezeit, Bildrate und PWA-Manifest |
 | `infra` (ab Phase 4) | Push, PR | OpenTofu `validate` und `plan` gegen ein Test-Projekt, Container-Images bauen und auf Schwachstellen prüfen; auf `main` nach Freigabe anwenden |
@@ -492,7 +502,7 @@ flowchart LR
 
 Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 
-| Aus VioletVein | Übernahme | In MINTcraft |
+| Aus VioletVein | Übernahme | In MINTforge |
 |---|---|---|
 | Prinzip „Repo = Single Source of Truth“ | ✅ als Grundsatz | Quests, Marke, Website, später Configs und Plugins |
 | `AGENTS.md` + `CLAUDE.md` + `.claude/settings.json` (Attribution aus, Git-Push fragt, Force-Push verboten) | ✅ angepasst | in Phase 0 übernommen |
@@ -500,7 +510,7 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 | Workflow `attribution` | ✅ 1:1 | in Phase 0 übernommen |
 | `.gitattributes`, `.editorconfig`, `.gitignore` | ✅ angepasst | in Phase 0 übernommen |
 | Dependabot, Actions auf SHA gepinnt | ✅ | in Phase 0 übernommen (Actions), später npm, Gradle |
-| `brand/build_brand.py` (Logos per Skript, Farben an einer Stelle) | 🔁 Prinzip, neuer Inhalt | Phase 1: neuer Generator mit MINTcraft-Bildsprache |
+| `brand/build_brand.py` (Logos per Skript, Farben an einer Stelle) | 🔁 Prinzip, neuer Inhalt | Phase 1: neuer Generator mit MINTforge-Bildsprache |
 | `tools/check-site.mjs` (Links, Anker, lang, Canonicals ohne Abhängigkeiten) | 🔁 angepasst | Phase 1: Domain/Basispfad für Pages, ergänzt um Meta- und Ressourcenprüfung |
 | Website-Regeln (kein Tracker, keine externen Ressourcen, CSP, mobil 390 px, Disclaimer) | ✅ als Regeln | Phase 1; CSP als `<meta>` statt `.htaccess` |
 | Workflow `website` (SFTP-Deploy) | ❌ | ersetzt durch GitHub Pages |
@@ -517,10 +527,11 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 
 - **Minecraft Usage Guidelines** beachten: kein „Minecraft“ im Namen oder Logo, keine Mojang-Grafiken oder -Schriften,
   klarer Hinweis „Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.“
-- **Name „MINTcraft“:** Die erste Recherche ([Marktrecherche](marktrecherche.md)) fand keine Kollision im
-  Bildungsbereich, aber eine eingetragene Marke für Werkzeug in Kanada. **Größtes Risiko ist die Nähe zu „Minecraft“**
-  (ein Buchstabe Unterschied, gleiche Zielgruppe). Vor Logo und Domain: Register selbst prüfen (TMview, see.ip, DPMA),
-  kurze Einschätzung einer Markenanwältin oder eines Markenanwalts, zwei bis drei Ausweichnamen bereithalten.
+- **Name:** „MINTcraft“ wurde wegen der Nähe zu „Minecraft“ verworfen ([Marktrecherche](marktrecherche.md)).
+  **Arbeitsname ist MINTforge.** Eine erste Suche fand im Bildungsbereich nichts, aber eine Krypto-Token-Seite und
+  kleinere Projekte unter dem Namen; „Forge“ ist außerdem ein bekannter Mod-Loader für Minecraft (keine Mojang-Marke).
+  Vor Logo und Domain: Register prüfen (TMview, see.ip, DPMA), Domains `mintforge.at`/`.de`, kurze anwaltliche
+  Einschätzung, ein bis zwei Ausweichnamen bereithalten.
 - Spielinhalte nie gegen Geld (Usage Guidelines); eine kostenpflichtige Lehrerfortbildung oder Hosting ist davon
   getrennt zu prüfen.
 
@@ -537,7 +548,7 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 |---|---|---|
 | Code (Website, Plugins, Werkzeuge) | MIT oder EUPL-1.2 | offen, auch für Schulen und Länder nutzbar |
 | Quests und Unterrichtsmaterial | **CC BY-SA 4.0** | Open Educational Resource – Lehrkräfte dürfen anpassen und weitergeben |
-| Marke (Name, Logo) | geschützt, nicht frei | damit „MINTcraft“ für Qualität steht |
+| Marke (Name, Logo) | geschützt, nicht frei | damit „MINTforge“ für Qualität steht |
 
 ### Offenlegung
 
@@ -547,12 +558,12 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 
 | # | Frage | Wann | Vorschlag |
 |---|---|---|---|
-| 1 | Name bleibt „MINTcraft“? | Validierung, vor Logo-Final | Register prüfen, anwaltliche Einschätzung, Ausweichnamen |
-| 2 | Domain | nach #1 | `mintcraft.at` prüfen, sonst Alternativen |
+| 1 | Name: MINTforge freigeben? | Validierung, vor Logo-Final | Register prüfen, anwaltliche Einschätzung, Ausweichnamen |
+| 2 | Domain | nach #1 | `mintforge.at` prüfen, sonst Alternativen |
 | 3 | Static-Site-Generator | Phase 1, Start | Astro (Inhaltsschemas, reines HTML als Ausgabe) |
 | 4 | Brand-Variante | Phase 1 | 2–3 Varianten im PR vergleichen |
 | 5 | Lizenz für Code | Phase 1 | EUPL-1.2 oder MIT |
-| 6 | erster Kern | ✅ entschieden | Unterstufe, Digitale Grundbildung und Mathematik |
+| 6 | erster Kern | ✅ entschieden | höhere Schulen mit technischem Unterricht (HTL, AHS-Oberstufe): Informatik, Mathematik, Technik; untere Stufen später mit eigenen Design-Patterns |
 | 7 | Anbindung an Lernplattformen | ✅ entschieden | eigener Dienst als LTI-1.3-Werkzeug statt Moodle-Plugin |
 | 8 | Hauptplattform: Minecraft Education oder Luanti mit Web-Client | nach den Prototypen | beide testen, mit Daten entscheiden; die andere bleibt Alternative |
 | 9 | Hosting | ✅ entschieden | Hetzner Cloud (EU), Self-Service-Backend mit Container-Pool |
@@ -573,4 +584,4 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 
 ---
 
-<sub>MINTcraft ist kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</sub>
+<sub>MINTforge ist kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</sub>

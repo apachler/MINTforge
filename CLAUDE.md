@@ -1,4 +1,4 @@
-# MINTcraft – Claude Code
+# MINTforge – Claude Code
 
 @AGENTS.md
 

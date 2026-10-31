@@ -1,12 +1,14 @@
-# MINTcraft – Projektkontext für KI-Assistenten
+# MINTforge – Projektkontext für KI-Assistenten
 
 Diese Datei ist die gemeinsame Grundlage für **Claude Code** und **GitHub Copilot** (`CLAUDE.md` bindet sie ein).
 Regeln hier gelten für alle Änderungen im Repo. Das ausführliche Konzept steht in [`docs/konzept.md`](docs/konzept.md).
 
 ## Projekt
 
-MINTcraft ist eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik im deutschsprachigen Raum,
-von der Volksschule bis zur HTL. Minecraft ist das Labor, die Lernplattform der Schule (z. B. eduvidual/Moodle, angebunden über LTI 1.3) das
+MINTforge ist eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik im deutschsprachigen Raum,
+mit Schwerpunkt auf Oberstufe, HTL und anderen höheren Schulen mit technischem Unterricht (untere Stufen später mit
+eigenen Design-Patterns). **MINTforge ist ein Arbeitsname** (früher MINTcraft), die Markenprüfung steht aus.
+Die Blockwelt ist das Labor, die Lernplattform der Schule (z. B. eduvidual/Moodle, angebunden über LTI 1.3) das
 Forschungsheft. Spielplattform: Minecraft Education und Luanti (Web-Client im Browser) werden als Prototypen verglichen;
 Spielserver stellt später ein Self-Service-Backend in der Hetzner Cloud bereit.
 Zielgruppe der Website sind vor allem **Lehrkräfte, Schulen und Förderstellen**.
@@ -42,7 +44,7 @@ dafür nichts vorwegnehmen, was die Entscheidungen in `docs/konzept.md` Kapitel 
 - **Keine Minecraft-/Mojang-Logos, -Grafiken oder -Schriften**, kein „Minecraft“ im Namen oder Logo.
 - **Keine erfundenen Fakten:** keine Nutzerzahlen, Testimonials, Partner- oder Schullogos, Auszeichnungen oder
   Versprechen, die es nicht gibt. Geplantes ist als geplant gekennzeichnet.
-- Sprache: ermutigend, klar, kein Marketing-Sprech. Gegenüber Lehrkräften fachlich, gegenüber Kindern einfach.
+- Sprache: ermutigend, klar, kein Marketing-Sprech. Gegenüber Lehrkräften fachlich, gegenüber Schüler:innen direkt und auf Augenhöhe.
   Gendern mit Doppelpunkt (Schüler:innen).
 
 ## Abmachungen

@@ -1,11 +1,13 @@
 <div align="center">
 
-# MINTcraft
+# MINTforge
 
-### Lernen mit Kopf, Hand und Blöcken.
+### Wissen schmieden.
 
-Mathematik, Informatik, Naturwissenschaften und Technik – erleben in Minecraft, verstehen und reflektieren auf
-der Lernplattform. Für den deutschsprachigen Raum, von der Volksschule bis zur HTL.
+Mathematik, Informatik, Naturwissenschaften und Technik – bauen und experimentieren in der Blockwelt, verstehen und
+reflektieren auf der Lernplattform. Für Oberstufe, HTL und andere höhere Schulen mit technischem Unterricht.
+
+<sub>Arbeitsname MINTforge (früher MINTcraft), Markenprüfung offen.</sub>
 
 [![attribution](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml/badge.svg)](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml)
 
@@ -28,7 +30,7 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 | 0 · Grundlagen | Repo, Regeln, [Konzept](docs/konzept.md) | ✅ |
 | 1 · Brand und Website | Marke, Logo, Website auf GitHub Pages, CI mit visuellen Tests | ⏭️ als Nächstes |
 | 2 · Quest-Format | Quests als Daten, erste Quests, Katalog | ⏳ |
-| 3 · MINTcraft-Dienst | LTI-1.3-Werkzeug für eduvidual, Moodle und andere Lernplattformen | ⏳ |
+| 3 · MINTforge-Dienst | LTI-1.3-Werkzeug für eduvidual, Moodle und andere Lernplattformen | ⏳ |
 | 4 · Spielserver und Self-Service | Welten je Klasse automatisch in der Hetzner Cloud; Minecraft Education oder Luanti im Browser | ⏳ |
 | 5 · Pilot | eine Klasse | ⏳ |
 
@@ -44,5 +46,5 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 ---
 
 <div align="center">
-<sub>MINTcraft ist kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</sub>
+<sub>MINTforge ist kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</sub>
 </div>
