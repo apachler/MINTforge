@@ -1,6 +1,6 @@
 # MINTforge – Marken- und Marktrecherche
 
-> **Nachtrag 01.11.2026:** Das Projekt heißt jetzt mit Arbeitsnamen **MINTforge** (siehe Abschnitt 1b), der
+> **Nachtrag 01.11.2026:** Das Projekt heißt jetzt **MINTforge** (Name fix) (siehe Abschnitt 1b), der
 > Schwerpunkt liegt auf höheren Schulen mit technischem Unterricht. Die Recherche unten bezieht sich teils noch auf den
 > alten Namen und den damals geplanten Start in der Unterstufe.
 
@@ -57,7 +57,7 @@ eine Einschätzungsfrage.
 **Empfehlung:** kurze Einschätzung einer Markenanwältin oder eines Markenanwalts, bevor Logo und Domain fixiert werden;
 zwei bis drei Ausweichnamen bereithalten.
 
-## 1b. Neuer Arbeitsname „MINTforge“
+## 1b. Neuer Name „MINTforge“
 
 | Wer / was | Bereich | Bedeutung für uns |
 |---|---|---|

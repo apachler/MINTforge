@@ -4,7 +4,7 @@
 Blockwelt als Labor und die Lernplattform der Schule als Forschungsheft verbindet – für den deutschsprachigen Raum,
 mit Schwerpunkt auf **Oberstufe, HTL und anderen höheren Schulen mit technischem Unterricht**.
 
-> **Arbeitsname MINTforge** (früher MINTcraft). Umbenannt, weil „MINTcraft“ zu nahe an „Minecraft“ liegt und der Name
+> **Name: MINTforge** (früher MINTcraft, fix seit 01.11.2026). Umbenannt, weil „MINTcraft“ zu nahe an „Minecraft“ liegt und der Name
 > unabhängig von der Spielplattform sein soll. Eine eigene Prüfung der Markenregister (01.11.2026) ergab keine
 > eingetragenen Rechte; die Domains sind frei.
 
@@ -413,7 +413,7 @@ Phase 3 und 4 können parallel laufen, sobald das Quest-Format steht.
 
 | | |
 |---|---|
-| **Name** | MINTforge – MINT plus *forge* (Schmiede, etwas selbst herstellen). Groß „MINT“, klein „forge“. Arbeitsname bis zur Markenprüfung. |
+| **Name** | MINTforge – MINT plus *forge* (Schmiede, etwas selbst herstellen). Groß „MINT“, klein „forge“. Fix seit 01.11.2026. |
 | **Versprechen** | MINT begreifen, indem man es baut. |
 | **Claim-Ideen** | „Wissen schmieden.“ · „Bau dir dein Verständnis.“ · „Wo Wissen Form annimmt.“ · „Erst planen. Dann bauen. Dann verstehen.“ |
 | **Werte** | neugierig, handfest, fair, offen (OER), sicher |
@@ -558,7 +558,7 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 - **Minecraft Usage Guidelines** beachten: kein „Minecraft“ im Namen oder Logo, keine Mojang-Grafiken oder -Schriften,
   klarer Hinweis „Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.“
 - **Name:** „MINTcraft“ wurde wegen der Nähe zu „Minecraft“ verworfen ([Marktrecherche](marktrecherche.md)).
-  **Arbeitsname ist MINTforge.** Eine erste Suche fand im Bildungsbereich nichts, aber eine Krypto-Token-Seite und
+  **Der Name ist MINTforge** (fix seit 01.11.2026). Eine erste Suche fand im Bildungsbereich nichts, aber eine Krypto-Token-Seite und
   kleinere Projekte unter dem Namen; „Forge“ ist außerdem ein bekannter Mod-Loader für Minecraft (keine Mojang-Marke).
   Vor Logo und Domain: Register prüfen (TMview, see.ip, DPMA), Domains `mintforge.at`/`.de`, kurze anwaltliche
   Einschätzung, ein bis zwei Ausweichnamen bereithalten.

@@ -7,7 +7,7 @@ Regeln hier gelten für alle Änderungen im Repo. Das ausführliche Konzept steh
 
 MINTforge ist eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik im deutschsprachigen Raum,
 mit Schwerpunkt auf Oberstufe, HTL und anderen höheren Schulen mit technischem Unterricht (untere Stufen später mit
-eigenen Design-Patterns). **MINTforge ist ein Arbeitsname** (früher MINTcraft), die Markenprüfung steht aus.
+eigenen Design-Patterns). Der Name **MINTforge** ist fix (früher MINTcraft).
 Die Blockwelt ist das Labor, die Lernplattform der Schule (z. B. eduvidual/Moodle, angebunden über LTI 1.3) das
 Forschungsheft. Spielplattform: Minecraft Education und Luanti (Web-Client im Browser) werden als Prototypen verglichen;
 Spielserver stellt später ein Self-Service-Backend in der Hetzner Cloud bereit.

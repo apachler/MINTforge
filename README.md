@@ -7,7 +7,7 @@
 Mathematik, Informatik, Naturwissenschaften und Technik – bauen und experimentieren in der Blockwelt, verstehen und
 reflektieren auf der Lernplattform. Für Oberstufe, HTL und andere höhere Schulen mit technischem Unterricht.
 
-<sub>Arbeitsname MINTforge (früher MINTcraft), Markenprüfung offen.</sub>
+<sub>Früher MINTcraft.</sub>
 
 [![attribution](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml/badge.svg)](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml)
 
