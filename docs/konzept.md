@@ -245,6 +245,21 @@ und Eltern bleiben in der Lernplattform der Schule – dort, wo Lehrkräfte ohne
 
 Für Entwicklung und CI läuft eine Moodle-Testinstanz in Docker; der Dienst wird dort wie an einer Schule eingebunden.
 
+**TODO später: Microsoft Teams und OneNote.** An vielen Schulen sind Teams (Aufgaben, Kursteams) und das
+OneNote-Kursnotizbuch der Alltag – besonders dort, wo Minecraft Education über Microsoft 365 läuft. Teams-Aufgaben
+lassen sich zwar per LTI 1.3 in Lernplattformen einbinden
+([Microsoft, MC905759](https://mc.merill.net/message/MC905759)), umgekehrt nimmt Teams aber keine LTI-Werkzeuge auf.
+Für MINTforge kommen daher andere Wege in Frage, deren Machbarkeit wir später prüfen:
+
+| Weg | Idee | Zu prüfen |
+|---|---|---|
+| **Teams-App** | MINTforge als Registerkarte im Kursteam: Quest-Auswahl, Dashboard | App-Freigabe durch die IT der Schule |
+| **Microsoft Graph, Education-API** | Quest als Teams-Aufgabe anlegen, Abgabe und Bewertung zurückschreiben | Einwilligung der Schul-Administration pro Tenant, Datenschutz |
+| **OneNote-Kursnotizbuch** | Reflexion als Seite im Notizbuch der Schüler:innen – das „Forschungsheft“ | Zugriff über Graph, Aufwand im Verhältnis zum Nutzen |
+| **Microsoft-Anmeldung** | Anmeldung mit dem Schulkonto (Entra ID) statt LTI, wo kein Moodle genutzt wird | Mandantenfähigkeit, Pseudonymisierung |
+
+Der MINTforge-Dienst wird so gebaut, dass die Anbindung an die Lernplattform austauschbar ist (LTI zuerst, Teams später).
+
 ### Spielplattform
 
 **Ausgangspunkt: Minecraft Education oder Luanti – Java scheidet aus.** Für Minecraft Education spricht: Schulen haben die Lizenz oft schon (Microsoft-Schulvertrag bzw.
@@ -584,6 +599,7 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 | 9a | Betriebsmodell: wer trägt Serverkosten, Support, Verträge? | vor dem Pilot | Förderung für Pilot, danach Schul- oder Landeslizenz prüfen; auch Verein denkbar |
 | 10 | Förderung | ab Pilotplanung | Innovationsstiftung für Bildung, FFG, Erasmus+ |
 | 11 | Pilotschule und Lehrkraft | Phase 2 | – |
+| 12 | Anbindung an Microsoft Teams und OneNote | nach dem Pilot | Teams-App bzw. Graph-Education-API prüfen; Dienst von Anfang an mit austauschbarer Anbindung bauen |
 
 ## 14. Nächste Schritte
 

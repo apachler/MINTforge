@@ -152,3 +152,4 @@ dieselbe Quest auf beiden Plattformen laufen.
 - [ ] Machbarkeit: Luanti-Web-Client auf Schul-iPad, Chromebook und Windows-Gerät
 - [ ] Läuft der Dedicated Server von Minecraft Education unter Linux in Containern?
 - [ ] 5–10 Gespräche mit Lehrkräften: Geräte, Lizenzen, Lernplattform, Fach, Hürden
+- [ ] Wie verbreitet sind Teams und OneNote-Kursnotizbuch an den Zielschulen im Vergleich zu Moodle/eduvidual? (in den Gesprächen mitfragen)
