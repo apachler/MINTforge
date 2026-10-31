@@ -6,7 +6,7 @@ Volksschule bis zur HTL.
 
 | | |
 |---|---|
-| Stand | 31.10.2026, Entwurf 1 |
+| Stand | 31.10.2026, Entwurf 2 (nach [Marken- und Marktrecherche](marktrecherche.md)) |
 | Verantwortlich | Andreas Pachler |
 | Status | Phase 0 (Grundlagen) abgeschlossen mit diesem Dokument, Phase 1 (Brand und Website) als Nächstes |
 
@@ -46,6 +46,13 @@ Drei Dinge machen MINTcraft im Unterricht wirklich einsetzbar:
 3. **Quests als offene Daten:** Jede Quest ist eine Datei im Repo – geprüft durch CI, angezeigt auf der Website,
    importiert in Lernplattform und Server. Eine Quelle der Wahrheit, frei lizenziert als Open Educational Resource.
 
+Zwei Grundentscheidungen folgen aus der [Marktrecherche](marktrecherche.md):
+
+- **Minecraft Education zuerst:** Schulen haben die Lizenzen oft schon, es läuft auf Windows, iPad und Chromebook.
+  Java-Lizenzen pro Kind sind an Schulen unrealistisch.
+- **MINTcraft als LTI-Werkzeug statt Moodle-Plugin:** Lehrkräfte binden es selbst in eduvidual, jedes Moodle oder
+  andere Lernplattformen ein, ohne dass jemand etwas installieren muss.
+
 Gebaut wird in Phasen. **Zuerst die Marke und die Website**, weil sie Lehrkräfte, Schulen und Förderstellen überzeugen
 müssen, bevor es Technik gibt. Lernplattform und Minecraft-Server folgen. Von Anfang an prüft CI jede Änderung –
 Funktion, Barrierefreiheit und Aussehen.
@@ -74,7 +81,7 @@ eines Geheges falsch berechnet, sieht es: Die Tiere passen nicht hinein.
 
 | Bestehend | Lücke | MINTcraft |
 |---|---|---|
-| Minecraft Education mit Lernwelten | meist englisch, Einzelstunden ohne Lehrplanpfad, wenig Bewertungsanbindung | deutschsprachig, durchgehender Pfad von VS bis HTL, Anbindung an Moodle |
+| Minecraft Education mit Lernwelten | meist englisch, Einzelstunden ohne Lehrplanpfad, wenig Bewertungsanbindung | deutschsprachig, durchgehender Pfad von VS bis HTL, Bewertung direkt in der Lernplattform der Schule |
 | Moodle-Kurse | trocken, wenig Handlungsorientierung | Handeln in der Welt, Ergebnis automatisch zurück |
 | Coding-Plattformen | auf Informatik beschränkt | alle vier MINT-Bereiche, fächerverbindend |
 
@@ -165,8 +172,10 @@ Projekte und Daten.
 | **Oberstufe** (9.–12./13.) | Funktionen, Vektoren, Trigonometrie, Statistik, Wahrscheinlichkeit | Python, Datenstrukturen, Simulation | Reaktionen, Genetik, Experimente mit Datenauswertung | Energie, Wirkungsgrad, Regelkreise |
 | **HTL** | angewandte Mathematik, numerische Verfahren | Redstone-ALU bis Mini-CPU, Python/Lua-Automatisierung, Netzwerke, Datenbanken | Werkstoffe, Prozesse | Elektrotechnik, Automatisierung, Steuerungen, Projektarbeit |
 
-Am Anfang steht **eine** Stufe (Vorschlag: Unterstufe, 5.–8. Schulstufe), weil dort Minecraft-Erfahrung,
-Lehrplanbreite und Bedarf am größten sind.
+Am Anfang steht **ein enger Kern: Unterstufe (5.–8. Schulstufe), Digitale Grundbildung und Mathematik.**
+Digitale Grundbildung ist seit 2022 Pflichtfach mit einer Wochenstunde und Computational Thinking im Lehrplan –
+der natürlichste Einstieg. Mathematik (Geometrie) ist gut erforscht und passt ideal zur Blockwelt. Weitere Fächer und
+Stufen folgen erst, wenn der Kern im Unterricht funktioniert.
 
 ## 7. Systemarchitektur
 
@@ -174,12 +183,11 @@ Lehrplanbreite und Bedarf am größten sind.
 flowchart TB
     Q["📂 quests/<br/>Quest-Dateien im Repo<br/>(Single Source of Truth)"] --> CI{"⚙️ CI<br/>Schema, Inhalte, Links"}
     CI --> W["🌐 Website<br/>GitHub Pages<br/>Marke + Quest-Katalog"]
-    CI --> M["📚 Lernplattform<br/>Moodle + Plugin<br/>Quests, Bewertung, Dashboard"]
-    CI --> S["⛏️ Minecraft-Server<br/>Velocity + Paper<br/>Plugin MINTcraft-Core"]
-    M <-- "Web-Services:<br/>Quest starten, Ergebnis" --> S
-    L["👩‍🏫 Lehrkraft"] --> M
-    L --> S
-    K["🧒 Schüler:in"] --> M
+    CI --> T["🧩 MINTcraft-Dienst<br/>LTI-1.3-Werkzeug<br/>Quests, Dashboard, Prüfung"]
+    LMS["📚 Lernplattform der Schule<br/>eduvidual, Moodle, …"] <-- "LTI 1.3:<br/>Anmeldung, Aufgabe,<br/>Bewertung" --> T
+    T <-- "Quest starten,<br/>Ergebnis" --> S["⛏️ Minecraft-Server<br/>Education Dedicated Server<br/>MINTcraft-Add-on"]
+    L["👩‍🏫 Lehrkraft"] --> LMS
+    K["🧒 Schüler:in"] --> LMS
     K --> S
 ```
 
@@ -196,55 +204,73 @@ quests/mathe/gehege-zahlenturm/
 ├── schueler.md        Aufgabentext für Schüler:innen
 ├── lehrkraft.md       Handreichung mit Lösungen, typischen Fehlern, Varianten
 ├── reflexion.md       Reflexionsfragen
-└── welt/              Bauvorlage (Schematic) und Startpunkt, ab Phase 4
+└── welt/              Bauvorlage und Startpunkt, ab Phase 4
 ```
 
-CI prüft jede Quest gegen ein JSON-Schema. Die Website zeigt daraus den Quest-Katalog, Moodle importiert sie als
-Aktivität, der Server liest Startpunkt und Prüfregeln.
+CI prüft jede Quest gegen ein JSON-Schema. Die Website zeigt daraus den Quest-Katalog, der MINTcraft-Dienst bietet
+sie Lehrkräften zur Auswahl an, der Server liest Startpunkt und Prüfregeln.
 
-### Lernplattform
+### Lernplattform: MINTcraft als LTI-Werkzeug
 
-**Empfehlung: Moodle mit eigenem Plugin**, nicht selbst bauen. Viele Schulen im deutschsprachigen Raum nutzen Moodle
-bereits; Bewertung, Kompetenzen, Badges, H5P, Rollen und Elternzugänge sind fertig und erprobt. Das Plugin
-`mod_mintcraft` ergänzt:
+**Entscheidung: kein eigenes Moodle-Plugin, sondern ein eigener kleiner Dienst, der über LTI 1.3 in jede
+Lernplattform eingebunden wird.** Grund: Auf eduvidual, der zentralen Moodle-Plattform des Bildungsministeriums,
+kann keine Schule eigene Plugins installieren. Ein LTI-Werkzeug fügt die Lehrkraft dagegen selbst als „externes Tool“
+in ihren Kurs ein – wie ein YouTube-Video, nur mit Anmeldung und Rückmeldung.
 
-- Quest-Aktivität aus `quests/` importieren
-- Live-Dashboard: wer ist wo, wer steckt fest, wer ist fertig
-- Ergebnisse vom Server in die Bewertung und die Kompetenzen schreiben
-- Klassen mit Server-Instanzen verbinden, ohne technisches Wissen
+Was LTI 1.3 dabei übernimmt:
 
-Eine selbstgebaute Plattform wäre nur sinnvoll, wenn Moodle sich als zu schwerfällig erweist. Das prüfen wir im Pilot.
+| LTI-Dienst | Wofür in MINTcraft |
+|---|---|
+| **Launch** (sichere Anmeldung) | Schüler:in klickt in Moodle auf die Quest und ist bei MINTcraft angemeldet – ohne zweites Passwort |
+| **Deep Linking** | Lehrkraft wählt beim Einfügen eine Quest aus dem Katalog |
+| **Assignment and Grade Services** | Stufe und Bewertung landen automatisch in der Bewertungsübersicht von Moodle |
+| **Names and Role Provisioning** | Klassenliste für das Dashboard und die Server-Whitelist, als Pseudonyme |
+
+Der Dienst selbst zeigt Aufgabe, Reflexion und das Live-Dashboard für die Lehrkraft. Bewertung, Kompetenzen, Badges
+und Eltern bleiben in der Lernplattform der Schule – dort, wo Lehrkräfte ohnehin arbeiten.
+
+Für Entwicklung und CI läuft eine Moodle-Testinstanz in Docker; der Dienst wird dort wie an einer Schule eingebunden.
 
 ### Minecraft-Server
 
+**Entscheidung: Minecraft Education zuerst.** Schulen haben die Lizenz oft schon (Microsoft-Schulvertrag bzw.
+Microsoft 365 Education A3/A5), es läuft auf allen gängigen Schulgeräten, und seit August 2026 funktionieren Dedicated
+Server auch über Schulgrenzen hinweg. Java ist an Schulen kaum lizenzierbar und läuft nicht auf iPads oder Chromebooks.
+
+| | Minecraft Education | Minecraft Java + Paper | Luanti (Open Source) |
+|---|---|---|---|
+| Lizenzen an Schulen | Schullizenz, oft schon vorhanden | je Kind eine Java-Lizenz – unrealistisch | keine nötig, kostenlos (MIT) |
+| Konten | Microsoft-Konto der Schule | Microsoft-Konto je Kind | eigene, frei wählbar (Pseudonyme) |
+| Geräte | Windows, Mac, iPad, Chromebook, Android | Windows, Mac, Linux | Windows, Mac, Linux, Android – **kein iPad** |
+| Eigene Erweiterungen | Bedrock-Add-ons und Skript-API | volle Paper-API | volle Lua-Mod-API, am offensten |
+| Eigene Server | Dedicated Server, schulübergreifend | ja | ja, selbst gehostet |
+| Lernwerkzeuge | Code Builder, Klassenmodus | keine | Mods aus der Community, kein fertiger Klassenmodus |
+| Motivation der Kinder | „echtes Minecraft“ | „echtes Minecraft“ | ähnlich, aber nicht Minecraft |
+
 | Baustein | Aufgabe |
 |---|---|
-| **Velocity-Proxy** | ein Einstieg, verteilt auf Lobby und Klassen-Welten |
-| **Lobby (Hub)** | Ankommen, Reise in die Reiche |
-| **Klassen-Instanzen** | eigene Welten je Klasse, per Knopfdruck zurücksetzbar |
-| **Plugin MINTcraft-Core** | Quest starten (Teleport, Material), automatisch prüfen, Ergebnis an Moodle |
-| **Lehrer-Werkzeuge** | alle einfrieren, alle zu mir holen, Chat aus, Zuschauermodus, Bauen sperren |
-| **Code-Quests** | programmierbare Roboter (Blöcke, Python, Lua) |
+| **Education Dedicated Server** | eigene Welten je Klasse, per Knopfdruck zurücksetzbar |
+| **MINTcraft-Add-on** (Skript-API) | Quest starten (Teleport, Material), automatisch prüfen, Ergebnis an den MINTcraft-Dienst |
+| **Lehrer-Werkzeuge** | Klassenmodus von Education plus eigene Befehle: alle zu mir holen, Bauen sperren, Welt zurücksetzen |
+| **Code-Quests** | Code Builder (Blöcke, Python) |
 
-**Plattformfrage Java oder Education** – Entscheidung in Phase 4, siehe [Offene Entscheidungen](#13-offene-entscheidungen):
-
-| | Minecraft Java + Paper | Minecraft Education |
-|---|---|---|
-| Eigene Plugins | voll (Paper-API, Erfahrung aus VioletVein) | eingeschränkt (Bedrock-Add-ons, Skripte) |
-| Lizenzen an Schulen | je Kind ein Microsoft-Account mit Java-Lizenz – schwierig | Schullizenz über Microsoft 365, an vielen Schulen schon vorhanden |
-| Eigene Server | ja | Dedicated Server; seit August 2026 auch Multiplayer über Schulgrenzen (verschiedene Tenants) |
-| Code Builder, Lernwerkzeuge | nein | ja |
-
-Denkbar ist auch ein Hybrid: Java-Server mit Geyser für Bedrock-Clients. Das muss an echten Schulgeräten getestet werden.
+**Luanti als zweites Standbein:** Für Schulen ohne Microsoft-Lizenz oder mit Datenschutzbedenken (in Deutschland
+häufig) ist Luanti die lizenzfreie Alternative – technisch sogar die offenere Plattform. Weil Quests als Daten im Repo
+stehen und der MINTcraft-Dienst die Prüfung übernimmt, kann dieselbe Quest später auf beiden Plattformen laufen.
+Java/Paper bleibt Option für HTL-Projekte und außerschulische Angebote; die Erfahrung aus VioletVein hilft dort.
+Die technische Machbarkeit (Skript-API, Verbindung zum Dienst, Netzwerk an Schulen) prüfen wir **früh mit einem
+Prototyp** an echten Schulgeräten, nicht erst in Phase 4.
 
 ## 8. Phasenplan
 
 ```mermaid
 flowchart LR
     P0["0 · Grundlagen<br/>Repo, Regeln,<br/>Konzept"] --> P1["1 · Brand +<br/>Website<br/>GitHub Pages"]
+    P0 --> V["Validierung<br/>Name, Interviews,<br/>Machbarkeit"]
+    V --> P1
     P1 --> P2["2 · Quest-Format<br/>+ erste Quests<br/>Katalog auf Website"]
-    P2 --> P3["3 · Lernplattform<br/>Moodle-Plugin"]
-    P2 --> P4["4 · Minecraft-<br/>Server<br/>MINTcraft-Core"]
+    P2 --> P3["3 · MINTcraft-Dienst<br/>LTI 1.3"]
+    P2 --> P4["4 · Minecraft-<br/>Server<br/>Education + Add-on"]
     P3 --> P5["5 · Pilot<br/>eine Klasse"]
     P4 --> P5
 ```
@@ -252,10 +278,11 @@ flowchart LR
 | Phase | Ergebnis | Fertig, wenn |
 |---|---|---|
 | **0 · Grundlagen** | Repo, Regeln für Assistenten, CI-Grundgerüst, dieses Konzept | Konzept abgenommen |
+| **Validierung** (parallel zu Phase 1) | Markenprüfung des Namens, 5–10 Gespräche mit Lehrkräften, Machbarkeitsprototyp mit Minecraft Education | Name freigegeben oder ersetzt; Erkenntnisse aus den Gesprächen im Konzept; Prototyp zeigt Quest-Start und Ergebnis an einem Schulgerät |
 | **1 · Brand und Website** | Name geprüft, Markenkern, Logo, Farben, Schrift, Website live auf GitHub Pages | Website live, alle CI-Prüfungen grün, Brand-Seite fertig |
 | **2 · Quest-Format** | `quest.yml`-Schema, Vorlage, 8–10 Quests für die Unterstufe, Quest-Katalog auf der Website | Katalog live, jede Quest von einer Lehrkraft gegengelesen |
-| **3 · Lernplattform** | Moodle-Testinstanz (Docker), Plugin `mod_mintcraft` mit Import und Bewertung | Quest in Moodle zuweisbar, Ergebnis landet in der Bewertung (simuliert) |
-| **4 · Minecraft-Server** | Plattformentscheidung, Server mit Lobby, Instanzen, MINTcraft-Core | Quest startet und wird automatisch geprüft, Ergebnis kommt in Moodle an |
+| **3 · MINTcraft-Dienst** | LTI-1.3-Werkzeug mit Quest-Auswahl, Aufgabe, Reflexion, Dashboard; Moodle-Testinstanz (Docker) in CI | Lehrkraft fügt Quest in Moodle ein, Schüler:in meldet sich ohne zweites Passwort an, Bewertung landet in Moodle |
+| **4 · Minecraft-Server** | Education Dedicated Server, Klassen-Welten, MINTcraft-Add-on | Quest startet und wird automatisch geprüft, Ergebnis kommt über den Dienst in Moodle an |
 | **5 · Pilot** | eine Klasse, eine engagierte Lehrkraft, 4–6 Wochen | Feedback ausgewertet, Pilotbericht als Grundlage für Förderanträge |
 
 Phase 3 und 4 können parallel laufen, sobald das Quest-Format steht.
@@ -335,8 +362,8 @@ nachvollziehbar, ohne lokal etwas zu starten.
 | `deploy` | Push auf `main` | Website auf GitHub Pages veröffentlichen – nur wenn alle Prüfungen grün sind |
 | `attribution` | Push, PR | keine Werbung von Coding-Assistenten in Commits und PRs (aus VioletVein) |
 | `quests` (ab Phase 2) | Push, PR in `quests/` | JSON-Schema, Pflichtfelder, Lehrplanbezug, Rechtschreibung |
-| `moodle` (ab Phase 3) | Push, PR | `moodle-plugin-ci` gegen eine Moodle-Testinstanz: Codestil, PHPUnit, Behat |
-| `plugins` (ab Phase 4) | Push, PR | Gradle-Build der Paper-Plugins, Unit-Tests mit MockBukkit; Integrationstest: Paper-Server in CI starten, Quest durchspielen |
+| `service` (ab Phase 3) | Push, PR | Unit-Tests des MINTcraft-Dienstes; End-to-End-Test gegen eine Moodle-Testinstanz in Docker: Quest per LTI einfügen, als Schüler:in starten, Bewertung kommt an |
+| `addon` (ab Phase 4) | Push, PR | Add-on bzw. Mods bauen und testen; Integrationstest: Server in CI starten, Quest automatisiert durchspielen |
 
 ### Visuelle Prüfung im Detail
 
@@ -382,9 +409,9 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 | Website-Regeln (kein Tracker, keine externen Ressourcen, CSP, mobil 390 px, Disclaimer) | ✅ als Regeln | Phase 1; CSP als `<meta>` statt `.htaccess` |
 | Workflow `website` (SFTP-Deploy) | ❌ | ersetzt durch GitHub Pages |
 | Skills und Copilot-Prompts (`/website-update`, `/new-plugin` …) | 🔁 Muster | je Phase eigene Skills, z. B. `/new-quest`, `/brand-variant` |
-| `plugins-src/_template` (Paper 1.21.11, Java 21, Gradle Kotlin DSL) und `build-plugins` | ⏳ Phase 4 | Vorlage für MINTcraft-Core, Paket `at.mintcraft.*` |
-| `server.yml` + `tools/mc.py` + Workflow `updates` (Plugins mit Prüfsumme, wöchentliche Update-PRs) | ⏳ Phase 4 | 1:1, wenn Java/Paper gewählt wird |
-| `scripts/` (deploy, backup, safe-restart, sync), `system/`, `uptime`, `mc_status.py` | ⏳ Phase 4 | Server-Betrieb, ergänzt um Instanzen je Klasse |
+| `plugins-src/_template` (Paper 1.21.11, Java 21, Gradle Kotlin DSL) und `build-plugins` | ⏳ nur für Java-Angebote | HTL-Projekte, außerschulisch; Education braucht Bedrock-Add-ons |
+| `server.yml` + `tools/mc.py` + Workflow `updates` (Plugins mit Prüfsumme, wöchentliche Update-PRs) | 🔁 Prinzip | „alles mit Version und Prüfsumme im Repo“ auch für Education-Server und Luanti-Mods |
+| `scripts/` (deploy, backup, safe-restart, sync), `system/`, `uptime`, `mc_status.py` | 🔁 Phase 4 | Server-Betrieb auf Hetzner, angepasst an Education Dedicated Server bzw. Luanti |
 | Admin-Anleitung Hetzner | ⏳ Phase 4 | Grundlage für Betriebsdoku |
 | Gameplay-Inhalte (Economy, Crates, PvP, Tools, violettes Thema) | ❌ | passt nicht zu Schule |
 
@@ -394,8 +421,10 @@ Geprüft am 31.10.2026, Stand `apachler/violetveinsmp@f798406`.
 
 - **Minecraft Usage Guidelines** beachten: kein „Minecraft“ im Namen oder Logo, keine Mojang-Grafiken oder -Schriften,
   klarer Hinweis „Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.“
-- **Markenrecherche „MINTcraft“** vor der Veröffentlichung: EUIPO, Österreichisches Patentamt, DPMA, Domains,
-  bestehende Projekte mit ähnlichem Namen. Erst danach Logo und Domain final.
+- **Name „MINTcraft“:** Die erste Recherche ([Marktrecherche](marktrecherche.md)) fand keine Kollision im
+  Bildungsbereich, aber eine eingetragene Marke für Werkzeug in Kanada. **Größtes Risiko ist die Nähe zu „Minecraft“**
+  (ein Buchstabe Unterschied, gleiche Zielgruppe). Vor Logo und Domain: Register selbst prüfen (TMview, see.ip, DPMA),
+  kurze Einschätzung einer Markenanwältin oder eines Markenanwalts, zwei bis drei Ausweichnamen bereithalten.
 - Spielinhalte nie gegen Geld (Usage Guidelines); eine kostenpflichtige Lehrerfortbildung oder Hosting ist davon
   getrennt zu prüfen.
 
@@ -422,14 +451,14 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 
 | # | Frage | Wann | Vorschlag |
 |---|---|---|---|
-| 1 | Domain | Phase 1 | `mintcraft.at` prüfen, sonst Alternativen |
-| 2 | Markenrecherche bestanden? | Phase 1, vor Logo-Final | – |
+| 1 | Name bleibt „MINTcraft“? | Validierung, vor Logo-Final | Register prüfen, anwaltliche Einschätzung, Ausweichnamen |
+| 2 | Domain | nach #1 | `mintcraft.at` prüfen, sonst Alternativen |
 | 3 | Static-Site-Generator | Phase 1, Start | Astro (Inhaltsschemas, reines HTML als Ausgabe) |
 | 4 | Brand-Variante | Phase 1 | 2–3 Varianten im PR vergleichen |
 | 5 | Lizenz für Code | Phase 1 | EUPL-1.2 oder MIT |
-| 6 | erste Schulstufe | Phase 2 | Unterstufe |
-| 7 | Moodle oder eigene Plattform | Phase 3 | Moodle mit Plugin |
-| 8 | Minecraft Java/Paper, Education oder Hybrid | Phase 4 | Test an echten Schulgeräten, dann entscheiden |
+| 6 | erster Kern | ✅ entschieden | Unterstufe, Digitale Grundbildung und Mathematik |
+| 7 | Anbindung an Lernplattformen | ✅ entschieden | eigener Dienst als LTI-1.3-Werkzeug statt Moodle-Plugin |
+| 8 | Spielplattform | ✅ Richtung entschieden | Minecraft Education zuerst, Luanti als lizenzfreie Alternative; Machbarkeitsprototyp bestätigt |
 | 9 | Hosting Server | Phase 4 | Hetzner (EU), Erfahrung aus VioletVein |
 | 10 | Förderung | ab Pilotplanung | Innovationsstiftung für Bildung, FFG, Erasmus+ |
 | 11 | Pilotschule und Lehrkraft | Phase 2 | – |
@@ -437,11 +466,13 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 ## 14. Nächste Schritte
 
 1. **Konzept lesen und abnehmen** – Änderungen direkt in diesem Dokument per Pull Request.
-2. **Phase 1 starten:** Markenrecherche und Domain prüfen, Static-Site-Grundgerüst mit allen CI-Prüfungen
+2. **Validierung starten:** Namen prüfen lassen, 5–10 Gespräche mit Lehrkräften (Geräte, Lizenzen, Lernplattform,
+   Fach, Hürden), Machbarkeitsprototyp mit Minecraft Education.
+3. **Phase 1 starten:** Static-Site-Grundgerüst mit allen CI-Prüfungen
    (Build, Links, a11y, visuelle Tests, Deploy auf Pages) – zuerst eine leere, aber vollständig geprüfte Seite.
-3. **Brand-Varianten:** Generator `brand/build_brand.py`, Design-Tokens, zwei bis drei Logo- und Farbvarianten,
+4. **Brand-Varianten:** Generator `brand/build_brand.py`, Design-Tokens, zwei bis drei Logo- und Farbvarianten,
    Vergleich über die CI-Screenshots.
-4. **Website-Inhalte** schreiben: Start, Konzept, Für Lehrkräfte, Marke, Impressum, Datenschutz.
+5. **Website-Inhalte** schreiben: Start, Konzept, Für Lehrkräfte, Marke, Impressum, Datenschutz.
 
 ---
 

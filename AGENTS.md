@@ -6,7 +6,8 @@ Regeln hier gelten für alle Änderungen im Repo. Das ausführliche Konzept steh
 ## Projekt
 
 MINTcraft ist eine Lernplattform für Mathematik, Informatik, Naturwissenschaften und Technik im deutschsprachigen Raum,
-von der Volksschule bis zur HTL. Minecraft ist das Labor, eine Lernplattform (voraussichtlich Moodle) das Forschungsheft.
+von der Volksschule bis zur HTL. Minecraft ist das Labor, die Lernplattform der Schule (z. B. eduvidual/Moodle, angebunden über LTI 1.3) das
+Forschungsheft. Spielplattform: Minecraft Education zuerst, Luanti als lizenzfreie Alternative.
 Zielgruppe der Website sind vor allem **Lehrkräfte, Schulen und Förderstellen**.
 
 **Aktuelle Phase: 1 – Brand und Website.** Lernplattform (Phase 3) und Minecraft-Server (Phase 4) kommen später;

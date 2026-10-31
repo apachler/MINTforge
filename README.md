@@ -9,7 +9,7 @@ der Lernplattform. Für den deutschsprachigen Raum, von der Volksschule bis zur 
 
 [![attribution](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml/badge.svg)](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml)
 
-**[Konzeptpapier](docs/konzept.md)**
+**[Konzeptpapier](docs/konzept.md)** · [Marken- und Marktrecherche](docs/marktrecherche.md)
 
 </div>
 
@@ -28,8 +28,8 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 | 0 · Grundlagen | Repo, Regeln, [Konzept](docs/konzept.md) | ✅ |
 | 1 · Brand und Website | Marke, Logo, Website auf GitHub Pages, CI mit visuellen Tests | ⏭️ als Nächstes |
 | 2 · Quest-Format | Quests als Daten, erste Quests, Katalog | ⏳ |
-| 3 · Lernplattform | Moodle-Plugin | ⏳ |
-| 4 · Minecraft-Server | MINTcraft-Core | ⏳ |
+| 3 · MINTcraft-Dienst | LTI-1.3-Werkzeug für eduvidual, Moodle und andere Lernplattformen | ⏳ |
+| 4 · Minecraft-Server | Minecraft Education + Add-on, Luanti als Alternative | ⏳ |
 | 5 · Pilot | eine Klasse | ⏳ |
 
 ## Aufbau
