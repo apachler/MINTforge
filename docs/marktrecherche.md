@@ -66,6 +66,8 @@ zwei bis drei Ausweichnamen bereithalten.
 | [MintForge (YouTube)](https://www.youtube.com/channel/UCglI9jgjl2XlBWY5P665gmw), [mintforge (GitHub)](https://github.com/Waleed-Ilyas/mintforge) | Kanal, kleines Projekt | gering |
 | „Forge“ als Mod-Loader für Minecraft | Gaming | bekannte Assoziation bei Jugendlichen, keine Mojang-Marke |
 
+**Eigenprüfung durch Andreas (01.11.2026):** keine eingetragenen Rechte an „MINTforge“ gefunden, Domains frei.
+
 Im Bildungsbereich wurde nichts gefunden. Vorteil gegenüber „MINTcraft“: keine Ein-Buchstaben-Nähe zu „Minecraft“ und
 unabhängig von der Spielplattform. Offen: Register (TMview, see.ip, DPMA) und Domains `mintforge.at`, `.de`, `.eu`.
 

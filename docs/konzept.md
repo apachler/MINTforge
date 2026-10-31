@@ -5,7 +5,8 @@ Blockwelt als Labor und die Lernplattform der Schule als Forschungsheft verbinde
 mit Schwerpunkt auf **Oberstufe, HTL und anderen höheren Schulen mit technischem Unterricht**.
 
 > **Arbeitsname MINTforge** (früher MINTcraft). Umbenannt, weil „MINTcraft“ zu nahe an „Minecraft“ liegt und der Name
-> unabhängig von der Spielplattform sein soll. Die Markenprüfung steht noch aus.
+> unabhängig von der Spielplattform sein soll. Eine eigene Prüfung der Markenregister (01.11.2026) ergab keine
+> eingetragenen Rechte; die Domains sind frei.
 
 | | |
 |---|---|
@@ -587,8 +588,8 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 
 | # | Frage | Wann | Vorschlag |
 |---|---|---|---|
-| 1 | Name: MINTforge freigeben? | Validierung, vor Logo-Final | Andreas prüft zuerst selbst (TMview, Patentamt, Domains); danach ggf. anwaltliche Einschätzung |
-| 2 | Domain | nach #1 | `mintforge.at` prüfen, sonst Alternativen |
+| 1 | Name: MINTforge freigeben? | ✅ Eigenprüfung am 01.11.2026 ohne Treffer | keine eingetragenen Rechte gefunden; optional anwaltliche Einschätzung und eigene Markenanmeldung vor dem öffentlichen Start |
+| 2 | Domain | bald | `mintforge.at` und `.de` sind frei – registrieren, bevor der Name öffentlich wird |
 | 3 | Static-Site-Generator | ✅ entschieden | Astro |
 | 4 | Markensystem | ✅ entschieden | Dachmarke Esse, Bereiche Blaupause, Labor, Biom, Schaltwerk; Pixelpuls nur für Schüler:innen; Informatik als Bereich „Schaltwerk“ |
 | 5 | Lizenz für Code | ✅ entschieden | EUPL-1.2; Quests und Material CC BY-SA 4.0 |
