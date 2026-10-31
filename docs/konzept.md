@@ -414,7 +414,7 @@ Eine Dachmarke und fünf Bereiche, zusammengehalten durch gemeinsame Regeln.
 | **Blaupause** | Blaupausenblau, Maßlinien, Rasterpapier | Technik, Mathematik |
 | **Labor** | Petrol, Flieder, Laborkacheln | Naturwissenschaften |
 | **Biom** | Wald, Moos, Lehm, Blattpunkte | Ökologie, fächerübergreifende Systemprojekte |
-| **Informatik** (Schaltwerk oder Netzwerk, Entscheidung offen) | Platine mit Leiterbahnen bzw. Knoten und Verbindungen | Informatik |
+| **Schaltwerk** | Platinengrün #0E2A22, Kupfer #C98A4B, Lötgold #E8C170, Bestückungsweiß #EAF4EE; Leiterbahnen, Chip-Symbol | Informatik |
 | **Pixelpuls** | Neon auf Dunkel, Pixelschrift | **nur** Ebene für Schüler:innen im Spiel und im Dashboard, nicht auf der Website |
 
 **Gemeinsame Regeln:**
@@ -575,7 +575,7 @@ Die Website braucht eine **Offenlegung nach § 25 Mediengesetz** (Impressum) und
 | 1 | Name: MINTforge freigeben? | Validierung, vor Logo-Final | Andreas prüft zuerst selbst (TMview, Patentamt, Domains); danach ggf. anwaltliche Einschätzung |
 | 2 | Domain | nach #1 | `mintforge.at` prüfen, sonst Alternativen |
 | 3 | Static-Site-Generator | ✅ entschieden | Astro |
-| 4 | Markensystem | ✅ entschieden | Dachmarke Esse, Bereiche Blaupause, Labor, Biom, Informatik; Pixelpuls nur für Schüler:innen; Informatik-Variante (Schaltwerk/Netzwerk) offen |
+| 4 | Markensystem | ✅ entschieden | Dachmarke Esse, Bereiche Blaupause, Labor, Biom, Schaltwerk; Pixelpuls nur für Schüler:innen; Informatik als Bereich „Schaltwerk“ |
 | 5 | Lizenz für Code | ✅ entschieden | EUPL-1.2; Quests und Material CC BY-SA 4.0 |
 | 6 | erster Kern | ✅ entschieden | höhere Schulen mit technischem Unterricht (HTL, AHS-Oberstufe): Informatik, Mathematik, Technik; untere Stufen später mit eigenen Design-Patterns |
 | 7 | Anbindung an Lernplattformen | ✅ entschieden | eigener Dienst als LTI-1.3-Werkzeug statt Moodle-Plugin |
