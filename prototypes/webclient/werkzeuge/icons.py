@@ -85,6 +85,21 @@ DATEIEN = {
 }
 
 
+def pixel_daten(png_bytes):
+    """Entpackte Bilddaten eines PNG. Zum Vergleich in --check: Die komprimierten Bytes hängen von der
+    zlib-Version ab, die Pixel nicht."""
+    i, idat, kopf = 8, b"", b""
+    while i < len(png_bytes):
+        laenge = struct.unpack(">I", png_bytes[i:i + 4])[0]
+        art = png_bytes[i + 4:i + 8]
+        if art == b"IHDR":
+            kopf = png_bytes[i + 8:i + 8 + laenge]
+        elif art == b"IDAT":
+            idat += png_bytes[i + 8:i + 8 + laenge]
+        i += 12 + laenge
+    return kopf, zlib.decompress(idat)
+
+
 def main():
     pruefen = "--check" in sys.argv
     ZIEL.mkdir(parents=True, exist_ok=True)
@@ -93,7 +108,7 @@ def main():
         daten = icon(groesse, rand)
         pfad = ZIEL / name
         if pruefen:
-            if not pfad.exists() or pfad.read_bytes() != daten:
+            if not pfad.exists() or pixel_daten(pfad.read_bytes()) != pixel_daten(daten):
                 veraltet.append(name)
         else:
             pfad.write_bytes(daten)

@@ -85,6 +85,9 @@ jobs:
     name: Server (Compose, Proxy, Luanti-Rauchtest)
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    env:
+      # Nur für den Test in CI, kein echtes Geheimnis
+      MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -96,16 +99,12 @@ jobs:
         run: shellcheck wasm/build.sh
       - name: docker compose config
         working-directory: prototypes/webclient/server
-        env:
-          MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
         run: docker compose config --quiet
       - name: Proxy-Tests
         working-directory: prototypes/webclient/server/proxy
         run: npm ci --no-audit --no-fund && npm test
       - name: Stack starten (ohne WebAssembly-Client)
         working-directory: prototypes/webclient/server
-        env:
-          MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
         run: |
           docker compose up -d --build --wait --wait-timeout 120 web proxy ergebnis
           docker compose up -d luanti
@@ -138,8 +137,6 @@ jobs:
       - name: Aufräumen
         if: always()
         working-directory: prototypes/webclient/server
-        env:
-          MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
         run: docker compose down -v
 
   wasm-build:

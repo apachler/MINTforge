@@ -58,7 +58,8 @@ services:
       MINTFORGE_ERGEBNIS_TOKEN: ${MINTFORGE_ERGEBNIS_TOKEN:-}
     volumes:
       - ./luanti/minetest.conf:/etc/minetest/minetest.conf:ro
-      - ./luanti/spiel/mintforge_labor:/opt/mintforge/spiele/mintforge_labor:ro
+      # game.conf und Mod einzeln einhängen: Ein Mount in einen schreibgeschützt eingehängten Ordner schlägt fehl.
+      - ./luanti/spiel/mintforge_labor/game.conf:/opt/mintforge/spiele/mintforge_labor/game.conf:ro
       - ../mods/mintforge_quest:/opt/mintforge/spiele/mintforge_labor/mods/mintforge_quest:ro
       - luanti-welten:/var/lib/minetest
     restart: unless-stopped
