@@ -43,7 +43,7 @@ Luanti-UDP bleibt im internen Netz.
 
 | Pfad | Was | Stand |
 |---|---|---|
-| [`wasm/build.sh`](wasm/build.sh) | klont minetest-wasm (Commit gepinnt) und baut es im Docker-Container, legt das Ergebnis in `web/client/` | in CI, siehe unten |
+| [`wasm/build.sh`](wasm/build.sh) | klont minetest-wasm (Commit gepinnt), wendet [`wasm/patches/`](wasm/patches) an, baut im Docker-Container, legt das Ergebnis in `web/client/` | baut in CI (≈ 22 min) |
 | [`web/`](web) | PWA-Hülle: Startseite, Spielseite, Manifest, Service Worker, Platzhalter-Icons | lokal getestet (Chrome) |
 | [`server/proxy/`](server/proxy) | WebSocket↔UDP-Proxy, eigenes Gegenstück zum Client-Protokoll von minetest-wasm | lokal getestet, auch gegen einen echten Luanti-Server |
 | [`server/docker-compose.yml`](server/docker-compose.yml) | Caddy (HTTPS + COOP/COEP), Proxy, Luanti-Server (offizielles Image, Version gepinnt), Ergebnis-Empfänger | `docker compose config` lokal geprüft; Start nur in CI |
