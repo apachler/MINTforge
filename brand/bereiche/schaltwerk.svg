@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" role="img" aria-labelledby="t">
+  <!-- Erzeugt von brand/build_brand.py aus brand/tokens.json – nicht von Hand bearbeiten. -->
+  <title id="t">Bereich Schaltwerk: Informatik</title>
+  <rect width="40" height="40" rx="4" fill="#0E2A22"/>
+  <path d="M14 10 L14 3 M20 10 L20 3 M26 10 L26 3 M14 30 L14 37 M20 30 L20 37 M26 30 L26 37 M10 20 L3 20 M30 20 L37 20" stroke="#C98A4B" stroke-width="2.5"/>
+  <rect x="10" y="10" width="20" height="20" fill="#0A1F19" stroke="#EAF4EE" stroke-width="2"/>
+  <rect x="16" y="16" width="8" height="8" fill="#3FD6A6"/>
+</svg>
