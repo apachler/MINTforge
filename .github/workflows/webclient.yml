@@ -242,6 +242,7 @@ jobs:
           echo "::endgroup::"
           echo "::group::Proxy"; grep -E "BIND|Namensdienst|Abgelehnt|Verworfen" logs/proxy.log | head -40 || true; echo "::endgroup::"
           echo "::group::Empfänger"; grep ERGEBNIS logs/ergebnis.log || true; echo "::endgroup::"
+          echo "::group::Token in der Konsole?"; cat logs/konsole-token-treffer.txt 2>/dev/null; grep -h -B2 -A1 -- "--password" logs/browser-konsole.txt | sed -E 's/mf1-[0-9a-f]{24}/mf1-<TOKEN>/g' | head -20 || true; echo "::endgroup::"
           echo "::group::Browser-Konsole (Fehler, Warnungen, Verbindung)"
           grep -i -E "error|warn|connect|server|auth|password|denied" logs/browser-konsole*.txt | head -80 || true
           echo "::endgroup::"

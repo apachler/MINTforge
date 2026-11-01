@@ -137,6 +137,13 @@ test.describe('Web-Client gegen Luanti 5.18.0', () => {
     await page.screenshot({ path: join(HIER, '../test-results-e2e/04-gehege.png') });
     await page.screenshot({ path: join(HIER, '../test-results-e2e/04-gehege.jpg'), type: 'jpeg', quality: 55 });
   });
+
+  test('e) Token steht nicht in der Browser-Konsole', async () => {
+    // launcher.js bzw. der Client gibt die Startargumente aus; das Token soll dort nicht im Klartext landen.
+    const treffer = konsole.filter((z) => z.includes(token(NAME)));
+    sichere('konsole-token-treffer.txt', treffer.map((z) => z.replace(token(NAME), 'mf1-<TOKEN>')));
+    expect(treffer, 'Konsolenzeilen mit Token').toEqual([]);
+  });
 });
 
 test('d) Falsches Token wird abgelehnt', async ({ page }) => {
