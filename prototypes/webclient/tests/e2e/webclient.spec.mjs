@@ -112,6 +112,7 @@ test.describe('Web-Client gegen Luanti 5.18.0', () => {
     // Ein paar Sekunden rendern lassen, dann Bildschirmfoto aus dem Spiel
     await page.waitForTimeout(8000);
     await page.screenshot({ path: join(HIER, '../test-results-e2e/02-in-der-welt.png') });
+    await page.screenshot({ path: join(HIER, '../test-results-e2e/02-in-der-welt.jpg'), type: 'jpeg', quality: 55 });
   });
 
   test('c1) Chat-Befehl über die Tastatur erreicht den Server', async () => {
@@ -134,6 +135,7 @@ test.describe('Web-Client gegen Luanti 5.18.0', () => {
     sichere('ergebnis.json', JSON.stringify(daten, null, 2));
     await page.waitForTimeout(3000);
     await page.screenshot({ path: join(HIER, '../test-results-e2e/04-gehege.png') });
+    await page.screenshot({ path: join(HIER, '../test-results-e2e/04-gehege.jpg'), type: 'jpeg', quality: 55 });
   });
 });
 

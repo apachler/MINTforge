@@ -232,6 +232,27 @@ jobs:
           for d in luanti proxy web ergebnis; do
             docker compose -f server/docker-compose.yml logs --no-color --timestamps "$d" > "tests/test-results-e2e/logs/$d.log" 2>&1 || true
           done
+      - name: Belege im Log zusammenfassen
+        if: always()
+        working-directory: prototypes/webclient/tests/test-results-e2e
+        run: |
+          echo "::group::Browser"; cat logs/browser-version.txt logs/browser-faehigkeiten.json 2>/dev/null; echo "::endgroup::"
+          echo "::group::Luanti-Server"
+          grep -E "joins game|leaves game|supplied wrong password|\[mintforge\]|protocol|ERROR" logs/luanti.log || true
+          echo "::endgroup::"
+          echo "::group::Proxy"; grep -E "BIND|Namensdienst|Abgelehnt|Verworfen" logs/proxy.log | head -40 || true; echo "::endgroup::"
+          echo "::group::Empfänger"; grep ERGEBNIS logs/ergebnis.log || true; echo "::endgroup::"
+          echo "::group::Browser-Konsole (Fehler, Warnungen, Verbindung)"
+          grep -i -E "error|warn|connect|server|auth|password|denied" logs/browser-konsole*.txt | head -80 || true
+          echo "::endgroup::"
+          # Kleines Bildschirmfoto als Text, damit es auch ohne Artifact-Zugriff lesbar ist
+          for b in 02-in-der-welt 04-gehege; do
+            if [ -f "$b.png" ]; then
+              echo "::group::$b.jpg (base64)"
+              python3 -c "import base64,sys; print(base64.b64encode(open(sys.argv[1],'rb').read()).decode())" "$b.jpg" 2>/dev/null || true
+              echo "::endgroup::"
+            fi
+          done
       - name: Bilder, Video und Logs hochladen
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
