@@ -152,6 +152,12 @@ jobs:
         run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc && df -h /
       - name: Bauen
         run: wasm/build.sh
+      - name: Diagnose bei Fehler
+        if: failure()
+        run: |
+          for f in $(find wasm/.arbeit -name config.log -newer wasm/build.sh 2>/dev/null); do
+            echo "::group::$f"; grep -n -B5 -A40 "checking size of" "$f" | tail -120; echo "::endgroup::"
+          done
       - name: Ergebnis prüfen
         run: |
           cat web/client/BUILD.txt
