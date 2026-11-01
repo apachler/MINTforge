@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" role="img" aria-labelledby="t">
+  <!-- Erzeugt von brand/build_brand.py aus brand/tokens.json – nicht von Hand bearbeiten. -->
+  <title id="t">Bereich Pixelpuls: Ebene für Schüler:innen</title>
+  <rect width="40" height="40" rx="4" fill="#17112B"/>
+  <g shape-rendering="crispEdges" fill="#3FD6A6">
+    <rect x="4" y="4" width="6" height="32"/><rect x="30" y="4" width="6" height="32"/>
+    <rect x="10" y="10" width="5" height="6"/><rect x="25" y="10" width="5" height="6"/><rect x="15" y="16" width="10" height="6"/>
+  </g>
+  <rect x="15" y="28" width="10" height="5" fill="#FF4FA3"/>
+</svg>

@@ -1,0 +1,86 @@
+---
+// Rahmen jeder Seite: Kopf, Navigation, Inhalt, Fuß. Keine Inline-Skripte oder -Styles (CSP: nur 'self').
+// Schriften selbst gehostet aus @fontsource/* (OFL), nur die Schnitte, die die Marke nutzt
+import "@fontsource/big-shoulders-display/latin-800";
+import "@fontsource/big-shoulders-display/latin-900";
+import "@fontsource/work-sans/latin-400.css";
+import "@fontsource/work-sans/latin-500.css";
+import "@fontsource/work-sans/latin-600.css";
+import "@fontsource/jetbrains-mono/latin-500.css";
+import "@fontsource/jetbrains-mono/latin-700.css";
+import "../styles/site.css";
+import { url, navigation, disclaimer } from "../site";
+import { repo } from "../../site.config.mjs";
+
+interface Props {
+  titel: string;
+  beschreibung: string;
+  /** false für Seiten ohne festen Ort (404) */
+  kanonisch?: boolean;
+}
+const { titel, beschreibung, kanonisch = true } = Astro.props;
+const voll = titel === "MINTforge" ? "MINTforge – Wissen schmieden." : `${titel} · MINTforge`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const aktuell = Astro.url.pathname;
+const csp =
+  "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'";
+---
+<!doctype html>
+<html lang="de-AT">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content={csp} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{voll}</title>
+    <meta name="description" content={beschreibung} />
+    {kanonisch ? <link rel="canonical" href={canonical} /> : <meta name="robots" content="noindex" />}
+    <meta name="color-scheme" content="light dark" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="icon" href={url("favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={url("sitemap-index.xml")} />
+  </head>
+  <body>
+    <a class="sprung" href="#inhalt">Zum Inhalt springen</a>
+    <header class="kopf esse">
+      <div class="rahmen kopf-innen">
+        <a class="kopf-logo" href={url()}>
+          <img src={url("brand/logo/lockup-dunkel.svg")} alt="MINTforge – zur Startseite" width="180" height="38" />
+        </a>
+        <nav aria-label="Hauptnavigation">
+          <ul class="nav">
+            {
+              navigation.map((n) => (
+                <li>
+                  <a href={url(n.pfad)} aria-current={aktuell === url(n.pfad) ? "page" : undefined}>
+                    {n.titel}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="inhalt">
+      <slot />
+    </main>
+    <footer class="fuss esse">
+      <div class="rahmen fuss-innen">
+        <div class="fuss-marke">
+          <img src={url("brand/logo/bildmarke.svg")} alt="" width="48" height="48" />
+          <p class="fuss-slogan">Wissen schmieden.</p>
+        </div>
+        <nav aria-label="Rechtliches und Quellen">
+          <ul class="fuss-links">
+            <li><a href={url("impressum/")}>Impressum</a></li>
+            <li><a href={url("datenschutz/")}>Datenschutz</a></li>
+            <li><a href={url("marke/")}>Marke</a></li>
+            <li><a href={`https://github.com/${repo}`}>Quellcode auf GitHub</a></li>
+          </ul>
+        </nav>
+        <p class="fuss-klein">Code unter EUPL-1.2. Keine Cookies, keine Tracker, keine externen Ressourcen.</p>
+        <p class="fuss-klein disclaimer">{disclaimer}</p>
+      </div>
+    </footer>
+  </body>
+</html>

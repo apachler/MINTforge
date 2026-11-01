@@ -1,0 +1,32 @@
+---
+// Quest-Karte: derselbe Baustein in jedem Bereich, nur die „Haut“ wechselt (Farben und Muster aus tokens.css).
+import type { BereichKey } from "../brand";
+
+interface Props {
+  bereich: BereichKey;
+  fach: string;
+  stufe: string;
+  dauer: string;
+  titel: string;
+  beispiel?: boolean;
+  /** Überschriftenebene, passend zur Seite */
+  ebene?: 2 | 3;
+}
+const { bereich, fach, stufe, dauer, titel, beispiel = true, ebene = 3 } = Astro.props;
+const H = `h${ebene}`;
+---
+<article class={`quest haut-${bereich}`}>
+  <div class="quest-karte">
+    <p class="quest-meta">
+      {beispiel && <span class="quest-beispiel">Beispiel</span>}
+      <span>{fach} · {stufe} · {dauer}</span>
+    </p>
+    <H class="quest-titel">{titel}</H>
+    <div class="quest-text"><slot /></div>
+    <ul class="quest-stufen" aria-label="Niveaustufen">
+      <li>Bronze</li>
+      <li>Silber</li>
+      <li>Gold</li>
+    </ul>
+  </div>
+</article>

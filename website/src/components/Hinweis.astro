@@ -1,0 +1,14 @@
+---
+// Hinweisbox, z. B. für Geplantes oder Entwürfe.
+interface Props {
+  art?: "geplant" | "entwurf" | "info";
+  titel: string;
+}
+const { art = "info", titel } = Astro.props;
+const marke = { geplant: "Geplant", entwurf: "Entwurf", info: "Hinweis" }[art];
+---
+<aside class={`hinweis hinweis-${art}`} aria-label={`${marke}: ${titel}`}>
+  <p class="hinweis-marke">{marke}</p>
+  <p class="hinweis-titel">{titel}</p>
+  <div class="hinweis-text"><slot /></div>
+</aside>

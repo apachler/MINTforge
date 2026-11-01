@@ -28,7 +28,15 @@
       "Bash(npm test:*)",
       "Bash(npx playwright test:*)",
       "Bash(gh run list:*)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(npm run brand:*)",
+      "Bash(npm run check:site:*)",
+      "Bash(npm run check:html:*)",
+      "Bash(npm run test:a11y:*)",
+      "Bash(npm run test:visual:*)",
+      "Bash(python3 brand/build_brand.py:*)",
+      "Bash(node tools/check-site.mjs:*)",
+      "Bash(npx html-validate:*)"
     ],
     "ask": [
       "Bash(ssh:*)",

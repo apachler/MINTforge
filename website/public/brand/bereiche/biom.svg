@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" role="img" aria-labelledby="t">
+  <!-- Erzeugt von brand/build_brand.py aus brand/tokens.json – nicht von Hand bearbeiten. -->
+  <title id="t">Bereich Biom: Ökologie · Systeme</title>
+  <rect width="40" height="40" rx="4" fill="#F5F1E8"/>
+  <g shape-rendering="crispEdges">
+    <rect x="20" y="4" width="8" height="8" fill="#2F6B4F"/><rect x="12" y="12" width="8" height="8" fill="#2F6B4F"/>
+    <rect x="20" y="12" width="8" height="8" fill="#7BA05B"/><rect x="28" y="12" width="7" height="8" fill="#7BA05B"/>
+    <rect x="4" y="20" width="8" height="8" fill="#7BA05B"/><rect x="12" y="20" width="8" height="8" fill="#2F6B4F"/>
+    <rect x="20" y="20" width="8" height="8" fill="#3FD6A6"/><rect x="12" y="28" width="8" height="8" fill="#C8794A"/>
+  </g>
+</svg>

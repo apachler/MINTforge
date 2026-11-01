@@ -1,0 +1,18 @@
+---
+import Seite from "../layouts/Seite.astro";
+import { url } from "../site";
+---
+<Seite titel="Seite nicht gefunden" beschreibung="Diese Seite gibt es auf der MINTforge-Website nicht." kanonisch={false}>
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Fehler 404</p>
+      <h1>Hier wurde noch nichts geschmiedet</h1>
+      <p>Diese Seite gibt es nicht oder nicht mehr.</p>
+    </div>
+  </header>
+  <section class="abschnitt" aria-label="Weiter">
+    <div class="rahmen">
+      <p><a class="knopf knopf-weiter" href={url()}>Zur Startseite</a></p>
+    </div>
+  </section>
+</Seite>

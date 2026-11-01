@@ -1,0 +1,144 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Hinweis from "../components/Hinweis.astro";
+import { url } from "../site";
+import { repo } from "../../site.config.mjs";
+---
+<Seite
+  titel="Konzept"
+  beschreibung="Der pädagogische Ansatz von MINTforge: Lernkreislauf, Quests mit drei Niveaustufen, Bewertung über Kompetenzen und Lehrplanbezug."
+>
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Konzept</p>
+      <h1>Die Blockwelt ist das Labor, die Lernplattform das Forschungsheft</h1>
+      <p>
+        Spielwelt und Lernplattform haben jeweils Stärken. MINTforge verbindet beide zu einem Kreislauf, in dem die
+        Spielwelt nicht Belohnung nach dem Lernen ist, sondern der Ort, an dem gelernt wird.
+      </p>
+    </div>
+  </header>
+
+  <section class="abschnitt" aria-labelledby="orte">
+    <div class="rahmen">
+      <h2 id="orte">Zwei Orte, ein Kreislauf</h2>
+      <div class="raster">
+        <div class="kachel">
+          <h3>Lernplattform</h3>
+          <p>Erklären, strukturieren, dokumentieren, bewerten, differenzieren. Hier beginnt und endet jede Quest.</p>
+        </div>
+        <div class="kachel">
+          <h3>Blockwelt</h3>
+          <p>
+            Räumliches Denken, Ausprobieren ohne Kosten und Gefahr, Zusammenarbeit, sofortige Rückmeldung. Wer die Fläche
+            eines Geheges falsch berechnet, sieht es: Die Tiere passen nicht hinein.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="quest">
+    <div class="rahmen">
+      <h2 id="quest">Die Quest als Lerneinheit</h2>
+      <p class="lead">Jede Quest hat dieselbe Struktur. Ein Beispiel, wie es im Konzept steht:</p>
+      <div class="tabelle-huelle">
+        <table>
+          <caption class="hinweis-klein">Beispiel-Quest (Entwurf, genaue Lehrplanzuordnung in Phase 2)</caption>
+          <tbody>
+            <tr><th scope="row">Titel</th><td>Die Rampe zur Ingenieursinsel</td></tr>
+            <tr><th scope="row">Fach, Schulstufe</th><td>Mathematik, 10. Schulstufe (AHS-Oberstufe, HTL 2. Jahrgang)</td></tr>
+            <tr><th scope="row">Lernziel</th><td>Winkelfunktionen im rechtwinkeligen Dreieck anwenden; Steigung in Prozent und Grad umrechnen</td></tr>
+            <tr><th scope="row">Dauer</th><td>1 Unterrichtseinheit (50 min)</td></tr>
+            <tr><th scope="row">Vorwissen</th><td>Satz des Pythagoras, Sinus, Cosinus, Tangens</td></tr>
+            <tr><th scope="row">Ablauf</th><td>Verstehen (10 min) → Anwenden (25 min) → Reflektieren (15 min)</td></tr>
+            <tr><th scope="row">Automatische Prüfung</th><td>Höhenunterschied, horizontale Länge und Steigung je Abschnitt, Podeste vorhanden</td></tr>
+            <tr><th scope="row">Reflexion</th><td>Warum braucht eine barrierefreie Rampe so viel Platz, und wie hängt das mit tan α zusammen?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="stufen">
+    <div class="rahmen">
+      <h2 id="stufen">Drei Stufen statt drei Klassen</h2>
+      <p class="lead">Alle arbeiten am selben Thema, jede:r auf eigenem Niveau. Wer Gold schafft, hilft.</p>
+      <div class="stufen">
+        <div class="kachel">
+          <p class="stufe-name">Bronze</p>
+          <p>Rampe auf 3 Blöcke Höhe mit Steigungswinkel unter 20°.</p>
+        </div>
+        <div class="kachel">
+          <p class="stufe-name">Silber</p>
+          <p>Rampe mit Zwischenpodest, Gesamtlänge minimal.</p>
+        </div>
+        <div class="kachel">
+          <p class="stufe-name">Gold</p>
+          <p>Barrierefreie Rampe mit höchstens 6 % Steigung und möglichst wenig Material.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="grundsaetze">
+    <div class="rahmen prosa">
+      <h2 id="grundsaetze">Didaktische Grundsätze</h2>
+      <ul>
+        <li><strong>Handlung vor Belohnung:</strong> Spielerisches entsteht aus dem Tun, nicht aus Punkten.</li>
+        <li><strong>Fehler sind Daten:</strong> Die Welt zeigt sofort, was nicht stimmt. Wiederholen kostet nichts.</li>
+        <li><strong>Zusammenarbeit:</strong> Viele Quests gibt es als Teamvariante mit verteilten Rollen (Planer:in, Bauer:in, Prüfer:in).</li>
+        <li><strong>Reflexion ist Pflicht:</strong> Erst die Begründung auf der Plattform schließt eine Quest ab.</li>
+        <li><strong>Fächerverbindend:</strong> Größere Projekte verbinden Bereiche, z. B. ein Kraftwerk mit Physik, Mathematik und Informatik.</li>
+      </ul>
+      <h2 id="gamification">Gamification mit Bedacht</h2>
+      <div class="tabelle-huelle">
+        <table>
+          <thead>
+            <tr><th scope="col">Ja</th><th scope="col">Nein</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Klassenziele („Wir haben die Brücke gemeinsam gebaut“)</td><td>öffentliche Ranglisten</td></tr>
+            <tr><td>Freischaltungen in der Welt, die man sieht</td><td>Punkte als Selbstzweck</td></tr>
+            <tr><td>Open Badges für Kompetenzen</td><td>Belohnungen gegen echtes Geld</td></tr>
+            <tr><td>kosmetische Belohnungen</td><td>Zeitdruck als Standard</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h2 id="bewertung">Bewertung</h2>
+      <p>
+        Die Bewertung kombiniert die <strong>automatische Prüfung</strong> in der Welt (Ziel erreicht, Stufe) mit der
+        <strong>Reflexion</strong> (Begründung, Daten, Fehleranalyse). Die Lehrkraft entscheidet, was in die Note
+        einfließt. Ergebnisse werden als Kompetenzen erfasst – passend zu kompetenzorientierter Leistungsbeurteilung.
+      </p>
+      <h2 id="lehrplan">Lehrplanbezug</h2>
+      <p>
+        Jede Quest wird auf österreichische Lehrpläne und Kompetenzmodelle gemappt, später auch auf die
+        KMK-Bildungsstandards (Deutschland) und den Lehrplan 21 (Schweiz). Der erste Kern sind Informatik, Mathematik
+        und Technik für höhere Schulen mit technischem Unterricht. Volksschule und Unterstufe (in Deutschland
+        Grundschule und Sekundarstufe I) kommen später mit eigenen Gestaltungsmustern dazu.
+      </p>
+      <h2 id="barrierefreiheit">Inklusion und Barrierefreiheit</h2>
+      <ul>
+        <li>Plattform und Website nach WCAG 2.2 AA, gut lesbare Schrift.</li>
+        <li>Aufgaben zusätzlich vorgelesen, Bauvorgaben auch als Bild.</li>
+        <li>Stufen und Teamrollen erlauben unterschiedliche Stärken.</li>
+        <li>Kein Pflicht-Ressourcenpaket, das schwache Schulrechner überfordert.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="stand">
+    <div class="rahmen">
+      <h2 id="stand">Stand</h2>
+      <Hinweis art="geplant" titel="MINTforge entsteht in Phasen">
+        <p>
+          Gerade entstehen Marke und Website. Danach folgen das Quest-Format mit ersten Quests, der MINTforge-Dienst
+          für die Lernplattform, die Spielserver und ein Pilot mit einer Klasse. Das vollständige
+          <a href={`https://github.com/${repo}/blob/main/docs/konzept.md`}>Konzeptpapier liegt auf GitHub</a>.
+        </p>
+      </Hinweis>
+      <p><a href={url("lehrkraefte/")}>Weiter: So läuft eine Stunde ab</a></p>
+    </div>
+  </section>
+</Seite>

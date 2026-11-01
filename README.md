@@ -9,9 +9,11 @@ reflektieren auf der Lernplattform. Für Oberstufe, HTL und andere höhere Schul
 
 <sub>Früher MINTcraft.</sub>
 
-[![attribution](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml/badge.svg)](https://github.com/apachler/mintcraft/actions/workflows/attribution.yml)
+[![site](https://github.com/apachler/mintforge/actions/workflows/site.yml/badge.svg)](https://github.com/apachler/mintforge/actions/workflows/site.yml)
+[![deploy](https://github.com/apachler/mintforge/actions/workflows/deploy.yml/badge.svg)](https://github.com/apachler/mintforge/actions/workflows/deploy.yml)
+[![attribution](https://github.com/apachler/mintforge/actions/workflows/attribution.yml/badge.svg)](https://github.com/apachler/mintforge/actions/workflows/attribution.yml)
 
-**[Konzeptpapier](docs/konzept.md)** · [Marken- und Marktrecherche](docs/marktrecherche.md)
+**[Website](https://apachler.github.io/mintforge/)** · **[Konzeptpapier](docs/konzept.md)** · [Marke](brand) · [Marken- und Marktrecherche](docs/marktrecherche.md)
 
 </div>
 
@@ -28,7 +30,7 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 | Phase | Inhalt | Status |
 |---|---|---|
 | 0 · Grundlagen | Repo, Regeln, [Konzept](docs/konzept.md) | ✅ |
-| 1 · Brand und Website | Marke, Logo, Website auf GitHub Pages, CI mit visuellen Tests | ⏭️ als Nächstes |
+| 1 · Brand und Website | [Marke](brand), [Website](website) auf GitHub Pages, CI mit Barrierefreiheits- und visuellen Tests | 🔨 in Arbeit |
 | 2 · Quest-Format | Quests als Daten, erste Quests, Katalog | ⏳ |
 | 3 · MINTforge-Dienst | LTI-1.3-Werkzeug für eduvidual, Moodle und andere Lernplattformen | ⏳ |
 | 4 · Spielserver und Self-Service | Welten je Klasse automatisch in der Hetzner Cloud; Minecraft Education oder Luanti im Browser | ⏳ |
@@ -38,10 +40,17 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 
 | Pfad | Inhalt |
 |---|---|
+| [`brand/`](brand) | Design-Tokens (`tokens.json`) und Generator für Logos, Symbole und CSS-Variablen |
+| [`website/`](website) | Website (Astro, statisch), Tests mit Playwright |
 | [`docs/`](docs) | Konzept und Doku |
-| [`tools/`](tools) | Hilfsskripte |
-| `.github/` | Workflows, Dependabot |
+| [`tools/`](tools) | Hilfsskripte, u. a. `check-site.mjs` |
+| `.github/` | Workflows (`site`, `deploy`, `attribution`), Dependabot |
 | [`AGENTS.md`](AGENTS.md), [`CLAUDE.md`](CLAUDE.md) | Regeln für KI-Assistenten |
+
+## Lizenz
+
+Code (Website, Werkzeuge) unter der [EUPL-1.2](LICENSE). Quests und Unterrichtsmaterial sollen unter CC BY-SA 4.0
+stehen (ab Phase 2). Name und Logo von MINTforge sind von den freien Lizenzen ausgenommen.
 
 ---
 

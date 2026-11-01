@@ -1,0 +1,171 @@
+---
+import Seite from "../layouts/Seite.astro";
+import QuestKarte from "../components/QuestKarte.astro";
+import Bereich from "../components/Bereich.astro";
+import { url } from "../site";
+import { marke, farben, schrift, bereiche, websiteBereiche, eintraege } from "../brand";
+import { repo } from "../../site.config.mjs";
+
+const gruppen = ["esse", "akzent", "tief"].map((k) => ({ key: k, name: farben[k].$name, hinweis: farben[k].$hinweis, werte: eintraege(farben[k]) }));
+const familien = Object.entries(schrift.familien);
+const pixelpuls = bereiche.find((b) => !b.website);
+---
+<Seite
+  titel="Marke"
+  beschreibung="Das Markensystem von MINTforge: Logo, Farben der Dachmarke Esse, Bereiche, Schriften und Regeln – erzeugt aus den Design-Tokens im Repo."
+>
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Marke</p>
+      <h1>Eine Dachmarke, vier Bereiche</h1>
+      <p>
+        Logo, Farben und Schriften von MINTforge. Alles auf dieser Seite stammt aus einer einzigen Datei,
+        <a href={`https://github.com/${repo}/blob/main/brand/tokens.json`}><code>brand/tokens.json</code></a>; Logos und
+        Farbvariablen erzeugt ein Skript daraus.
+      </p>
+    </div>
+  </header>
+
+  <section class="abschnitt" aria-labelledby="logo">
+    <div class="rahmen">
+      <h2 id="logo">Logo</h2>
+      <p class="lead">
+        Ein Amboss mit glühendem Block: Wissen wird nicht abgeholt, sondern geschmiedet. Die Wortmarke {marke.wortmarke[0]}
+        in Großbuchstaben, „{marke.wortmarke[1]}“ in Glut. Slogan: „{marke.slogan}“
+      </p>
+      <div class="logo-flaechen">
+        <div class="logo-flaeche logo-flaeche-hell">
+          <img src={url("brand/logo/lockup-hell.svg")} alt="MINTforge-Logo für hellen Grund" width="284" height="60" />
+          <p>lockup-hell.svg · auf Licht</p>
+        </div>
+        <div class="logo-flaeche logo-flaeche-dunkel">
+          <img src={url("brand/logo/lockup-dunkel.svg")} alt="MINTforge-Logo für dunklen Grund" width="284" height="60" />
+          <p>lockup-dunkel.svg · auf Eisen</p>
+        </div>
+        <div class="logo-flaeche logo-flaeche-hell">
+          <img src={url("brand/logo/bildmarke.svg")} alt="Bildmarke: Amboss mit glühendem Block und Funken" width="96" height="96" />
+          <p>bildmarke.svg</p>
+        </div>
+        <div class="logo-flaeche logo-flaeche-dunkel">
+          <img src={url("brand/logo/favicon.svg")} alt="Favicon: Bildmarke auf Eisen" width="64" height="64" />
+          <p>favicon.svg</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="farben">
+    <div class="rahmen">
+      <h2 id="farben">Farben</h2>
+      {
+        gruppen.map((g) => (
+          <>
+            <h3>{g.name}</h3>
+            {g.hinweis && <p class="lead">{g.hinweis}</p>}
+            <ul class="farbfelder">
+              {g.werte.map(([name, wert]) => (
+                <li class={`farbfeld farbfeld-${name}`}>
+                  <b>{name}</b>
+                  <code>{wert}</code>
+                </li>
+              ))}
+            </ul>
+          </>
+        ))
+      }
+      <p class="lead">
+        Minze bedeutet überall dasselbe: erledigt, freigeschaltet, nächster Schritt. Nie Dekoration.
+      </p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="bereiche">
+    <div class="rahmen">
+      <h2 id="bereiche">Bereiche</h2>
+      <p class="lead">Jeder Bereich hat eine eigene Farbwelt und ein Hintergrundmuster. Logo, Schrift und Bausteine bleiben gleich.</p>
+      <div class="bereiche">
+        {websiteBereiche.map((b) => <Bereich key={b.key} name={b.name} faecher={b.faecher} beschreibung={b.bild} />)}
+      </div>
+      {
+        websiteBereiche.map((b) => (
+          <>
+            <h3>Farben {b.name}</h3>
+            <ul class="farbfelder">
+              {Object.entries(b.farben).map(([name, wert]) => (
+                <li class={`farbfeld farbfeld-${b.key}-${name}`}>
+                  <b>{name}</b>
+                  <code>{wert}</code>
+                </li>
+              ))}
+            </ul>
+          </>
+        ))
+      }
+      {
+        pixelpuls && (
+          <p class="lead">
+            Dazu kommt <strong>{pixelpuls.name}</strong> ({pixelpuls.bild}) als Ebene für Schüler:innen – nur im Spiel und
+            im Dashboard, nicht auf der Website.
+          </p>
+        )
+      }
+      <ul class="symbole" aria-label="Bereichssymbole">
+        {
+          bereiche.map((b) => (
+            <li>
+              <img src={url(`brand/bereiche/${b.key}.svg`)} alt="" width="64" height="64" />
+              {b.key}.svg
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="karte">
+    <div class="rahmen">
+      <h2 id="karte">Baustein Quest-Karte</h2>
+      <p class="lead">Dieselbe Karte in jeder Bereichs-Haut: Kennzeichnung von Fach, Stufe und Dauer, Titel, Kurztext, Stufen Bronze, Silber, Gold.</p>
+      <div class="quests">
+        <QuestKarte bereich="blaupause" fach="Fach" stufe="Stufe" dauer="Dauer" titel="Blaupause">Technik und Mathematik.</QuestKarte>
+        <QuestKarte bereich="labor" fach="Fach" stufe="Stufe" dauer="Dauer" titel="Labor">Naturwissenschaften.</QuestKarte>
+        <QuestKarte bereich="biom" fach="Fach" stufe="Stufe" dauer="Dauer" titel="Biom">Ökologie und Systeme.</QuestKarte>
+        <QuestKarte bereich="schaltwerk" fach="Fach" stufe="Stufe" dauer="Dauer" titel="Schaltwerk">Informatik.</QuestKarte>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="schrift">
+    <div class="rahmen">
+      <h2 id="schrift">Schrift</h2>
+      <p class="lead">Eine Familie für alles, frei lizenziert (SIL Open Font License) und selbst gehostet.</p>
+      <div class="raster raster-3">
+        {
+          familien.map(([rolle, f]) => (
+            <div class="kachel schriftprobe">
+              <p class={`schriftprobe-${rolle === "anzeige" ? "anzeige" : rolle === "mono" ? "mono" : "text"}`}>
+                {rolle === "anzeige" ? "Wissen schmieden." : rolle === "mono" ? "10. Schulstufe · 50 min" : "Erst planen. Dann bauen. Dann verstehen."}
+              </p>
+              <small>{f.name} · {rolle === "anzeige" ? "Überschriften, Großbuchstaben" : rolle === "mono" ? "Daten, Kennzeichnungen" : "Text"} · {f.schnitte.join(", ")}</small>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="regeln">
+    <div class="rahmen prosa">
+      <h2 id="regeln">Regeln</h2>
+      <ul>
+        <li><strong>Ein Logo:</strong> Amboss und Schriftzug bleiben überall gleich. Bereiche ergänzen nur ein eigenes Symbol, nie ein eigenes Logo.</li>
+        <li><strong>Kontrast:</strong> Glut, Funke, Minze und Stahl nie als Textfarbe auf hellem Grund – dort nur als Fläche oder in der dunkleren Variante (WCAG 2.2 AA).</li>
+        <li><strong>Block-Raster:</strong> Symbole aus Quadraten und geraden Linien, Abstände im 8-px-Raster, kleine Eckenradien.</li>
+        <li><strong>Website hell</strong> mit dunklen Akzenten aus der Dachmarke (Kopf, Hero, Fuß), dunkler Modus als Variante.</li>
+        <li><strong>Pixelpuls</strong> nur im Spiel und im Dashboard, nicht auf der Website.</li>
+        <li><strong>Keine Minecraft-Grafiken oder -Schriften</strong> und kein „Minecraft“ im Namen oder Logo.</li>
+        <li><strong>Nie von Hand:</strong> Farben in <code>brand/tokens.json</code> ändern, dann <code>python3 brand/build_brand.py</code> ausführen.</li>
+      </ul>
+    </div>
+  </section>
+</Seite>

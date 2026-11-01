@@ -1,4 +1,6 @@
-# Hält GitHub Actions aktuell (Pull Requests, monatlich). npm (Website) und Gradle (Plugins) kommen mit Phase 1 bzw. 4 dazu.
+# Hält GitHub Actions und die npm-Pakete der Website aktuell (Pull Requests, monatlich). Gradle (Plugins) kommt mit Phase 4.
+# Hinweis: Ein Update von @playwright/test braucht auch das Container-Image in .github/workflows/site.yml und meist
+# neue Referenzbilder (Label „visual-update“).
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -7,3 +9,19 @@ updates:
       interval: monthly
     commit-message:
       prefix: ci
+  - package-ecosystem: npm
+    directory: /website
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: website
+    groups:
+      astro:
+        patterns: ["astro", "@astrojs/*"]
+      schriften:
+        patterns: ["@fontsource/*"]
+      pruefungen:
+        patterns: ["@axe-core/*", "html-validate"]
+    ignore:
+      # Playwright nur bewusst zusammen mit dem Container-Image anheben
+      - dependency-name: "@playwright/test"

@@ -16,7 +16,8 @@ Zielgruppe der Website sind vor allem **Lehrkräfte, Schulen und Förderstellen*
 **Aktuelle Phase: 1 – Brand und Website.** Lernplattform (Phase 3) und Minecraft-Server (Phase 4) kommen später;
 dafür nichts vorwegnehmen, was die Entscheidungen in `docs/konzept.md` Kapitel 13 vorgreift.
 
-- **Website:** GitHub Pages, Deploy über GitHub Actions
+- **Website:** GitHub Pages, Deploy über GitHub Actions; Astro-Projekt in `website/`, Adresse aus `SITE_URL`
+  (Standard `https://apachler.github.io/mintforge`, siehe `website/site.config.mjs`)
 - **Sprache der Website und Inhalte:** Deutsch (`de-AT`). **Doku, Kommentare, Commits:** Deutsch.
 - **Verantwortlich:** Andreas Pachler
 
@@ -24,7 +25,8 @@ dafür nichts vorwegnehmen, was die Entscheidungen in `docs/konzept.md` Kapitel 
 
 - **Das Repo ist die einzige Quelle der Wahrheit:** Quests, Marke, Website, später Configs und Plugins.
 - **Marke aus einem Generator:** Logos und Farben entstehen aus `brand/` (Skript + Design-Tokens), nie von Hand
-  bearbeitete SVGs. Farben stehen an genau einer Stelle.
+  bearbeitete SVGs. Farben stehen an genau einer Stelle: `brand/tokens.json`. `brand/build_brand.py` erzeugt daraus
+  Logos, Bereichssymbole, Favicon und `website/src/styles/tokens.css`; die Erzeugnisse werden committet.
 - **Alles wird in CI geprüft:** Funktion, Barrierefreiheit (WCAG 2.2 AA) und Aussehen (visuelle Tests). Fertig ist eine
   Änderung erst, wenn alle Prüfungen grün sind.
 - **Pädagogik vor Spielmechanik:** Keine öffentlichen Ranglisten, keine Belohnungen gegen Geld, Reflexion gehört zu
@@ -46,6 +48,20 @@ dafür nichts vorwegnehmen, was die Entscheidungen in `docs/konzept.md` Kapitel 
   Versprechen, die es nicht gibt. Geplantes ist als geplant gekennzeichnet.
 - Sprache: ermutigend, klar, kein Marketing-Sprech. Gegenüber Lehrkräften fachlich, gegenüber Schüler:innen direkt und auf Augenhöhe.
   Gendern mit Doppelpunkt (Schüler:innen).
+
+## Prüfen vor dem Commit
+
+| Bereich | Befehl (im Ordner `website/`, einmal `npm ci`) |
+|---|---|
+| Marke (Kontraste, Logos, `tokens.css`) | `npm run brand` – danach `git diff` prüfen und Erzeugtes mitcommitten |
+| Build | `npm run build` |
+| Links, Anker, Metadaten, Sitemap, CSP, externe Ressourcen | `npm run check:site` |
+| HTML-Validierung | `npm run check:html` |
+| Barrierefreiheit (axe-core, WCAG 2.2 AA) | `npm run test:a11y` (braucht Playwright-Browser; sonst nur in CI) |
+| Aussehen (visuelle Snapshots) | nur in CI (`site`-Workflow im Playwright-Container); neue Referenzbilder per PR-Label `visual-update` |
+
+GitHub Actions führt alles bei jedem Push und PR aus (`site`), `deploy` veröffentlicht nach grünem `site` auf `main`.
+Referenzbilder nie lokal erzeugen (andere Schriften und Pixel als im Container).
 
 ## Abmachungen
 

@@ -1,0 +1,21 @@
+---
+import { url } from "../site";
+
+interface Props {
+  key: string;
+  name: string;
+  faecher: string;
+  beschreibung: string;
+  ebene?: 2 | 3;
+}
+const { key, name, faecher, beschreibung, ebene = 3 } = Astro.props;
+const H = `h${ebene}`;
+---
+<div class={`bereich haut-${key}`}>
+  <img src={url(`brand/bereiche/${key}.svg`)} alt="" width="40" height="40" />
+  <div>
+    <H class="bereich-name">{name}</H>
+    <p class="bereich-faecher">{faecher}</p>
+    <p class="bereich-text">{beschreibung}</p>
+  </div>
+</div>

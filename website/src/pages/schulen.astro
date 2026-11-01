@@ -1,0 +1,93 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Hinweis from "../components/Hinweis.astro";
+import { url } from "../site";
+---
+<Seite
+  titel="Für Schulen"
+  beschreibung="MINTforge für Direktionen und Schul-IT: Datenschutz, Einbindung über LTI 1.3 in eduvidual und Moodle, Spielplattformen, Hosting in der EU."
+>
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Für Schulen</p>
+      <h1>Datenschutz, Technik und Einführung</h1>
+      <p>
+        Was Direktionen und Schul-IT wissen müssen: wie MINTforge in die bestehende Lernplattform kommt, welche Daten
+        anfallen und was noch offen ist.
+      </p>
+    </div>
+  </header>
+
+  <section class="abschnitt" aria-labelledby="lms">
+    <div class="rahmen prosa">
+      <h2 id="lms">Einbindung in die Lernplattform</h2>
+      <p>
+        MINTforge wird kein Moodle-Plugin, sondern ein eigener Dienst, den Lehrkräfte über <strong>LTI 1.3</strong> selbst
+        als „externes Tool“ in ihren Kurs einfügen – in eduvidual, jedes Moodle oder andere Lernplattformen. Niemand
+        muss etwas am Server der Schule installieren.
+      </p>
+      <ul>
+        <li><strong>Anmeldung:</strong> Schüler:innen klicken in der Lernplattform auf die Quest und sind angemeldet, ohne zweites Passwort.</li>
+        <li><strong>Auswahl:</strong> Die Lehrkraft wählt beim Einfügen eine Quest aus dem Katalog.</li>
+        <li><strong>Bewertung:</strong> Stufe und Bewertung landen in der Bewertungsübersicht der Lernplattform.</li>
+        <li><strong>Klassenliste:</strong> nur als Pseudonyme, für den Überblick der Lehrkraft und den Zugang zur Welt.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="plattform">
+    <div class="rahmen prosa">
+      <h2 id="plattform">Spielplattform</h2>
+      <p>
+        Zwei Wege werden als Prototypen an echten Schulgeräten verglichen, danach entscheiden wir mit Daten:
+      </p>
+      <div class="tabelle-huelle">
+        <table>
+          <thead>
+            <tr><th scope="col">Merkmal</th><th scope="col">Minecraft Education</th><th scope="col">Luanti im Browser</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Lizenzen</th><td>Schullizenz, oft schon vorhanden</td><td>keine nötig (Open Source)</td></tr>
+            <tr><th scope="row">Konten</th><td>Microsoft-Konto der Schule</td><td>keine, Anmeldung über die Lernplattform</td></tr>
+            <tr><th scope="row">Geräte</th><td>Windows, Mac, iPad, Chromebook</td><td>jeder aktuelle Browser, auch iPad und Chromebook (Ziel des Prototyps)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Weil Quests als Daten vorliegen und der MINTforge-Dienst die Prüfung übernimmt, soll dieselbe Quest später auf
+        beiden Plattformen laufen.
+      </p>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="datenschutz">
+    <div class="rahmen prosa">
+      <h2 id="datenschutz">Datenschutz</h2>
+      <ul>
+        <li><strong>Datensparsamkeit:</strong> im Spiel nur Pseudonyme, keine Klarnamen, kein offener Chat.</li>
+        <li><strong>Hosting in der EU:</strong> Spielserver in der Hetzner Cloud (Deutschland bzw. Finnland).</li>
+        <li><strong>Trennung:</strong> jede Schule in eigenem Bereich, keine Daten über Schulgrenzen.</li>
+        <li><strong>Löschfristen:</strong> automatisch, Welten nur so lange wie nötig.</li>
+        <li><strong>Verträge:</strong> Auftragsverarbeitungsvertrag mit jeder Schule, Datenschutz-Folgenabschätzung vor dem Pilot.</li>
+        <li><strong>Diese Website:</strong> keine Cookies, keine Tracker, keine externen Ressourcen.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="einfuehrung">
+    <div class="rahmen prosa">
+      <h2 id="einfuehrung">Spielwelten und Einführung</h2>
+      <p>
+        Spielwelten je Klasse sollen automatisch nach Stundenplan starten, nach der Stunde gesichert und wieder
+        gestoppt werden. Die Schule registriert sich einmal und bekommt die LTI-Daten für ihre Lernplattform.
+      </p>
+      <Hinweis art="geplant" titel="Kosten und Betriebsmodell sind offen">
+        <p>
+          Wer Serverkosten, Support und Verträge trägt – Förderung, Schullizenz, Land oder Verein – wird vor dem Pilot
+          geklärt. Bis dahin gibt es keine Preise.
+        </p>
+      </Hinweis>
+      <p><a href={url("konzept/")}>Zum pädagogischen Konzept</a></p>
+    </div>
+  </section>
+</Seite>
