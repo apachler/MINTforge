@@ -1,0 +1,7 @@
+# Ergebnis von wasm/build.sh – wird gebaut, nie committet
+web/client/
+wasm/.arbeit/
+# Abhängigkeiten
+node_modules/
+test-results-e2e/
+playwright-report-e2e/

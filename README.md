@@ -39,6 +39,7 @@ Lehrkräfte bekommen fertige Stundenbilder, Differenzierung in drei Stufen, Lehr
 | Pfad | Inhalt |
 |---|---|
 | [`docs/`](docs) | Konzept und Doku |
+| [`prototypes/webclient/`](prototypes/webclient) | Prototyp: Luanti-Web-Client im Browser (Gerüst) |
 | [`tools/`](tools) | Hilfsskripte |
 | `.github/` | Workflows, Dependabot |
 | [`AGENTS.md`](AGENTS.md), [`CLAUDE.md`](CLAUDE.md) | Regeln für KI-Assistenten |

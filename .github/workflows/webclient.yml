@@ -1,0 +1,269 @@
+name: webclient
+# Luanti-Web-Client-Prototyp (prototypes/webclient): Lua, Proxy, PWA-Hülle, Compose, WebAssembly-Build.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "prototypes/webclient/**"
+      - ".github/workflows/webclient.yml"
+  pull_request:
+    paths:
+      - "prototypes/webclient/**"
+      - ".github/workflows/webclient.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: webclient-${{ github.ref }}
+  cancel-in-progress: true
+defaults:
+  run:
+    working-directory: prototypes/webclient
+
+jobs:
+  lua:
+    name: Lua (luacheck, Tests)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: luacheck und LuaJIT installieren
+        run: sudo apt-get update -q && sudo apt-get install -y -q lua-check luajit
+      - name: luacheck
+        run: luacheck mods tests
+      - name: Tests der Mod-Logik
+        run: luajit tests/lua/test_mod.lua
+      - name: Token stimmt mit werkzeuge/token.py überein
+        env:
+          MINTFORGE_TOKEN_SCHLUESSEL: geheimer-testschluessel-nur-fuer-tests-0123456789
+        run: |
+          test "$(python3 werkzeuge/token.py Fuchs_07 --zeit 1793500000 --nur-token)" = "mf1-24e0b156d5b2420bdea73b78"
+
+  huelle:
+    name: PWA-Hülle (HTML, Manifest, Icons, Playwright)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Icons sind aktuell
+        run: python3 werkzeuge/icons.py --check
+      - name: Abhängigkeiten
+        working-directory: prototypes/webclient/tests
+        run: npm ci --no-audit --no-fund
+      - name: HTML validieren
+        working-directory: prototypes/webclient/tests
+        run: npx html-validate ../web/*.html
+      - name: Manifest und Seitenregeln
+        working-directory: prototypes/webclient/tests
+        run: node pruefe-manifest.mjs ../web
+      - name: JavaScript-Syntax
+        run: for f in web/sw.js web/assets/*.js; do node --check "$f"; done
+      - name: Playwright-Browser
+        working-directory: prototypes/webclient/tests
+        run: npx playwright install --with-deps chromium webkit
+      - name: Rauchtest Chromium und WebKit
+        working-directory: prototypes/webclient/tests
+        env:
+          CI: "1"
+        run: npx playwright test
+      - name: Bericht hochladen
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-bericht
+          path: prototypes/webclient/tests/playwright-report
+          retention-days: 7
+
+  server:
+    name: Server (Compose, Proxy, Luanti-Rauchtest)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      # Nur für den Test in CI, kein echtes Geheimnis
+      MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Skripte prüfen (shellcheck)
+        run: shellcheck wasm/build.sh
+      - name: docker compose config
+        working-directory: prototypes/webclient/server
+        run: docker compose config --quiet
+      - name: Proxy-Tests
+        working-directory: prototypes/webclient/server/proxy
+        run: npm ci --no-audit --no-fund && npm test
+      - name: Stack starten (ohne WebAssembly-Client)
+        working-directory: prototypes/webclient/server
+        run: |
+          docker compose up -d --build --wait --wait-timeout 120 web proxy ergebnis
+          docker compose up -d luanti
+      - name: Mod lädt im offiziellen Luanti-Server
+        working-directory: prototypes/webclient/server
+        run: |
+          for i in $(seq 1 60); do
+            if docker compose logs luanti | grep -q "\[mintforge\] mintforge_quest geladen"; then
+              docker compose logs luanti | grep -E "mintforge|listening"
+              exit 0
+            fi
+            sleep 2
+          done
+          docker compose logs luanti
+          exit 1
+      - name: Proxy erreicht den Luanti-Server (Handshake über WebSocket)
+        working-directory: prototypes/webclient/server
+        run: |
+          docker compose exec -T proxy node test/luanti-handshake.mjs luanti 30000
+      - name: PWA über HTTPS mit COOP/COEP
+        run: |
+          kopf=$(curl -sk -D - -o /dev/null https://localhost:8443/index.html)
+          echo "$kopf"
+          echo "$kopf" | grep -qi "^cross-origin-opener-policy: same-origin"
+          echo "$kopf" | grep -qi "^cross-origin-embedder-policy: require-corp"
+      - name: Logs bei Fehler
+        if: failure()
+        working-directory: prototypes/webclient/server
+        run: docker compose logs
+      - name: Aufräumen
+        if: always()
+        working-directory: prototypes/webclient/server
+        run: docker compose down -v
+
+  wasm-build:
+    name: WebAssembly-Build (minetest-wasm)
+    runs-on: ubuntu-24.04
+    # Kompletter Build von OpenSSL, curl, libarchive, zstd und Luanti mit Emscripten – dauert.
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Der Build hängt nur von build.sh (gepinnter Commit, Versionen) und den Patches ab. Ist beides
+      # unverändert, kommt der Client aus dem Cache statt 20+ Minuten neu gebaut zu werden.
+      - name: Client aus dem Cache
+        id: cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: prototypes/webclient/web/client
+          key: webclient-wasm-${{ hashFiles('prototypes/webclient/wasm/build.sh', 'prototypes/webclient/wasm/patches/**') }}
+      - name: Platz schaffen
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc && df -h /
+      - name: Bauen
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: wasm/build.sh
+      - name: Diagnose bei Fehler
+        if: failure() && steps.cache.outputs.cache-hit != 'true'
+        run: |
+          for f in $(find wasm/.arbeit -name config.log -newer wasm/build.sh 2>/dev/null); do
+            echo "::group::$f"; grep -n -B5 -A40 "checking size of" "$f" | tail -120; echo "::endgroup::"
+          done
+      - name: Ergebnis prüfen
+        run: |
+          cat web/client/BUILD.txt
+          ls -la web/client web/client/*/
+          test -f web/client/launcher.js
+          ls web/client/*/luanti.wasm web/client/*/luanti.js web/client/*/packs/base.pack
+      - name: Client als Artifact hochladen
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: webclient-wasm
+          path: prototypes/webclient/web/client
+          retention-days: 14
+          if-no-files-found: error
+
+  e2e:
+    name: End-to-End im Browser (Chromium gegen Luanti 5.18.0)
+    needs: wasm-build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      # Nur für den Test in CI, kein echtes Geheimnis
+      MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
+      MINTFORGE_TESTMODUS: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Client aus dem Build holen
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: webclient-wasm
+          path: prototypes/webclient/web/client
+      - name: Client vorhanden
+        run: cat web/client/BUILD.txt && test -f web/client/launcher.js
+      - name: Stack starten (Caddy, Proxy, Luanti mit Testhilfe, Empfänger)
+        working-directory: prototypes/webclient/server
+        run: |
+          docker compose up -d --build --wait --wait-timeout 120 web proxy ergebnis
+          docker compose up -d luanti
+          for i in $(seq 1 60); do
+            docker compose logs luanti | grep -q "listening on" && break
+            sleep 2
+          done
+          docker compose logs luanti | grep -E "mintforge|listening"
+      - name: Playwright mit Chromium
+        working-directory: prototypes/webclient/tests
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: End-to-End-Test
+        working-directory: prototypes/webclient/tests
+        env:
+          CI: "1"
+        run: npx playwright test -c playwright.e2e.config.mjs
+      - name: Logs sichern
+        if: always()
+        run: |
+          mkdir -p tests/test-results-e2e/logs
+          for d in luanti proxy web ergebnis; do
+            docker compose -f server/docker-compose.yml logs --no-color --timestamps "$d" > "tests/test-results-e2e/logs/$d.log" 2>&1 || true
+          done
+      - name: Belege im Log zusammenfassen
+        if: always()
+        working-directory: prototypes/webclient/tests/test-results-e2e
+        run: |
+          echo "::group::Browser"; cat logs/browser-version.txt logs/browser-faehigkeiten.json 2>/dev/null; echo "::endgroup::"
+          echo "::group::Luanti-Server"
+          grep -E "joins game|leaves game|supplied wrong password|\[mintforge\]|protocol|ERROR" logs/luanti.log || true
+          echo "::endgroup::"
+          echo "::group::Proxy"; grep -E "BIND|Namensdienst|Abgelehnt|Verworfen" logs/proxy.log | head -40 || true; echo "::endgroup::"
+          echo "::group::Empfänger"; grep ERGEBNIS logs/ergebnis.log || true; echo "::endgroup::"
+          echo "::group::Token in der Konsole?"; cat logs/konsole-token-treffer.txt 2>/dev/null; grep -h -B2 -A1 -- "--password" logs/browser-konsole.txt | sed -E 's/mf1-[0-9a-f]{24}/mf1-<TOKEN>/g' | head -20 || true; echo "::endgroup::"
+          echo "::group::Browser-Konsole (Fehler, Warnungen, Verbindung)"
+          grep -i -E "error|warn|connect|server|auth|password|denied" logs/browser-konsole*.txt | head -80 || true
+          echo "::endgroup::"
+          # Kleines Bildschirmfoto als Text, damit es auch ohne Artifact-Zugriff lesbar ist
+          for b in 02-in-der-welt 04-gehege; do
+            if [ -f "$b.png" ]; then
+              echo "::group::$b.jpg (base64)"
+              python3 -c "import base64,sys; print(base64.b64encode(open(sys.argv[1],'rb').read()).decode())" "$b.jpg" 2>/dev/null || true
+              echo "::endgroup::"
+            fi
+          done
+      - name: Bilder, Video und Logs hochladen
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: webclient-e2e
+          path: |
+            prototypes/webclient/tests/test-results-e2e
+            prototypes/webclient/tests/playwright-report-e2e
+          retention-days: 14
+      - name: Aufräumen
+        if: always()
+        working-directory: prototypes/webclient/server
+        run: docker compose down -v

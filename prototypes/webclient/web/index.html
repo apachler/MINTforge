@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>MINTforge-Labor – Prototyp Web-Client</title>
+  <meta name="description" content="Prototyp: Das MINTforge-Labor läuft als Luanti-Client direkt im Browser und startet per Link aus der Lernplattform.">
+  <meta name="theme-color" content="#1A1714">
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/huelle.css">
+  <script src="assets/parameter.js" defer></script>
+  <script src="assets/start.js" defer></script>
+</head>
+<body>
+  <main class="karte">
+    <h1>MINTforge-Labor</h1>
+    <p class="hinweis-prototyp">Prototyp – nicht für den Unterricht freigegeben.</p>
+
+    <noscript>
+      <p class="meldung meldung-fehler">Das Labor braucht JavaScript. Bitte aktiviere es oder frag deine Lehrkraft.</p>
+    </noscript>
+
+    <p id="status" class="meldung" role="status" aria-live="polite">Einen Moment, ich prüfe deinen Browser …</p>
+
+    <section id="ohne-link" class="versteckt" aria-labelledby="ohne-link-titel">
+      <h2 id="ohne-link-titel">So kommst du ins Labor</h2>
+      <p>Öffne die Quest in deiner Lernplattform und tippe dort auf den Link zum Labor. Der Link enthält einen
+        Schlüssel, der nur heute und nur für dich gilt.</p>
+      <p>Tipp: Über „Zum Home-Bildschirm“ bzw. „App installieren“ legst du das Labor wie eine App ab.</p>
+    </section>
+
+    <section id="pruefung" class="versteckt" aria-labelledby="pruefung-titel">
+      <h2 id="pruefung-titel">Dein Browser</h2>
+      <ul id="pruefliste" class="pruefliste"></ul>
+    </section>
+
+    <p><a id="weiter" class="knopf versteckt" href="spiel.html">Ins Labor</a></p>
+  </main>
+
+  <footer class="fuss">
+    <p>Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</p>
+    <p>Läuft mit <a href="https://www.luanti.org/">Luanti</a> (LGPL-2.1) im Browser über
+      <a href="https://github.com/paradust7/minetest-wasm">minetest-wasm</a> (MIT).</p>
+  </footer>
+</body>
+</html>
