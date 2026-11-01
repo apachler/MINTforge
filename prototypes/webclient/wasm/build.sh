@@ -41,6 +41,13 @@ quellen_holen() {
   git -C "$ARBEIT/minetest-wasm" fetch --quiet origin "$MINETEST_WASM_SHA"
   git -C "$ARBEIT/minetest-wasm" checkout --quiet --detach "$MINETEST_WASM_SHA"
   test "$(git -C "$ARBEIT/minetest-wasm" rev-parse HEAD)" = "$MINETEST_WASM_SHA"
+  # Eigene Korrekturen am Fremdcode, klein und einzeln begründet in wasm/patches/*.patch
+  git -C "$ARBEIT/minetest-wasm" checkout --quiet -- .
+  local patch
+  for patch in "$HIER"/patches/*.patch; do
+    echo "Patch: $(basename "$patch")"
+    git -C "$ARBEIT/minetest-wasm" apply "$patch"
+  done
 }
 
 bauen_im_container() {
