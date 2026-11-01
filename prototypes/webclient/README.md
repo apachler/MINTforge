@@ -1,9 +1,9 @@
 # Luanti-Web-Client (Prototyp)
 
-> **Status: Gerüst.** Teile sind lokal und in CI geprüft (siehe [Was funktioniert](#was-funktioniert-und-was-gerüst-ist)).
-> Der WebAssembly-Client **baut in CI** (`luanti.wasm` ≈ 14 MB), wurde aber **noch nie in einem Browser gegen unseren
-> Server gestartet.**
-> Nicht für den Unterricht freigegeben.
+> **Status: Prototyp, spielt im Browser – in CI.** Der WebAssembly-Client baut in CI (`luanti.wasm` ≈ 14 MB) und spielt
+> im End-to-End-Test (Job `e2e`) in headless Chromium gegen Luanti 5.18.0: Start per Link, Anmeldung mit Token,
+> Chat über die Tastatur, Quest gelöst, Ergebnis beim Empfänger. **Nicht geprüft:** echte Geräte (iPad, Chromebook,
+> Schul-PC), Bildrate, mehrere Spieler:innen, Schulnetz. Nicht für den Unterricht freigegeben.
 
 Hintergrund und Ziel stehen im Konzept, Abschnitt
 [„Luanti-Web-Client (Prototyp)“](../../docs/konzept.md#luanti-web-client-prototyp): Luanti läuft als WebAssembly im
@@ -88,16 +88,19 @@ Maße, Zeitstempel). Lehrkräfte (`mintforge.lehrkraefte`) können mit `/quest_a
 
 ## Prüfliste aus dem Konzept
 
-Was der Prototyp beweisen muss (auf einem Schul-iPad, einem Chromebook und einem Windows-Schulgerät). Noch nichts
-davon ist an echten Geräten geprüft.
+Was der Prototyp beweisen muss (auf einem Schul-iPad, einem Chromebook und einem Windows-Schulgerät). An echten
+Geräten ist noch nichts davon geprüft; was CI schon zeigt, steht in Klammern.
 
-- [ ] Start aus Moodle in die Welt in unter 30 Sekunden
-- [ ] flüssig spielbar (Ziel ≥ 30 Bilder pro Sekunde) mit 25 Schüler:innen in einer Welt
+- [ ] Start aus Moodle in die Welt in unter 30 Sekunden *(ohne Moodle: Startlink → Spieler in der Welt in wenigen
+  Sekunden, in CI auf localhost – kein Maß für Schulnetz oder Tablet)*
+- [ ] flüssig spielbar (Ziel ≥ 30 Bilder pro Sekunde) mit 25 Schüler:innen in einer Welt *(nicht gemessen; in CI
+  rendert SwiftShader in Software, eine Spielerin)*
 - [ ] Touch-Steuerung ist ohne Erklärung bedienbar
-- [ ] läuft im Schulnetz (nur HTTPS/WSS über Port 443)
-- [ ] eine Quest wird automatisch geprüft, das Ergebnis landet in Moodle
+- [ ] läuft im Schulnetz (nur HTTPS/WSS über Port 443) *(Aufbau dafür steht und läuft in CI: alles über Caddy auf
+  443, Spiel über WSS)*
+- [ ] eine Quest wird automatisch geprüft, das Ergebnis landet in Moodle *(bis zum Empfänger bewiesen, Moodle fehlt)*
 
-Zwischenschritte, die dieses Gerüst vorbereitet:
+Zwischenschritte:
 
 - [x] Proxy übersetzt das Client-Protokoll von minetest-wasm in UDP und erreicht einen echten Luanti-Server
   (lokal mit Luanti 5.6.1; in CI mit dem offiziellen Image 5.18.0)
@@ -105,9 +108,16 @@ Zwischenschritte, die dieses Gerüst vorbereitet:
 - [x] Alles über einen HTTPS-Port, Seite cross-origin-isoliert (COOP/COEP)
 - [x] PWA-Hülle: Manifest, Service Worker, Icons, Start per Link, Token aus der Adresszeile entfernt
 - [x] Quest-Prüfung als getestete Logik, Ergebnis per HTTP-POST
-- [ ] WebAssembly-Client startet aus der Hülle mit `--go` direkt in die Welt (nicht geprüft)
-- [ ] Anmeldung mit Token klappt mit dem WebAssembly-Client (nicht geprüft)
-- [ ] Ergebnis kommt beim Empfänger an, nachdem eine Person die Quest im Browser gelöst hat (nicht geprüft)
+- [x] WebAssembly-Client baut in CI (mit Cache: unveränderter Stand in Sekunden statt ≈ 22 min)
+- [x] Client startet aus der Hülle mit `--go` ohne Hauptmenü direkt in die Welt (E2E a, b)
+- [x] Name `luanti` wird über den Namensdienst des Proxys aufgelöst, Client 5.18.0-dev (Protokoll 53) verbindet sich
+  mit Server 5.18.0 (Protokoll 54) (E2E a)
+- [x] Anmeldung mit Token klappt; falsches Token wird abgelehnt (E2E b, d)
+- [x] Tastatureingabe im Browser erreicht das Spiel: Chat-Befehl kommt beim Server an (E2E c1)
+- [x] Quest wird automatisch geprüft, Ergebnis mit Pseudonym kommt per POST beim Empfänger an (E2E c) – das Gehege
+  baut die Testhilfe der Mod (`/test_gehege`), nicht eine Person mit der Maus
+- [ ] Gehege von Hand mit Maus/Touch bauen (nicht automatisiert)
+- [ ] Token taucht nicht in der Browser-Konsole auf – **schlägt fehl**, siehe [Risiken](#risiken) (E2E e)
 
 ## Lokal starten
 
@@ -147,7 +157,34 @@ python3 werkzeuge/icons.py --check                          # Icons aktuell
 (cd server/proxy && npm ci && npm test)                     # Proxy
 (cd tests && npm ci && npx html-validate ../web/*.html && node pruefe-manifest.mjs ../web)
 (cd tests && npx playwright install chromium webkit && npx playwright test)
+
+# End-to-End (braucht web/client/ aus dem Build und den laufenden Stack mit MINTFORGE_TESTMODUS=1)
+(cd tests && npx playwright install chromium && npx playwright test -c playwright.e2e.config.mjs)
 ```
+
+### End-to-End-Test im Browser
+
+`tests/e2e/webclient.spec.mjs` startet den echten WebAssembly-Client in **headless Chromium 156.0.8078.4**
+(Playwright 1.64.1; JSPI ist dort ohne Flag aktiv) gegen den Compose-Stack. WebGL 2 läuft ohne GPU über SwiftShader
+(`--use-angle=swiftshader --enable-unsafe-swiftshader`). Belege kommen aus Server-Logs (`docker compose logs`) und der
+Browser-Konsole:
+
+| Test | Prüft | Beleg |
+|---|---|---|
+| a | Browser isoliert, JSPI und WebGL 2 vorhanden; Client verbindet sich | Server: `Fuchs_07 [...] joins game`; Konsole: `Connected to luanti (10.77.0.1:30000)`; Proxy: `BIND` |
+| b | Anmeldung mit Token, Spielfigur in der Welt | Mod-Log `TEST: Fuchs_07 ist in der Welt bei (0,9,0)`; Bildschirmfoto |
+| c1 | Tastatur → Chat-Befehl `/test_gehege` | Mod-Log `TEST: /test_gehege von Fuchs_07` |
+| c | Quest gelöst, Ergebnis beim Empfänger | `ERGEBNIS {"flaeche":24,"geschafft":true,…,"pseudonym":"Fuchs_07",…}` |
+| d | falsches Token abgelehnt | Server: `User Dachs_12 … supplied wrong password`; Konsole: „Zugriff verweigert. Grund: Falsches Passwort“ |
+| e | Token nicht in der Konsole | **erwartet fehlschlagend** (`test.fail`), siehe Risiken |
+
+Die **Testhilfe** der Mod ist nur aktiv, wenn der Server mit `MINTFORGE_TESTMODUS=1` läuft: Sie meldet die Position
+der Spielfigur, registriert `/test_gehege` (baut ein 4 × 6-Gehege neben der Figur und prüft es wie beim Bauen) und
+baut es 60 s nach dem Beitritt selbst, falls die Tastatur nicht ankommt. Im Unterricht bleibt die Variable leer.
+
+Bildschirmfotos, Video, Server-, Proxy-, Web- und Empfänger-Logs sowie die Browser-Konsole landen im Artifact
+`webclient-e2e` (auch bei Fehlschlag); die Kernbelege stehen zusätzlich im Job-Log unter „Belege im Log
+zusammenfassen“.
 
 ### CI (`.github/workflows/webclient.yml`)
 
@@ -158,7 +195,8 @@ Läuft nur bei Änderungen unter `prototypes/webclient/**`. Actions sind auf Com
 | `lua` | luacheck, Tests der Mod-Logik mit LuaJIT, Token-Gleichheit Lua ↔ Python |
 | `huelle` | Icons aktuell, html-validate, Manifest- und Seitenregeln (CSP, `lang`, keine Inline-Skripte/-Styles, keine externen Ressourcen), Playwright in Chromium und WebKit |
 | `server` | shellcheck, `docker compose config`, Proxy-Tests, Stack-Start, Mod lädt im offiziellen Luanti-Image, Handshake Proxy → Luanti, HTTPS-Header |
-| `wasm-build` | kompletter Emscripten-Build, Ergebnis als Artifact `webclient-wasm` (14 Tage) |
+| `wasm-build` | kompletter Emscripten-Build, Ergebnis als Artifact `webclient-wasm` (14 Tage); Cache-Schlüssel aus `wasm/build.sh` (gepinnte Commits, Versionen) und `wasm/patches/`, bei Treffer kein Neubau |
+| `e2e` | Client aus `webclient-wasm` gegen den Compose-Stack in headless Chromium, siehe oben; Artifact `webclient-e2e` |
 
 ## Was funktioniert und was Gerüst ist
 
@@ -170,9 +208,14 @@ Läuft nur bei Änderungen unter `prototypes/webclient/**`. Actions sind auf Com
 | Quest-Prüfung, Token-Berechnung | ✅ funktioniert | `tests/lua/test_mod.lua` (14 Tests) |
 | PWA-Hülle | ✅ in Chromium und WebKit (CI) | Playwright: Isolation, Manifest, Service Worker, Startlink, 390 px |
 | WebAssembly-Build | ✅ in CI | Job `wasm-build`, Artifact `webclient-wasm`; zwei kleine Patches nötig (zstd und libzip nur statisch, siehe `wasm/patches/README.md`). Lokal nicht getestet (kein Zugriff auf Docker Hub/nodejs.org in der Arbeitsumgebung) |
-| Client startet aus der Hülle | ⚪ Gerüst | `web/assets/spiel.js` nutzt die API von `launcher.js` (5bfae52), aber nie im Browser gestartet |
-| Anmeldung mit Token im Spiel | ⚪ Gerüst | Ablauf aus dem Luanti-Quellcode (5.18.0) abgeleitet, nicht durchgespielt |
-| Ergebnis per HTTP | ⚪ Gerüst | Code nach `lua_api.md` (`request_http_api`, `secure.http_mods`), nicht ausgelöst |
+| Client startet aus der Hülle direkt in die Welt | ✅ in CI (Chromium) | E2E a, b; Bildschirmfotos |
+| Namensauflösung und Verbindung über den Proxy | ✅ in CI | E2E a: `Connected to luanti (10.77.0.1:30000)` |
+| Anmeldung mit Token, falsches Token abgelehnt | ✅ in CI | E2E b, d |
+| Tastatur im Spiel | ✅ in CI | E2E c1 (Chat) |
+| Ergebnis per HTTP | ✅ in CI | E2E c: POST mit Pseudonym beim Empfänger |
+| Token nicht in der Konsole | ❌ schlägt fehl | E2E e, siehe Risiken |
+| Service Worker mit selbst signiertem Zertifikat | ❌ im E2E nicht registriert | Konsole: „An SSL certificate error occurred when fetching the script“ – Chromium registriert Service Worker nur mit gültigem Zertifikat; mit echter Domain zu prüfen |
+| Menü-Knöpfe von `launcher.js` (Zahnrad) | ⚪ nicht geprüft | CSP blockiert die `onclick`-Attribute wie erwartet (6 Meldungen in der Konsole); ob das Neu-Verdrahten in `spiel.js` greift, testet niemand |
 | Touch-Steuerung | ⚪ nur Luantis eigene | `touch_controls = auto`; keine eigene Anpassung |
 | LTI / Moodle | ⚪ nicht Teil dieses Prototyps | kommt mit dem MINTforge-Dienst (Phase 3) |
 
@@ -180,33 +223,32 @@ Läuft nur bei Änderungen unter `prototypes/webclient/**`. Actions sind auf Com
 
 Fragen, die wir mit diesem Gerüst nicht beantworten konnten. Nichts davon ist geraten – wo es unklar ist, steht es hier.
 
-1. **Protokollversion.** Der Luanti-Fork in minetest-wasm (5bfae52 → `paradust7/luanti` 6f532b5) ist ein
-   5.18.0-dev-Stand mit `LATEST_PROTOCOL_VERSION = 53`; der Server 5.18.0 hat 54 und akzeptiert ab 37. Dass sich der
-   Client verbindet, ist damit wahrscheinlich, aber **nicht getestet**. Fallback: Server-Image auf den Stand des
-   Forks bringen.
-2. **`--go` mit `--address`.** Laut `clientlauncher.cpp` (5.18.0) springt `--go` am Hauptmenü vorbei und `--address`
-   wählt „Server beitreten“. Ob der Port im Browser dabei ohne Menü in die Welt geht, ist **nicht geprüft**.
-3. **Token als Passwort über die Kommandozeile.** `LuantiArgs.password` wird zu `--password`. Ob der WebAssembly-Client
-   bei einer Server-Anmeldung noch einen Bestätigungsdialog zeigt, ist offen.
-4. **Namensauflösung.** Der Client fragt Namen beim Proxy unter `fd00::1:53` an (`emsocket.cpp`). Unser Proxy
-   beantwortet das für freigegebene Namen. Ob Luanti im Browser `luanti` auflöst oder lieber eine IP braucht, ist
-   offen; notfalls `server=10.77.0.1:30000` im Startlink.
-5. **Medien-Downloads.** Luanti lädt Texturen per HTTP über einen CONNECT-Proxy unter `fd00::1:8080`
-   (`httpfetch.cpp` im Fork). Unser Proxy lehnt das ab; Medien kommen dann über das Spielprotokoll. Ob das reicht
-   oder `remote_media` nötig wird, ist offen.
-6. **Inline-Handler in `launcher.js`.** Die CSP der Spielseite blockiert `onclick`-Attribute aus `launcher.js`;
+Durch den E2E-Test geklärt (01.11.2026): Protokoll 53 ↔ 54 verbindet sich; `--go` mit `--address` geht ohne Menü
+und ohne Bestätigungsdialog in die Welt; `luanti` wird über den Proxy aufgelöst; Medien kommen für dieses kleine
+Spiel über das Spielprotokoll (kein `remote_media` nötig – bei größeren Spielen erneut prüfen).
+
+1. **Inline-Handler in `launcher.js`.** Die CSP der Spielseite blockiert `onclick`-Attribute aus `launcher.js`;
    `spiel.js` hängt die Handler neu an, und `style-src 'unsafe-inline'` bleibt vorerst. Sauber wird es erst im
    eigenen Fork.
-7. **Speicher und Threads.** `build_luanti.sh` setzt `INITIAL_MEMORY=2013265920` (≈ 1,9 GB) und
+2. **Speicher und Threads.** `build_luanti.sh` setzt `INITIAL_MEMORY=2013265920` (≈ 1,9 GB) und
    `PTHREAD_POOL_SIZE=22`. Ob ältere Schul-iPads das schaffen, ist die größte offene Frage.
-8. **Einmal-Token.** Für den Pilot: Token mit Minuten statt Tag Gültigkeit oder Einmal-Token, das der Dienst dem
+3. **Einmal-Token.** Für den Pilot: Token mit Minuten statt Tag Gültigkeit oder Einmal-Token, das der Dienst dem
    Server mitteilt; Schlüsselrotation.
-9. **Ergebnis-Rückweg.** Der Empfänger ist ein Platzhalter. Der echte Weg führt über den MINTforge-Dienst und LTI
+4. **Ergebnis-Rückweg.** Der Empfänger ist ein Platzhalter. Der echte Weg führt über den MINTforge-Dienst und LTI
    AGS in die Bewertung von Moodle.
-10. **Image-Digest.** `ghcr.io/luanti-org/luanti:5.18.0` und `caddy:2.11.7-alpine` sind per Tag gepinnt, noch nicht
+5. **Image-Digest.** `ghcr.io/luanti-org/luanti:5.18.0` und `caddy:2.11.7-alpine` sind per Tag gepinnt, noch nicht
     per Digest; die Digests lassen sich erst aus einem CI-Lauf ablesen.
+6. **Echte Geräte und Bildrate.** Der E2E-Test läuft in headless Chromium mit Software-Rendering auf localhost. Über
+   iPad/Safari (der E2E-Test läuft bisher nur in Chromium, WebKit ist nicht geprüft), Chromebook, Bildrate,
+   25 Spieler:innen und Schulnetz sagt er nichts.
 
 ## Risiken
+
+- **Token in der Browser-Konsole (Befund aus dem E2E-Test).** Der Luanti-Fork gibt beim Start alle Argumente auf
+  stdout aus (`paradust7/luanti` 6f532b5, `src/mainloop.cpp`: `std::cout << "    " << main_argv[i]`), und
+  `launcher.js` leitet stdout in die Konsole – also auch `--password mf1-…`. Wer an das Gerät kommt, kann das Token
+  dort am selben Tag lesen. Abhilfe nur im eigenen Fork (Argumente nicht ausgeben oder maskieren); Test e ist bis
+  dahin als erwartet fehlschlagend markiert.
 
 - **Experimenteller Port, eine Person.** minetest-wasm wird von einer Person gepflegt und nennt sich selbst
   experimentell („only been tested on Ubuntu 20.04“). Ein eigener Fork kostet laufend Zeit.

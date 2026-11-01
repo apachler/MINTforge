@@ -1,8 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // End-to-End-Test gegen den laufenden Compose-Stack (server/docker-compose.yml) mit gebautem Client.
-// Nur Chromium: JSPI gibt es in WebKit von Playwright (noch) nicht zuverlässig, und WebGL läuft headless über
-// SwiftShader (Software-Rendering, daher langsam).
+// Vorerst nur Chromium (WebKit ist noch nicht versucht). WebGL läuft headless über SwiftShader
+// (Software-Rendering, daher keine Aussage über die Bildrate).
 export default defineConfig({
   testDir: './e2e',
   timeout: 240_000,

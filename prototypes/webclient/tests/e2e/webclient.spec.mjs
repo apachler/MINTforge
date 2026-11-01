@@ -139,7 +139,12 @@ test.describe('Web-Client gegen Luanti 5.18.0', () => {
   });
 
   test('e) Token steht nicht in der Browser-Konsole', async () => {
-    // launcher.js bzw. der Client gibt die Startargumente aus; das Token soll dort nicht im Klartext landen.
+    // BEFUND (CI-Lauf vom 01.11.2026): Der Luanti-Fork gibt beim Start alle Argumente auf stdout aus
+    // (paradust7/luanti 6f532b5, src/mainloop.cpp: `std::cout << "    " << main_argv[i]`), launcher.js leitet
+    // stdout in die Browser-Konsole. Das Token steht damit im Klartext in der Konsole. Beheben lässt sich das nur
+    // im eigenen Fork (Argumente nicht ausgeben oder --password maskieren). Bis dahin erwartet fehlschlagend;
+    // wird der Test unerwartet grün, meldet Playwright das.
+    test.fail(true, 'Luanti-Fork gibt --password im Klartext auf stdout aus (mainloop.cpp)');
     const treffer = konsole.filter((z) => z.includes(token(NAME)));
     sichere('konsole-token-treffer.txt', treffer.map((z) => z.replace(token(NAME), 'mf1-<TOKEN>')));
     expect(treffer, 'Konsolenzeilen mit Token').toEqual([]);
