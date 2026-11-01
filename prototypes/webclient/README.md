@@ -1,7 +1,8 @@
 # Luanti-Web-Client (Prototyp)
 
-> **Status: Gerüst.** Teile sind lokal geprüft (siehe [Was funktioniert](#was-funktioniert-und-was-gerüst-ist)), der
-> WebAssembly-Client selbst wurde bisher **nur in CI gebaut, nie in einem Browser gegen unseren Server gestartet.**
+> **Status: Gerüst.** Teile sind lokal und in CI geprüft (siehe [Was funktioniert](#was-funktioniert-und-was-gerüst-ist)).
+> Der WebAssembly-Client **baut in CI** (`luanti.wasm` ≈ 14 MB), wurde aber **noch nie in einem Browser gegen unseren
+> Server gestartet.**
 > Nicht für den Unterricht freigegeben.
 
 Hintergrund und Ziel stehen im Konzept, Abschnitt
@@ -49,7 +50,7 @@ Luanti-UDP bleibt im internen Netz.
 | [`server/luanti/`](server/luanti) | Server-Einstellungen, minimales Spiel `mintforge_labor` (flache Laborwelt) | lokal geladen (Luanti 5.6.1) |
 | [`mods/mintforge_quest/`](mods/mintforge_quest) | Lua-Mod: Anmeldung mit Token, Beispiel-Quest, automatische Prüfung, HTTP-POST | Logik getestet; im Spiel nicht durchgespielt |
 | [`werkzeuge/`](werkzeuge) | `token.py` (Startlink erzeugen), `icons.py` (Platzhalter-Icons erzeugen) | lokal getestet |
-| [`tests/`](tests) | Lua-Tests, Manifest-/Seitenprüfung, Playwright-Rauchtest | lokal grün (Chrome); WebKit nur in CI |
+| [`tests/`](tests) | Lua-Tests, Manifest-/Seitenprüfung, Playwright-Rauchtest | grün, lokal (Chrome) und in CI (Chromium, WebKit) |
 
 ### Startlink und Token
 
@@ -165,10 +166,10 @@ Läuft nur bei Änderungen unter `prototypes/webclient/**`. Actions sind auf Com
 |---|---|---|
 | Proxy-Protokoll (NEWADDR, BIND, Kapselung, Namensdienst) | ✅ funktioniert | `server/proxy/test/proxy.test.mjs`; Gegenstück aus `webshims/src/emsocket/proxy.js` und `emsocket.cpp` abgeleitet |
 | Proxy ↔ echter Luanti-Server | ✅ funktioniert | `test/luanti-handshake.mjs`: Server vergibt über den Proxy eine Peer-ID |
-| Mod lädt, Auth-Handler aktiv | ✅ lokal mit Luanti 5.6.1 | Log „Anmeldung mit Token aktiv“, „mintforge_quest geladen“ |
+| Mod lädt, Auth-Handler aktiv | ✅ lokal mit Luanti 5.6.1, in CI mit dem offiziellen Image 5.18.0 | Log „Anmeldung mit Token aktiv“, „mintforge_quest geladen“ |
 | Quest-Prüfung, Token-Berechnung | ✅ funktioniert | `tests/lua/test_mod.lua` (14 Tests) |
-| PWA-Hülle | ✅ in Chrome | Playwright: Isolation, Manifest, Service Worker, Startlink, 390 px |
-| WebAssembly-Build | 🟡 nur in CI | lokal nicht möglich (kein Zugriff auf Docker Hub/nodejs.org in der Arbeitsumgebung) |
+| PWA-Hülle | ✅ in Chromium und WebKit (CI) | Playwright: Isolation, Manifest, Service Worker, Startlink, 390 px |
+| WebAssembly-Build | ✅ in CI | Job `wasm-build`, Artifact `webclient-wasm`; zwei kleine Patches nötig (zstd und libzip nur statisch, siehe `wasm/patches/README.md`). Lokal nicht getestet (kein Zugriff auf Docker Hub/nodejs.org in der Arbeitsumgebung) |
 | Client startet aus der Hülle | ⚪ Gerüst | `web/assets/spiel.js` nutzt die API von `launcher.js` (5bfae52), aber nie im Browser gestartet |
 | Anmeldung mit Token im Spiel | ⚪ Gerüst | Ablauf aus dem Luanti-Quellcode (5.18.0) abgeleitet, nicht durchgespielt |
 | Ergebnis per HTTP | ⚪ Gerüst | Code nach `lua_api.md` (`request_http_api`, `secure.http_mods`), nicht ausgelöst |
