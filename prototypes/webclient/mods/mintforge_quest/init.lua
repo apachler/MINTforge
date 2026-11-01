@@ -209,5 +209,64 @@ core.register_chatcommand("quest_alle", {
 	end,
 })
 
+-- ---------------------------------------------------------------------------------------------------------
+-- Testhilfe, nur wenn der Server mit MINTFORGE_TESTMODUS=1 läuft (End-to-End-Test in CI, nie im Unterricht)
+-- ---------------------------------------------------------------------------------------------------------
+
+if os.getenv("MINTFORGE_TESTMODUS") == "1" then
+	core.log("warning", "[mintforge] TESTMODUS aktiv – nur für automatische Tests")
+	local geloest = {}
+
+	-- Baut ein Gehege mit Innenmaß 4 × 6 neben der Spielfigur und prüft es wie beim Bauen von Hand.
+	local function baue_testgehege(name, ausloeser)
+		local spieler = core.get_player_by_name(name)
+		if not spieler or geloest[name] then
+			return
+		end
+		geloest[name] = true
+		local p = vector.round(spieler:get_pos())
+		local ecke = {x = p.x + 2, y = p.y, z = p.z - 3}
+		local gegenueber = {x = ecke.x + 5, y = ecke.y, z = ecke.z + 7}
+		core.log("action", string.format("[mintforge] TEST: baue Gehege für %s (%s) ab %s",
+			name, ausloeser, core.pos_to_string(ecke)))
+		core.emerge_area(ecke, gegenueber, function(_, _, offen)
+			if offen > 0 then
+				return
+			end
+			for x = ecke.x, gegenueber.x do
+				for z = ecke.z, gegenueber.z do
+					if x == ecke.x or x == gegenueber.x or z == ecke.z or z == gegenueber.z then
+						core.set_node({x = x, y = ecke.y, z = z}, {name = modname .. ":zaun"})
+					end
+				end
+			end
+			pruefe_um(ecke, core.get_player_by_name(name))
+		end)
+	end
+
+	core.register_chatcommand("test_gehege", {
+		description = "Nur Testmodus: baut ein Gehege mit 24 Blöcken Fläche",
+		func = function(name)
+			core.log("action", "[mintforge] TEST: /test_gehege von " .. name)
+			baue_testgehege(name, "Chat-Befehl")
+			return true
+		end,
+	})
+
+	core.register_on_joinplayer(function(spieler)
+		local name = spieler:get_player_name()
+		geloest[name] = nil
+		core.after(2, function()
+			local s = core.get_player_by_name(name)
+			if s then
+				core.log("action", string.format("[mintforge] TEST: %s ist in der Welt bei %s",
+					name, core.pos_to_string(vector.round(s:get_pos()))))
+			end
+		end)
+		-- Rückfall, falls die Tastatur im Browser nicht ankommt: nach 60 Sekunden selbst bauen.
+		core.after(60, baue_testgehege, name, "automatisch")
+	end)
+end
+
 -- Für den Rauchtest in CI: zeigt, dass die Mod vollständig geladen wurde.
 core.log("action", "[mintforge] mintforge_quest geladen, Quest " .. QUEST_ID)

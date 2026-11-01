@@ -56,6 +56,8 @@ services:
       LUANTI_GAME_PATH: /opt/mintforge/spiele
       MINTFORGE_TOKEN_SCHLUESSEL: ${MINTFORGE_TOKEN_SCHLUESSEL:?MINTFORGE_TOKEN_SCHLUESSEL in .env setzen (mindestens 32 Zeichen)}
       MINTFORGE_ERGEBNIS_TOKEN: ${MINTFORGE_ERGEBNIS_TOKEN:-}
+      # Nur für den End-to-End-Test in CI: Testhilfe der Mod (/test_gehege). Im Unterricht leer lassen.
+      MINTFORGE_TESTMODUS: ${MINTFORGE_TESTMODUS:-}
     volumes:
       - ./luanti/minetest.conf:/etc/minetest/minetest.conf:ro
       # game.conf und Mod einzeln einhängen: Ein Mount in einen schreibgeschützt eingehängten Ordner schlägt fehl.

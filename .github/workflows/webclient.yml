@@ -148,12 +148,22 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      # Der Build hängt nur von build.sh (gepinnter Commit, Versionen) und den Patches ab. Ist beides
+      # unverändert, kommt der Client aus dem Cache statt 20+ Minuten neu gebaut zu werden.
+      - name: Client aus dem Cache
+        id: cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: prototypes/webclient/web/client
+          key: webclient-wasm-${{ hashFiles('prototypes/webclient/wasm/build.sh', 'prototypes/webclient/wasm/patches/**') }}
       - name: Platz schaffen
+        if: steps.cache.outputs.cache-hit != 'true'
         run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc && df -h /
       - name: Bauen
+        if: steps.cache.outputs.cache-hit != 'true'
         run: wasm/build.sh
       - name: Diagnose bei Fehler
-        if: failure()
+        if: failure() && steps.cache.outputs.cache-hit != 'true'
         run: |
           for f in $(find wasm/.arbeit -name config.log -newer wasm/build.sh 2>/dev/null); do
             echo "::group::$f"; grep -n -B5 -A40 "checking size of" "$f" | tail -120; echo "::endgroup::"
@@ -171,3 +181,67 @@ jobs:
           path: prototypes/webclient/web/client
           retention-days: 14
           if-no-files-found: error
+
+  e2e:
+    name: End-to-End im Browser (Chromium gegen Luanti 5.18.0)
+    needs: wasm-build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      # Nur für den Test in CI, kein echtes Geheimnis
+      MINTFORGE_TOKEN_SCHLUESSEL: nur-fuer-die-pruefung-in-ci-0123456789abcdef
+      MINTFORGE_TESTMODUS: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Client aus dem Build holen
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: webclient-wasm
+          path: prototypes/webclient/web/client
+      - name: Client vorhanden
+        run: cat web/client/BUILD.txt && test -f web/client/launcher.js
+      - name: Stack starten (Caddy, Proxy, Luanti mit Testhilfe, Empfänger)
+        working-directory: prototypes/webclient/server
+        run: |
+          docker compose up -d --build --wait --wait-timeout 120 web proxy ergebnis
+          docker compose up -d luanti
+          for i in $(seq 1 60); do
+            docker compose logs luanti | grep -q "listening on" && break
+            sleep 2
+          done
+          docker compose logs luanti | grep -E "mintforge|listening"
+      - name: Playwright mit Chromium
+        working-directory: prototypes/webclient/tests
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: End-to-End-Test
+        working-directory: prototypes/webclient/tests
+        env:
+          CI: "1"
+        run: npx playwright test -c playwright.e2e.config.mjs
+      - name: Logs sichern
+        if: always()
+        run: |
+          mkdir -p tests/test-results-e2e/logs
+          for d in luanti proxy web ergebnis; do
+            docker compose -f server/docker-compose.yml logs --no-color --timestamps "$d" > "tests/test-results-e2e/logs/$d.log" 2>&1 || true
+          done
+      - name: Bilder, Video und Logs hochladen
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: webclient-e2e
+          path: |
+            prototypes/webclient/tests/test-results-e2e
+            prototypes/webclient/tests/playwright-report-e2e
+          retention-days: 14
+      - name: Aufräumen
+        if: always()
+        working-directory: prototypes/webclient/server
+        run: docker compose down -v
