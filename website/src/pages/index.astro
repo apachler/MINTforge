@@ -1,0 +1,118 @@
+---
+import Seite from "../layouts/Seite.astro";
+import QuestKarte from "../components/QuestKarte.astro";
+import Bereich from "../components/Bereich.astro";
+import Hinweis from "../components/Hinweis.astro";
+import { url } from "../site";
+import { websiteBereiche } from "../brand";
+---
+<Seite
+  titel="MINTforge"
+  beschreibung="MINTforge verbindet eine Blockwelt als Labor mit der Lernplattform der Schule: MINT-Quests für Oberstufe und HTL, mit Lehrplanbezug und Reflexion."
+>
+  <section class="hero esse" aria-labelledby="titel">
+    <div class="rahmen hero-innen">
+      <div class="hero-text">
+        <h1 id="titel">MINT<span>forge</span></h1>
+        <p class="hero-slogan">Wissen schmieden.</p>
+        <p class="hero-lead">
+          Mathematik, Informatik, Naturwissenschaften und Technik begreifen, indem man sie baut. Die Blockwelt ist das
+          Labor, die Lernplattform der Schule das Forschungsheft. Schwerpunkt: Oberstufe, HTL und andere höhere Schulen
+          mit technischem Unterricht.
+        </p>
+        <div class="knopfe">
+          <a class="knopf knopf-weiter" href={url("lehrkraefte/")}>So läuft eine Stunde ab</a>
+          <a class="knopf knopf-leise" href={url("konzept/")}>Das Konzept lesen</a>
+        </div>
+      </div>
+      <img class="hero-bild" src={url("brand/logo/bildmarke.svg")} alt="" width="320" height="320" />
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="kreislauf">
+    <div class="rahmen">
+      <p class="kicker">Der Lernkreislauf</p>
+      <h2 id="kreislauf">Verstehen, anwenden, reflektieren</h2>
+      <p class="lead">
+        MINTforge ist kein Spiel mit angehängten Aufgaben und keine Lernplattform mit Spielpunkten. Jede Quest folgt
+        demselben Kreislauf – nach der ersten Quest kennen sich alle aus.
+      </p>
+      <ol class="kreislauf">
+        <li><span class="kreislauf-ort">Lernplattform</span><strong>Verstehen</strong>Erklärung, Beispiel, Vorwissen auffrischen.</li>
+        <li><span class="kreislauf-ort">Blockwelt</span><strong>Anwenden</strong>Bauen, messen, programmieren, scheitern, verbessern.</li>
+        <li><span class="kreislauf-ort">Lernplattform</span><strong>Reflektieren</strong>Daten, Begründung, Fehleranalyse.</li>
+        <li><span class="kreislauf-ort">Automatisch + Lehrkraft</span><strong>Rückmeldung</strong>Stufe und Bewertung landen in der Lernplattform.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="quests">
+    <div class="rahmen">
+      <p class="kicker">Eine Karte, vier Bereiche</p>
+      <h2 id="quests">So sehen Quests aus</h2>
+      <p class="lead">
+        Jede Quest hat ein Lernziel, drei Niveaustufen und eine Reflexion. Die Karten unten sind Beispiele für die
+        Gestaltung – die echten Quests entstehen in Phase 2 und werden von Lehrkräften gegengelesen.
+      </p>
+      <div class="quests">
+        <QuestKarte bereich="blaupause" fach="Mathematik" stufe="10. Schulstufe" dauer="50 min" titel="Die Rampe zur Ingenieursinsel">
+          Winkelfunktionen anwenden: eine Rampe planen, bauen und auf Steigung prüfen.
+        </QuestKarte>
+        <QuestKarte bereich="labor" fach="Physik" stufe="11. Schulstufe" dauer="2 × 50 min" titel="Wirkungsgrad der Wassermühle">
+          Fallhöhe variieren, Leistung messen, Wirkungsgrad berechnen und Messfehler diskutieren.
+        </QuestKarte>
+        <QuestKarte bereich="biom" fach="Fächerübergreifend" stufe="11. Schulstufe" dauer="Projekt" titel="Das energieautarke Dorf">
+          Verbrauch erheben, Erzeugung planen, Speicher dimensionieren. Team-Quest mit verteilten Rollen.
+        </QuestKarte>
+        <QuestKarte bereich="schaltwerk" fach="Informatik" stufe="HTL 3. Jahrgang" dauer="50 min" titel="Ampelsteuerung als Zustandsautomat">
+          Zustände und Übergänge entwerfen, als Schaltung oder Code umsetzen, Fußgängertaste einbauen.
+        </QuestKarte>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="bereiche">
+    <div class="rahmen">
+      <p class="kicker">Bereiche</p>
+      <h2 id="bereiche">Vier Werkstätten unter einem Dach</h2>
+      <div class="bereiche">
+        {websiteBereiche.map((b) => <Bereich key={b.key} name={b.name} faecher={b.faecher} beschreibung={b.beschreibung} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="warum">
+    <div class="rahmen">
+      <p class="kicker">Im Unterricht einsetzbar</p>
+      <h2 id="warum">Was MINTforge mitbringen soll</h2>
+      <div class="raster raster-3">
+        <div class="kachel">
+          <h3>Lehrplanbezug</h3>
+          <p>Jede Quest wird auf österreichische Lehrpläne und Kompetenzmodelle gemappt, später auch auf Deutschland und die Schweiz.</p>
+        </div>
+        <div class="kachel">
+          <h3>Werkzeuge für Lehrkräfte</h3>
+          <p>Stundenbilder, Differenzierung in drei Stufen, Überblick über die Klasse und Kontrolle über die Spielwelt.</p>
+        </div>
+        <div class="kachel">
+          <h3>Offene Quests</h3>
+          <p>Quests sind Dateien im Repo, geprüft und frei lizenziert als Open Educational Resource (CC BY-SA 4.0).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="mitmachen">
+    <div class="rahmen">
+      <h2 id="mitmachen">Mitmachen</h2>
+      <Hinweis art="geplant" titel="Pilotklassen gesucht">
+        <p>
+          Wir suchen Lehrkräfte an HTL und anderen höheren Schulen mit technischem Unterricht, die eine Quest in ihrer
+          Klasse ausprobieren und Rückmeldung geben. Der Pilot ist für später geplant; noch gibt es keine fertigen
+          Quests.
+        </p>
+        <p>Kontakt: [Angaben folgen]</p>
+      </Hinweis>
+    </div>
+  </section>
+</Seite>

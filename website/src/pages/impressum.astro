@@ -1,0 +1,33 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Hinweis from "../components/Hinweis.astro";
+---
+<Seite titel="Impressum (Entwurf)" beschreibung="Impressum und Offenlegung nach § 25 Mediengesetz für MINTforge – Entwurf, die Angaben folgen nach Freigabe.">
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Rechtliches</p>
+      <h1>Impressum</h1>
+    </div>
+  </header>
+  <section class="abschnitt" aria-labelledby="angaben">
+    <div class="rahmen prosa">
+      <Hinweis art="entwurf" titel="Diese Seite ist ein Entwurf">
+        <p>Die Angaben werden ergänzt und von Andreas Pachler freigegeben, bevor die Website offiziell beworben wird.</p>
+      </Hinweis>
+      <h2 id="angaben">Offenlegung nach § 25 Mediengesetz</h2>
+      <dl class="prosa">
+        <dt>Medieninhaber und Herausgeber</dt>
+        <dd>[Angaben folgen]</dd>
+        <dt>Anschrift</dt>
+        <dd>[Angaben folgen]</dd>
+        <dt>Kontakt</dt>
+        <dd>[Angaben folgen]</dd>
+        <dt>Grundlegende Richtung</dt>
+        <dd>[Angaben folgen]</dd>
+      </dl>
+      <h2 id="hinweise">Hinweise</h2>
+      <p>Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</p>
+      <p>Der Quellcode der Website steht unter der EUPL-1.2. Name und Logo von MINTforge sind davon ausgenommen.</p>
+    </div>
+  </section>
+</Seite>

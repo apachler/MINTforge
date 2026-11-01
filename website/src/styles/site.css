@@ -1,0 +1,806 @@
+/* Gestaltung der Website. Farben, Schriften, Abstände und Radien nur über Variablen aus tokens.css
+   (erzeugt von brand/build_brand.py). Mobile first ab 390 px. */
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--farbe-grund);
+  color: var(--farbe-text);
+  font-family: var(--schrift-text);
+  font-size: var(--groesse-text);
+  line-height: var(--zeile-text);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--schrift-anzeige);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: var(--zeile-titel);
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--groesse-h1);
+  font-weight: 900;
+  line-height: 0.95;
+}
+
+h2 {
+  font-size: var(--groesse-h2);
+}
+
+h3 {
+  font-size: var(--groesse-h3);
+}
+
+p,
+ul,
+ol,
+dl {
+  margin: 0;
+}
+
+a {
+  color: var(--farbe-link);
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--farbe-fokus);
+  outline-offset: 3px;
+  border-radius: var(--radius-klein);
+}
+
+.sprung {
+  position: absolute;
+  left: var(--abstand-2);
+  top: calc(-1 * var(--abstand-10));
+  z-index: 10;
+  padding: var(--abstand-1) var(--abstand-2);
+  background: var(--minze);
+  color: var(--minze-dunkel);
+  font-weight: 600;
+  border-radius: var(--radius-klein);
+}
+
+.sprung:focus {
+  top: var(--abstand-2);
+}
+
+.rahmen {
+  width: 100%;
+  max-width: var(--layout-breite);
+  margin-inline: auto;
+  padding-inline: var(--layout-rand);
+}
+
+/* Dunkle Akzentflächen der Dachmarke */
+.esse {
+  background: var(--farbe-grund);
+  color: var(--farbe-text);
+}
+
+/* Kopf */
+.kopf-innen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--abstand-1) var(--abstand-3);
+  padding-block: var(--abstand-2);
+}
+
+.kopf-logo {
+  display: inline-flex;
+}
+
+.kopf-logo img {
+  display: block;
+  width: 9.5rem;
+  height: auto;
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--abstand-halb) var(--abstand-2);
+  font-size: var(--groesse-klein);
+  font-weight: 500;
+}
+
+.nav a {
+  display: inline-block;
+  padding-block: var(--abstand-1);
+  color: var(--farbe-text);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a:hover {
+  border-bottom-color: var(--farbe-text-leise);
+}
+
+.nav a[aria-current="page"] {
+  border-bottom-color: var(--glut);
+}
+
+/* Hero */
+.hero {
+  padding-block: var(--abstand-6) var(--abstand-8);
+  border-top: 1px solid var(--farbe-linie);
+}
+
+.hero-innen {
+  display: grid;
+  gap: var(--abstand-4);
+  align-items: center;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-3);
+}
+
+.hero h1 span {
+  color: var(--glut);
+}
+
+.hero-slogan {
+  font-family: var(--schrift-anzeige);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: var(--groesse-h2);
+  line-height: var(--zeile-titel);
+  color: var(--funke);
+}
+
+.hero-lead {
+  max-width: var(--layout-textbreite);
+  color: var(--farbe-text-leise);
+  font-size: var(--groesse-gross);
+}
+
+.hero-bild {
+  display: none;
+}
+
+.knopfe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--abstand-2);
+}
+
+.knopf {
+  display: inline-block;
+  padding: var(--abstand-1) var(--abstand-2);
+  min-height: 2.75rem;
+  line-height: 1.75rem;
+  border-radius: var(--radius-klein);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.knopf-weiter {
+  background: var(--minze);
+  color: var(--minze-dunkel);
+}
+
+.knopf-leise {
+  border: 1px solid var(--farbe-text-leise);
+  color: var(--farbe-text);
+}
+
+/* Seitenkopf der Unterseiten */
+.seitenkopf {
+  padding-block: var(--abstand-5) var(--abstand-6);
+  border-top: 1px solid var(--farbe-linie);
+}
+
+.seitenkopf .rahmen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-2);
+}
+
+.seitenkopf h1 {
+  font-size: var(--groesse-h2);
+  line-height: var(--zeile-titel);
+}
+
+.seitenkopf p {
+  max-width: var(--layout-textbreite);
+  color: var(--farbe-text-leise);
+  font-size: var(--groesse-gross);
+}
+
+.kicker {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--farbe-akzent);
+}
+
+/* Abschnitte */
+.abschnitt {
+  padding-block: var(--abstand-6);
+}
+
+.abschnitt + .abschnitt {
+  padding-top: 0;
+}
+
+.abschnitt > .rahmen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-3);
+}
+
+.lead {
+  max-width: var(--layout-textbreite);
+  color: var(--farbe-text-leise);
+}
+
+.prosa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-2);
+  max-width: var(--layout-textbreite);
+}
+
+.rahmen.prosa {
+  max-width: var(--layout-breite);
+}
+
+.rahmen.prosa > * {
+  max-width: var(--layout-textbreite);
+}
+
+.rahmen.prosa > .tabelle-huelle {
+  max-width: 100%;
+}
+
+.prosa h2 {
+  margin-top: var(--abstand-3);
+}
+
+.prosa h3 {
+  margin-top: var(--abstand-2);
+}
+
+.prosa ul,
+.prosa ol {
+  padding-left: var(--abstand-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-1);
+}
+
+.raster {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--abstand-2);
+}
+
+.kachel {
+  background: var(--farbe-flaeche);
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius-mittel);
+  padding: var(--abstand-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-1);
+  min-width: 0;
+}
+
+.kachel h3 {
+  font-size: var(--groesse-h3);
+}
+
+.kachel p {
+  color: var(--farbe-text-leise);
+}
+
+/* Lernkreislauf */
+.kreislauf {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: var(--abstand-2);
+  counter-reset: schritt;
+}
+
+.kreislauf li {
+  counter-increment: schritt;
+  background: var(--farbe-flaeche);
+  border: 1px solid var(--farbe-linie);
+  border-left: 4px solid var(--glut);
+  border-radius: var(--radius-mittel);
+  padding: var(--abstand-2) var(--abstand-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-halb);
+}
+
+.kreislauf li:last-child {
+  border-left-color: var(--farbe-erledigt);
+}
+
+.kreislauf-ort {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--farbe-text-leise);
+}
+
+.kreislauf-ort::before {
+  content: counter(schritt) " · ";
+}
+
+.kreislauf strong {
+  font-family: var(--schrift-anzeige);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: var(--groesse-h3);
+  line-height: var(--zeile-titel);
+}
+
+/* Bereiche */
+.bereiche {
+  display: grid;
+  gap: var(--abstand-2);
+}
+
+.bereich {
+  display: flex;
+  gap: var(--abstand-2);
+  align-items: flex-start;
+  padding: var(--abstand-3);
+  border-radius: var(--radius-gross);
+  background-color: var(--haut-grund);
+  background-image: var(--haut-muster);
+  background-size: var(--haut-muster-groesse);
+  color: var(--haut-tinte);
+}
+
+.bereich img {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.bereich > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-halb);
+}
+
+.bereich-name {
+  font-size: var(--groesse-h3);
+  line-height: var(--zeile-eng);
+}
+
+.bereich-faecher {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bereich-text {
+  font-size: var(--groesse-klein);
+}
+
+/* Quest-Karte mit Bereichs-Haut */
+.quests {
+  display: grid;
+  gap: var(--abstand-2);
+}
+
+.quest {
+  border-radius: var(--radius-gross);
+  padding: var(--abstand-2);
+  background-color: var(--haut-grund);
+  background-image: var(--haut-muster);
+  background-size: var(--haut-muster-groesse);
+  color: var(--haut-tinte);
+  display: flex;
+}
+
+.quest-karte {
+  flex: 1;
+  background: var(--haut-karte);
+  color: var(--haut-karte-tinte);
+  border: 1px solid var(--haut-karte-rand);
+  border-radius: var(--radius-mittel);
+  padding: var(--abstand-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-1);
+}
+
+.quest-meta {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--haut-meta);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--abstand-1);
+  align-items: center;
+}
+
+.quest-beispiel {
+  background: var(--haut-karte-tinte);
+  color: var(--haut-karte);
+  padding: 0 var(--abstand-1);
+  border-radius: var(--radius-klein);
+  font-weight: 700;
+}
+
+.quest-titel {
+  font-size: var(--groesse-h3);
+}
+
+.quest-text {
+  font-size: var(--groesse-klein);
+  flex: 1;
+}
+
+.quest-stufen {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--abstand-1);
+}
+
+.quest-stufen li {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  padding: 0.125rem var(--abstand-1);
+  border-radius: var(--radius-klein);
+  background: var(--haut-stufe-grund);
+  border: 1px solid var(--haut-stufe-rand);
+  color: var(--haut-stufe-tinte);
+}
+
+.hinweis-klein {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  color: var(--farbe-text-leise);
+}
+
+/* Hinweisboxen */
+.hinweis {
+  border: 1px solid var(--farbe-linie);
+  border-left: 4px solid var(--farbe-text-leise);
+  background: var(--farbe-flaeche);
+  border-radius: var(--radius-mittel);
+  padding: var(--abstand-2) var(--abstand-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-1);
+  max-width: var(--layout-textbreite);
+}
+
+.hinweis-geplant {
+  border-left-color: var(--farbe-erledigt);
+}
+
+.hinweis-entwurf {
+  border-left-color: var(--glut);
+}
+
+.hinweis-marke {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--farbe-akzent);
+}
+
+.hinweis-geplant .hinweis-marke {
+  color: var(--farbe-erledigt);
+}
+
+.hinweis-titel {
+  font-weight: 600;
+}
+
+.hinweis-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-1);
+  color: var(--farbe-text-leise);
+}
+
+/* Tabellen */
+.tabelle-huelle {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--groesse-klein);
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+  padding: var(--abstand-1) var(--abstand-2) var(--abstand-1) 0;
+  border-bottom: 1px solid var(--farbe-linie);
+}
+
+th {
+  font-weight: 600;
+}
+
+/* Stufen-Liste */
+.stufen {
+  display: grid;
+  gap: var(--abstand-2);
+}
+
+.stufe-name {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Marke */
+.logo-flaechen {
+  display: grid;
+  gap: var(--abstand-2);
+}
+
+.logo-flaeche {
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius-gross);
+  padding: var(--abstand-4) var(--abstand-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-2);
+  align-items: flex-start;
+}
+
+.logo-flaeche-hell {
+  background: var(--licht);
+  color: var(--eisen);
+}
+
+.logo-flaeche-dunkel {
+  background: var(--eisen);
+  color: var(--licht);
+  border-color: var(--eisen-3);
+}
+
+.logo-flaeche img {
+  display: block;
+}
+
+.logo-flaeche p {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+}
+
+.farbfelder {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: var(--abstand-1);
+}
+
+.farbfeld {
+  background: var(--farbfeld);
+  color: var(--farbfeld-text);
+  border: 1px solid var(--farbe-linie);
+  border-radius: var(--radius-mittel);
+  padding: var(--abstand-1) var(--abstand-2);
+  min-height: 4.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.farbfeld b {
+  font-size: var(--groesse-klein);
+}
+
+.farbfeld code {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+}
+
+.schriftprobe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-halb);
+}
+
+.schriftprobe-anzeige {
+  font-family: var(--schrift-anzeige);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: var(--groesse-h2);
+  line-height: var(--zeile-eng);
+}
+
+.schriftprobe-text {
+  font-size: var(--groesse-gross);
+}
+
+.schriftprobe-mono {
+  font-family: var(--schrift-mono);
+}
+
+.schriftprobe small {
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+  color: var(--farbe-text-leise);
+}
+
+.symbole {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--abstand-2);
+}
+
+.symbole li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--abstand-1);
+  font-family: var(--schrift-mono);
+  font-size: var(--groesse-meta);
+}
+
+.symbole img {
+  width: 4rem;
+  height: 4rem;
+}
+
+code {
+  font-family: var(--schrift-mono);
+  font-size: 0.9em;
+}
+
+/* Fuß */
+.fuss {
+  margin-top: var(--abstand-8);
+}
+
+.fuss-innen {
+  padding-block: var(--abstand-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--abstand-2);
+}
+
+.fuss-marke {
+  display: flex;
+  align-items: center;
+  gap: var(--abstand-2);
+}
+
+.fuss-slogan {
+  font-family: var(--schrift-anzeige);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: var(--groesse-h3);
+  color: var(--funke);
+}
+
+.fuss-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--abstand-1) var(--abstand-3);
+}
+
+.fuss-links a {
+  display: inline-block;
+  padding-block: var(--abstand-halb);
+}
+
+.fuss-klein {
+  font-size: var(--groesse-klein);
+  color: var(--farbe-text-leise);
+}
+
+/* ab Tablet */
+@media (min-width: 48rem) {
+  :root {
+    --layout-rand: var(--abstand-4);
+  }
+
+  .kopf-logo img {
+    width: 11.25rem;
+  }
+
+  .nav {
+    font-size: var(--groesse-text);
+  }
+
+  .raster,
+  .bereiche,
+  .quests,
+  .logo-flaechen,
+  .stufen {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ab Desktop */
+@media (min-width: 64rem) {
+  .hero-innen {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+
+  .hero-bild {
+    display: block;
+    justify-self: center;
+    width: 100%;
+    max-width: 20rem;
+  }
+
+  .raster-3,
+  .stufen {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .kreislauf {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .quests {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
+}

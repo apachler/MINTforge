@@ -1,0 +1,240 @@
+/* Erzeugt von brand/build_brand.py aus brand/tokens.json – nicht von Hand bearbeiten. */
+
+:root {
+  /* Farben der Dachmarke, des Akzents und Textvarianten für hellen Grund */
+  --eisen: #1A1714;
+  --eisen-2: #241F1B;
+  --eisen-3: #352E28;
+  --glut: #FF8A2B;
+  --funke: #FFB45E;
+  --stahl: #8A96A3;
+  --licht: #F4EDE4;
+  --licht-2: #C9BFB3;
+  --licht-3: #DDD2C4;
+  --licht-4: #FBF7F2;
+  --minze: #3FD6A6;
+  --minze-dunkel: #062A1F;
+  --glut-tief: #9A4400;
+  --glut-logo: #C45500;
+  --minze-tief: #08705A;
+  --stahl-tief: #5A6470;
+  --eisen-weich: #5C5249;
+
+  /* Bereiche */
+  --blaupause-grund: #0F3D7A;
+  --blaupause-linie: #8FB8FF;
+  --blaupause-tinte: #F4F8FF;
+  --blaupause-karte: #09264F;
+  --labor-grund: #F2F7F6;
+  --labor-tinte: #0B4F4A;
+  --labor-flieder: #B8A1FF;
+  --labor-signal: #FFD23F;
+  --labor-karte: #FFFFFF;
+  --labor-karte-rand: #CFE2DE;
+  --labor-stufe: #E4F2EE;
+  --biom-wald: #2F6B4F;
+  --biom-moos: #7BA05B;
+  --biom-lehm: #C8794A;
+  --biom-grund: #F5F1E8;
+  --biom-tinte: #1F3D2F;
+  --biom-karte: #FFFDF7;
+  --biom-karte-rand: #DCD5C5;
+  --biom-stufe: #E7EEDD;
+  --schaltwerk-platine: #0E2A22;
+  --schaltwerk-kupfer: #C98A4B;
+  --schaltwerk-loetgold: #E8C170;
+  --schaltwerk-bestueckung: #EAF4EE;
+  --schaltwerk-karte: #0A1F19;
+  --schaltwerk-karte-rand: #2E5A4A;
+  --pixelpuls-nacht: #17112B;
+  --pixelpuls-magenta: #FF4FA3;
+  --pixelpuls-gold: #FFE45E;
+  --pixelpuls-tinte: #EDE9FF;
+  --pixelpuls-karte: #221A3F;
+  --pixelpuls-karte-rand: #3A2F66;
+
+  /* Schrift */
+  --schrift-anzeige: "Big Shoulders Display", "Arial Narrow", sans-serif;
+  --schrift-text: "Work Sans", system-ui, sans-serif;
+  --schrift-mono: "JetBrains Mono", ui-monospace, monospace;
+  --groesse-klein: 0.8125rem;
+  --groesse-meta: 0.75rem;
+  --groesse-text: 1rem;
+  --groesse-gross: 1.125rem;
+  --groesse-h3: clamp(1.375rem, 1.1rem + 1vw, 1.625rem);
+  --groesse-h2: clamp(1.875rem, 1.3rem + 2.6vw, 2.75rem);
+  --groesse-h1: clamp(2.75rem, 1.6rem + 6vw, 5.75rem);
+  --zeile-eng: 1;
+  --zeile-titel: 1.05;
+  --zeile-text: 1.55;
+
+  /* Abstände (8-px-Raster), Radien, Layout */
+  --abstand-halb: 0.25rem;
+  --abstand-1: 0.5rem;
+  --abstand-2: 1rem;
+  --abstand-3: 1.5rem;
+  --abstand-4: 2rem;
+  --abstand-5: 2.5rem;
+  --abstand-6: 3rem;
+  --abstand-8: 4rem;
+  --abstand-10: 5rem;
+  --radius-klein: 3px;
+  --radius-mittel: 4px;
+  --radius-gross: 6px;
+  --radius-rund: 999px;
+  --layout-breite: 72rem;
+  --layout-textbreite: 64ch;
+  --layout-rand: 1rem;
+
+  /* Thema hell (Standard) */
+  color-scheme: light;
+  --farbe-grund: var(--licht);
+  --farbe-flaeche: var(--licht-4);
+  --farbe-linie: var(--licht-3);
+  --farbe-text: var(--eisen);
+  --farbe-text-leise: var(--eisen-weich);
+  --farbe-link: var(--glut-tief);
+  --farbe-fokus: var(--eisen);
+  --farbe-erledigt: var(--minze-tief);
+  --farbe-akzent: var(--glut-tief);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --farbe-grund: var(--eisen);
+    --farbe-flaeche: var(--eisen-2);
+    --farbe-linie: var(--eisen-3);
+    --farbe-text: var(--licht);
+    --farbe-text-leise: var(--licht-2);
+    --farbe-link: var(--funke);
+    --farbe-fokus: var(--funke);
+    --farbe-erledigt: var(--minze);
+    --farbe-akzent: var(--funke);
+  }
+}
+
+/* Dunkle Akzentflächen der Dachmarke (Kopf, Hero, Fuß) in beiden Modi */
+.esse {
+  color-scheme: dark;
+  --farbe-grund: var(--eisen);
+  --farbe-flaeche: var(--eisen-2);
+  --farbe-linie: var(--eisen-3);
+  --farbe-text: var(--licht);
+  --farbe-text-leise: var(--licht-2);
+  --farbe-link: var(--funke);
+  --farbe-fokus: var(--funke);
+  --farbe-erledigt: var(--minze);
+  --farbe-akzent: var(--funke);
+}
+
+/* Häute der Bereiche: setzen --haut-* für die Quest-Karte */
+.haut-blaupause {
+  --haut-grund: var(--blaupause-grund);
+  --haut-tinte: var(--blaupause-tinte);
+  --haut-karte: var(--blaupause-karte);
+  --haut-karte-rand: var(--blaupause-linie);
+  --haut-karte-tinte: var(--blaupause-tinte);
+  --haut-meta: var(--blaupause-linie);
+  --haut-stufe-grund: var(--blaupause-karte);
+  --haut-stufe-rand: var(--blaupause-linie);
+  --haut-stufe-tinte: var(--blaupause-tinte);
+  --haut-muster: linear-gradient(rgb(143 184 255 / 0.16) 1px, transparent 1px), linear-gradient(90deg, rgb(143 184 255 / 0.16) 1px, transparent 1px);
+  --haut-muster-groesse: 20px 20px;
+}
+.haut-labor {
+  --haut-grund: var(--labor-grund);
+  --haut-tinte: var(--labor-tinte);
+  --haut-karte: var(--labor-karte);
+  --haut-karte-rand: var(--labor-karte-rand);
+  --haut-karte-tinte: var(--labor-tinte);
+  --haut-meta: var(--labor-tinte);
+  --haut-stufe-grund: var(--labor-stufe);
+  --haut-stufe-rand: var(--labor-stufe);
+  --haut-stufe-tinte: var(--labor-tinte);
+  --haut-muster: linear-gradient(rgb(11 79 74 / 0.06) 1px, transparent 1px), linear-gradient(90deg, rgb(11 79 74 / 0.06) 1px, transparent 1px);
+  --haut-muster-groesse: 28px 28px;
+}
+.haut-biom {
+  --haut-grund: var(--biom-grund);
+  --haut-tinte: var(--biom-tinte);
+  --haut-karte: var(--biom-karte);
+  --haut-karte-rand: var(--biom-karte-rand);
+  --haut-karte-tinte: var(--biom-tinte);
+  --haut-meta: var(--biom-wald);
+  --haut-stufe-grund: var(--biom-stufe);
+  --haut-stufe-rand: var(--biom-stufe);
+  --haut-stufe-tinte: var(--biom-tinte);
+  --haut-muster: radial-gradient(rgb(123 160 91 / 0.22) 1.5px, transparent 1.5px);
+  --haut-muster-groesse: 16px 16px;
+}
+.haut-schaltwerk {
+  --haut-grund: var(--schaltwerk-platine);
+  --haut-tinte: var(--schaltwerk-bestueckung);
+  --haut-karte: var(--schaltwerk-karte);
+  --haut-karte-rand: var(--schaltwerk-karte-rand);
+  --haut-karte-tinte: var(--schaltwerk-bestueckung);
+  --haut-meta: var(--schaltwerk-loetgold);
+  --haut-stufe-grund: var(--schaltwerk-karte);
+  --haut-stufe-rand: var(--schaltwerk-kupfer);
+  --haut-stufe-tinte: var(--schaltwerk-bestueckung);
+  --haut-muster: linear-gradient(rgb(201 138 75 / 0.1) 2px, transparent 2px), linear-gradient(90deg, rgb(201 138 75 / 0.1) 2px, transparent 2px);
+  --haut-muster-groesse: 40px 40px;
+}
+.haut-pixelpuls {
+  --haut-grund: var(--pixelpuls-nacht);
+  --haut-tinte: var(--pixelpuls-tinte);
+  --haut-karte: var(--pixelpuls-karte);
+  --haut-karte-rand: var(--pixelpuls-karte-rand);
+  --haut-karte-tinte: var(--pixelpuls-tinte);
+  --haut-meta: var(--pixelpuls-gold);
+  --haut-stufe-grund: var(--pixelpuls-karte);
+  --haut-stufe-rand: var(--pixelpuls-karte-rand);
+  --haut-stufe-tinte: var(--pixelpuls-tinte);
+  --haut-muster: linear-gradient(rgb(237 233 255 / 0.04) 50%, transparent 50%);
+  --haut-muster-groesse: 100% 4px;
+}
+
+/* Farbfelder für die Markenseite: Fläche plus lesbare Schriftfarbe (Eisen oder Weiß, je nach Kontrast) */
+.farbfeld-eisen { --farbfeld: var(--eisen); --farbfeld-text: #FFFFFF; }
+.farbfeld-eisen-2 { --farbfeld: var(--eisen-2); --farbfeld-text: #FFFFFF; }
+.farbfeld-eisen-3 { --farbfeld: var(--eisen-3); --farbfeld-text: #FFFFFF; }
+.farbfeld-glut { --farbfeld: var(--glut); --farbfeld-text: var(--eisen); }
+.farbfeld-funke { --farbfeld: var(--funke); --farbfeld-text: var(--eisen); }
+.farbfeld-stahl { --farbfeld: var(--stahl); --farbfeld-text: var(--eisen); }
+.farbfeld-licht { --farbfeld: var(--licht); --farbfeld-text: var(--eisen); }
+.farbfeld-licht-2 { --farbfeld: var(--licht-2); --farbfeld-text: var(--eisen); }
+.farbfeld-licht-3 { --farbfeld: var(--licht-3); --farbfeld-text: var(--eisen); }
+.farbfeld-licht-4 { --farbfeld: var(--licht-4); --farbfeld-text: var(--eisen); }
+.farbfeld-minze { --farbfeld: var(--minze); --farbfeld-text: var(--eisen); }
+.farbfeld-minze-dunkel { --farbfeld: var(--minze-dunkel); --farbfeld-text: #FFFFFF; }
+.farbfeld-glut-tief { --farbfeld: var(--glut-tief); --farbfeld-text: #FFFFFF; }
+.farbfeld-glut-logo { --farbfeld: var(--glut-logo); --farbfeld-text: #FFFFFF; }
+.farbfeld-minze-tief { --farbfeld: var(--minze-tief); --farbfeld-text: #FFFFFF; }
+.farbfeld-stahl-tief { --farbfeld: var(--stahl-tief); --farbfeld-text: #FFFFFF; }
+.farbfeld-eisen-weich { --farbfeld: var(--eisen-weich); --farbfeld-text: #FFFFFF; }
+.farbfeld-blaupause-grund { --farbfeld: var(--blaupause-grund); --farbfeld-text: #FFFFFF; }
+.farbfeld-blaupause-linie { --farbfeld: var(--blaupause-linie); --farbfeld-text: var(--eisen); }
+.farbfeld-blaupause-tinte { --farbfeld: var(--blaupause-tinte); --farbfeld-text: var(--eisen); }
+.farbfeld-blaupause-karte { --farbfeld: var(--blaupause-karte); --farbfeld-text: #FFFFFF; }
+.farbfeld-labor-grund { --farbfeld: var(--labor-grund); --farbfeld-text: var(--eisen); }
+.farbfeld-labor-tinte { --farbfeld: var(--labor-tinte); --farbfeld-text: #FFFFFF; }
+.farbfeld-labor-flieder { --farbfeld: var(--labor-flieder); --farbfeld-text: var(--eisen); }
+.farbfeld-labor-signal { --farbfeld: var(--labor-signal); --farbfeld-text: var(--eisen); }
+.farbfeld-labor-karte { --farbfeld: var(--labor-karte); --farbfeld-text: var(--eisen); }
+.farbfeld-labor-karte-rand { --farbfeld: var(--labor-karte-rand); --farbfeld-text: var(--eisen); }
+.farbfeld-labor-stufe { --farbfeld: var(--labor-stufe); --farbfeld-text: var(--eisen); }
+.farbfeld-biom-wald { --farbfeld: var(--biom-wald); --farbfeld-text: #FFFFFF; }
+.farbfeld-biom-moos { --farbfeld: var(--biom-moos); --farbfeld-text: var(--eisen); }
+.farbfeld-biom-lehm { --farbfeld: var(--biom-lehm); --farbfeld-text: var(--eisen); }
+.farbfeld-biom-grund { --farbfeld: var(--biom-grund); --farbfeld-text: var(--eisen); }
+.farbfeld-biom-tinte { --farbfeld: var(--biom-tinte); --farbfeld-text: #FFFFFF; }
+.farbfeld-biom-karte { --farbfeld: var(--biom-karte); --farbfeld-text: var(--eisen); }
+.farbfeld-biom-karte-rand { --farbfeld: var(--biom-karte-rand); --farbfeld-text: var(--eisen); }
+.farbfeld-biom-stufe { --farbfeld: var(--biom-stufe); --farbfeld-text: var(--eisen); }
+.farbfeld-schaltwerk-platine { --farbfeld: var(--schaltwerk-platine); --farbfeld-text: #FFFFFF; }
+.farbfeld-schaltwerk-kupfer { --farbfeld: var(--schaltwerk-kupfer); --farbfeld-text: var(--eisen); }
+.farbfeld-schaltwerk-loetgold { --farbfeld: var(--schaltwerk-loetgold); --farbfeld-text: var(--eisen); }
+.farbfeld-schaltwerk-bestueckung { --farbfeld: var(--schaltwerk-bestueckung); --farbfeld-text: var(--eisen); }
+.farbfeld-schaltwerk-karte { --farbfeld: var(--schaltwerk-karte); --farbfeld-text: #FFFFFF; }
+.farbfeld-schaltwerk-karte-rand { --farbfeld: var(--schaltwerk-karte-rand); --farbfeld-text: #FFFFFF; }

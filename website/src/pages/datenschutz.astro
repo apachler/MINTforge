@@ -1,0 +1,37 @@
+---
+import Seite from "../layouts/Seite.astro";
+import Hinweis from "../components/Hinweis.astro";
+---
+<Seite titel="Datenschutz (Entwurf)" beschreibung="Datenschutzerklärung der MINTforge-Website – Entwurf. Die Website setzt keine Cookies, keine Tracker und lädt keine externen Ressourcen.">
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Rechtliches</p>
+      <h1>Datenschutz</h1>
+    </div>
+  </header>
+  <section class="abschnitt" aria-labelledby="erklaerung">
+    <div class="rahmen prosa">
+      <Hinweis art="entwurf" titel="Diese Seite ist ein Entwurf">
+        <p>
+          Die Datenschutzerklärung wird vervollständigt und von Andreas Pachler freigegeben, bevor die Website
+          offiziell beworben wird. Platzhalter sind als [Angaben folgen] markiert.
+        </p>
+      </Hinweis>
+      <h2 id="erklaerung">Verantwortlich</h2>
+      <p>[Angaben folgen]</p>
+      <h2 id="website">Was diese Website technisch tut</h2>
+      <ul>
+        <li>Sie setzt keine Cookies und verwendet keine Tracker oder Analysewerkzeuge.</li>
+        <li>Schriften, Bilder und Stylesheets liegen auf demselben Server; es werden keine externen Ressourcen geladen.</li>
+        <li>Es gibt keine Formulare; die Website erhebt selbst keine Eingaben.</li>
+      </ul>
+      <h2 id="hosting">Hosting</h2>
+      <p>
+        Die Website wird über GitHub Pages ausgeliefert. Welche Daten dabei beim Hoster anfallen, auf welcher
+        Rechtsgrundlage und wie lange sie gespeichert werden: [Angaben folgen]
+      </p>
+      <h2 id="rechte">Ihre Rechte</h2>
+      <p>[Angaben folgen]</p>
+    </div>
+  </section>
+</Seite>

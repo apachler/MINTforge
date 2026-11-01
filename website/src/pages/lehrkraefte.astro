@@ -1,0 +1,91 @@
+---
+import Seite from "../layouts/Seite.astro";
+import QuestKarte from "../components/QuestKarte.astro";
+import Hinweis from "../components/Hinweis.astro";
+import { url } from "../site";
+---
+<Seite
+  titel="Für Lehrkräfte"
+  beschreibung="Wie eine MINTforge-Stunde abläuft: verstehen auf der Lernplattform, anwenden in der Blockwelt, reflektieren – mit Stundenbild und drei Niveaustufen."
+>
+  <header class="seitenkopf esse">
+    <div class="rahmen">
+      <p class="kicker">Für Lehrkräfte</p>
+      <h1>Eine Stunde mit MINTforge</h1>
+      <p>
+        Wenig Vorbereitung, klare Lernziele, eine Bewertungsgrundlage – und die Spielwelt bleibt unter Ihrer Kontrolle.
+        So soll eine Quest im Unterricht ablaufen.
+      </p>
+    </div>
+  </header>
+
+  <section class="abschnitt" aria-labelledby="ablauf">
+    <div class="rahmen">
+      <h2 id="ablauf">Ablauf einer Unterrichtseinheit</h2>
+      <ol class="kreislauf">
+        <li><span class="kreislauf-ort">10 min · Lernplattform</span><strong>Verstehen</strong>Die Schüler:innen öffnen die Quest in der Lernplattform der Schule, z. B. eduvidual oder Moodle – ohne zweites Passwort.</li>
+        <li><span class="kreislauf-ort">25 min · Blockwelt</span><strong>Anwenden</strong>In der Klassen-Welt planen, bauen und messen sie. Die Welt prüft automatisch, welche Stufe erreicht ist.</li>
+        <li><span class="kreislauf-ort">15 min · Lernplattform</span><strong>Reflektieren</strong>Sie begründen ihr Vorgehen, werten Daten aus und benennen Fehler.</li>
+        <li><span class="kreislauf-ort">Danach</span><strong>Rückmeldung</strong>Stufe und Reflexion stehen in der Bewertungsübersicht. Was in die Note einfließt, entscheiden Sie.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="beispiel">
+    <div class="rahmen">
+      <h2 id="beispiel">Beispiel-Quest</h2>
+      <div class="raster">
+        <QuestKarte bereich="blaupause" fach="Mathematik" stufe="10. Schulstufe" dauer="50 min" titel="Die Rampe zur Ingenieursinsel">
+          Winkelfunktionen im rechtwinkeligen Dreieck anwenden, Steigung in Prozent und Grad umrechnen. Bronze: Rampe
+          unter 20°. Silber: mit Zwischenpodest. Gold: barrierefrei mit höchstens 6 % Steigung.
+        </QuestKarte>
+        <div class="prosa">
+          <h3>Was Sie dazu bekommen sollen</h3>
+          <ul>
+            <li>Stundenbild mit Lernziel, Vorwissen und Zeitplan</li>
+            <li>Lehrerhandreichung mit Lösungen, typischen Fehlern und Varianten</li>
+            <li>Differenzierung in drei Stufen: Bronze, Silber, Gold</li>
+            <li>Reflexionsfragen als Bewertungsgrundlage</li>
+            <li>Zuordnung zum Lehrplan</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="werkzeuge">
+    <div class="rahmen">
+      <h2 id="werkzeuge">Werkzeuge im Unterricht</h2>
+      <div class="raster raster-3">
+        <div class="kachel">
+          <h3>Überblick</h3>
+          <p>Live sehen, wer an welcher Stufe arbeitet – ohne öffentliche Rangliste.</p>
+        </div>
+        <div class="kachel">
+          <h3>Kontrolle</h3>
+          <p>Alle zu sich holen, Bauen sperren, die Welt zurücksetzen.</p>
+        </div>
+        <div class="kachel">
+          <h3>Teamrollen</h3>
+          <p>Viele Quests als Teamvariante mit Planer:in, Bauer:in und Prüfer:in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="abschnitt" aria-labelledby="pilot">
+    <div class="rahmen">
+      <h2 id="pilot">Pilot</h2>
+      <Hinweis art="geplant" titel="Pilotklassen gesucht">
+        <p>
+          Noch gibt es keine fertigen Quests und keine Spielserver – sie entstehen in den nächsten Phasen. Für einen
+          späteren Pilot mit einer Klasse über 4 bis 6 Wochen suchen wir engagierte Lehrkräfte, vor allem an HTL und
+          anderen höheren Schulen mit technischem Unterricht. Auch Gespräche über Geräte, Lizenzen und Hürden im
+          Schulalltag helfen schon jetzt.
+        </p>
+        <p>Kontakt: [Angaben folgen]</p>
+      </Hinweis>
+      <p><a href={url("schulen/")}>Weiter: Datenschutz und Technik für Schulen</a></p>
+    </div>
+  </section>
+</Seite>
