@@ -1,0 +1,155 @@
+name: site
+# Prüft die Website bei jedem Push auf main und jedem Pull Request:
+#   build    – Brand-Generator aktuell?, Astro-Build, tools/check-site.mjs, html-validate
+#   browser  – im Playwright-Container: axe-core (WCAG 2.2 AA) in Chromium und WebKit, visuelle Snapshots
+#              (390/768/1440 px, hell/dunkel) gegen die Referenzbilder in website/tests/__screenshots__/
+# Referenzbilder entstehen nur hier im Container. Sie werden neu erzeugt und in den PR-Branch committet, wenn der PR
+# das Label „visual-update“ trägt oder noch keine Referenzbilder existieren.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: site-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+env:
+  ASTRO_TELEMETRY_DISABLED: "1"
+  # Adresse der Website (Basispfad), wie beim Deploy: aus dem Repo-Namen
+  SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: website
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: website/.nvmrc
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - run: npm ci
+      - name: Brand-Generator (Kontraste, Logos, tokens.css) – Generat aktuell?
+        working-directory: .
+        run: |
+          python3 brand/build_brand.py
+          if ! git diff --exit-code -- brand website/public website/src/styles/tokens.css; then
+            echo "::error::Generierte Markendateien sind nicht aktuell: python3 brand/build_brand.py ausführen und committen."
+            exit 1
+          fi
+          if [ -n "$(git status --porcelain -- brand website/public website/src/styles)" ]; then
+            git status --porcelain -- brand website/public website/src/styles
+            echo "::error::Der Generator erzeugt Dateien, die nicht committet sind."
+            exit 1
+          fi
+      - run: npm run build
+      - name: check-site (Links, Anker, Metadaten, Sitemap, CSP, externe Ressourcen)
+        run: npm run check:site
+      - name: html-validate
+        run: npm run check:html
+      - name: Vorschau des Builds hochladen
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: vorschau-dist
+          path: website/dist
+          retention-days: 14
+
+  browser:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Feste Version passend zu @playwright/test in website/package.json (Browser und Schriften für stabile Pixel)
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: website
+    env:
+      HOME: /root
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # im PR den Branch selbst, damit neue Referenzbilder dorthin committet werden können
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+          persist-credentials: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: website/.nvmrc
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - run: npm ci
+      - name: Playwright-Version passt zum Container
+        run: |
+          v=$(node -p "require('@playwright/test/package.json').version")
+          echo "@playwright/test $v, Container v1.64.1"
+          test "$v" = "1.64.1" || { echo "::error::Container-Image in site.yml auf v$v anheben"; exit 1; }
+      - run: npm run build
+      - name: Referenzbilder neu erzeugen?
+        id: modus
+        env:
+          LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'visual-update') }}
+        run: |
+          if [ "$LABEL" = "true" ]; then
+            echo "Label visual-update: Referenzbilder werden neu erzeugt."
+            echo "update=true" >> "$GITHUB_OUTPUT"
+          elif ! ls tests/__screenshots__/visual-*/*.png >/dev/null 2>&1; then
+            echo "Noch keine Referenzbilder: werden erzeugt."
+            echo "update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "update=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Barrierefreiheit (axe-core, WCAG 2.2 AA, Chromium + WebKit)
+        run: npm run test:a11y
+      - name: Aussehen (visuelle Snapshots)
+        if: ${{ !cancelled() }}
+        env:
+          UPDATE: ${{ steps.modus.outputs.update }}
+        run: |
+          if [ "$UPDATE" = "true" ]; then
+            npx playwright test tests/visual.spec.ts --update-snapshots=all
+          else
+            npx playwright test tests/visual.spec.ts
+          fi
+      - name: Neue Referenzbilder in den PR-Branch committen
+        if: ${{ steps.modus.outputs.update == 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        working-directory: .
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add website/tests/__screenshots__
+          if git diff --cached --quiet; then
+            echo "Referenzbilder unverändert."
+          else
+            git commit -m "Visuelle Referenzbilder aktualisiert"
+            git push
+          fi
+      - name: Screenshots (Referenzbilder) hochladen
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: screenshots
+          path: website/tests/__screenshots__
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Diff-Bilder und Report hochladen
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: playwright-report
+          path: |
+            website/playwright-report
+            website/test-results
+          retention-days: 14
