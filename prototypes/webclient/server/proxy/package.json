@@ -1,0 +1,19 @@
+{
+  "name": "mintforge-webclient-proxy",
+  "version": "0.0.0",
+  "private": true,
+  "description": "WebSocket-zu-UDP-Proxy für den Luanti-Web-Client (Prototyp)",
+  "license": "EUPL-1.2",
+  "type": "module",
+  "main": "proxy.mjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node proxy.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "ws": "8.22.0"
+  }
+}

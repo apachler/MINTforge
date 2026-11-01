@@ -1,0 +1,43 @@
+# HTTPS-Front für den Web-Client-Prototyp: liefert die PWA aus und leitet /proxy an den WebSocket-Proxy.
+# Alles läuft über einen Host und Port 443 – im Schulnetz ist oft nur HTTPS erlaubt.
+#
+# Lokal: selbst signiertes Zertifikat (tls internal). Auf einem echten Server stattdessen die Domain in
+# MINTFORGE_HOST setzen und die Zeile "tls internal" entfernen; Caddy holt dann ein Let's-Encrypt-Zertifikat.
+
+{
+	auto_https disable_redirects
+}
+
+{$MINTFORGE_HOST:localhost} {
+	tls internal
+
+	# Ohne diese beiden Header ist die Seite nicht cross-origin-isoliert, und der Browser verweigert
+	# SharedArrayBuffer – minetest-wasm braucht es für Threads (siehe static/htaccess_* in minetest-wasm).
+	header {
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Embedder-Policy "require-corp"
+		Cross-Origin-Resource-Policy "same-origin"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), microphone=(), geolocation=()"
+	}
+
+	# Hülle immer frisch; die Release-Dateien des Clients haben eine eindeutige Kennung im Pfad.
+	@frisch path / /index.html /spiel.html /sw.js /client/release.js /manifest.webmanifest
+	header @frisch Cache-Control "no-cache"
+	@client path_regexp ^/client/[0-9a-f]{12}/
+	header @client Cache-Control "public, max-age=31536000, immutable"
+	@manifest path *.webmanifest
+	header @manifest Content-Type "application/manifest+json"
+	@wasm path *.wasm
+	header @wasm Content-Type "application/wasm"
+
+	handle /proxy {
+		reverse_proxy proxy:8765
+	}
+
+	handle {
+		root * /srv
+		file_server
+	}
+}

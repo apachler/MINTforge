@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <!--
+    Abweichung von der Website-CSP, nur auf dieser Seite:
+    - 'wasm-unsafe-eval': ohne das darf der Browser kein WebAssembly übersetzen.
+    - style-src 'unsafe-inline': launcher.js aus minetest-wasm setzt ein <style>-Element und style-Attribute.
+    Die Inline-Handler (onclick) aus launcher.js bleiben blockiert; spiel.js hängt sie per addEventListener neu an.
+    Ziel im eigenen Fork: launcher.js ohne Inline-Styles, dann entfällt 'unsafe-inline'.
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <title>MINTforge-Labor</title>
+  <meta name="description" content="Das MINTforge-Labor im Browser (Prototyp).">
+  <meta name="theme-color" content="#1A1714">
+  <meta name="robots" content="noindex">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="assets/huelle.css">
+  <script src="assets/parameter.js" defer></script>
+  <!-- Vom Build erzeugt (wasm/build.sh); fehlt ohne Build, dann meldet spiel.js das. -->
+  <script src="client/launcher.js" defer></script>
+  <script src="assets/spiel.js" defer></script>
+</head>
+<body class="spiel">
+  <main class="karte">
+    <h1>MINTforge-Labor</h1>
+    <noscript>
+      <p class="meldung meldung-fehler">Das Labor braucht JavaScript. Bitte aktiviere es oder frag deine Lehrkraft.</p>
+    </noscript>
+    <p id="status" class="meldung" role="status" aria-live="polite">Das Labor wird geladen …</p>
+    <progress id="fortschritt" class="fortschritt versteckt" max="100" value="0">0 %</progress>
+    <p><button id="start" class="knopf versteckt" type="button">Ins Labor</button></p>
+    <p><a id="zurueck" class="versteckt" href="index.html">Zurück zur Startseite</a></p>
+  </main>
+</body>
+</html>

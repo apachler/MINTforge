@@ -1,0 +1,80 @@
+# Web-Client-Prototyp lokal: PWA über HTTPS, WebSocket-Proxy, Luanti-Server mit Beispielwelt,
+# Platzhalter für den MINTforge-Dienst (nimmt Quest-Ergebnisse an).
+#
+#   cp env.beispiel .env        # und einen eigenen Schlüssel eintragen (nie committen)
+#   docker compose up -d
+#   → https://localhost:8443/    (selbst signiertes Zertifikat von Caddy)
+#
+# Nur der Web-Port ist nach außen offen. Luanti-UDP bleibt im Compose-Netz: Browser erreichen den Server
+# ausschließlich über den Proxy, also über HTTPS/WSS auf einem Port – so wie im Schulnetz nötig.
+
+name: mintforge-webclient
+
+services:
+  web:
+    image: caddy:2.11.7-alpine
+    ports:
+      - "${MINTFORGE_WEB_PORT:-8443}:443"
+    environment:
+      MINTFORGE_HOST: ${MINTFORGE_HOST:-localhost}
+    volumes:
+      - ./web/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../web:/srv:ro
+      - caddy-daten:/data
+    depends_on:
+      - proxy
+    restart: unless-stopped
+
+  proxy:
+    build: ./proxy
+    environment:
+      PORT: "8765"
+      # virtuelle Adresse:Port = echter Host:Port. Nur diese Ziele leitet der Proxy weiter.
+      ZIELE: "10.77.0.1:30000=luanti:30000"
+      # Namen, die der Client über den Proxy auflösen darf (Startlink: server=luanti:30000)
+      NAMEN: "luanti=10.77.0.1"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8765/gesund"]
+      interval: 30s
+      timeout: 3s
+    depends_on:
+      - luanti
+    restart: unless-stopped
+
+  luanti:
+    # Offizielles Image des Luanti-Projekts (Workflow docker_image.yml veröffentlicht Semver-Tags auf ghcr.io).
+    # TODO: zusätzlich per Digest pinnen (@sha256:…), sobald der Digest aus einem CI-Lauf bekannt ist.
+    image: ghcr.io/luanti-org/luanti:5.18.0
+    command:
+      - --config
+      - /etc/minetest/minetest.conf
+      - --gameid
+      - mintforge_labor
+      - --world
+      - /var/lib/minetest/welten/prototyp
+    environment:
+      LUANTI_GAME_PATH: /opt/mintforge/spiele
+      MINTFORGE_TOKEN_SCHLUESSEL: ${MINTFORGE_TOKEN_SCHLUESSEL:?MINTFORGE_TOKEN_SCHLUESSEL in .env setzen (mindestens 32 Zeichen)}
+      MINTFORGE_ERGEBNIS_TOKEN: ${MINTFORGE_ERGEBNIS_TOKEN:-}
+    volumes:
+      - ./luanti/minetest.conf:/etc/minetest/minetest.conf:ro
+      - ./luanti/spiel/mintforge_labor:/opt/mintforge/spiele/mintforge_labor:ro
+      - ../mods/mintforge_quest:/opt/mintforge/spiele/mintforge_labor/mods/mintforge_quest:ro
+      - luanti-welten:/var/lib/minetest
+    restart: unless-stopped
+
+  ergebnis:
+    # Platzhalter für den MINTforge-Dienst (Phase 3): schreibt eingehende Ergebnisse ins Log.
+    image: node:24.22.2-alpine
+    command: ["node", "/app/empfaenger.mjs"]
+    environment:
+      PORT: "8080"
+      MINTFORGE_ERGEBNIS_TOKEN: ${MINTFORGE_ERGEBNIS_TOKEN:-}
+    volumes:
+      - ./ergebnis/empfaenger.mjs:/app/empfaenger.mjs:ro
+    user: node
+    restart: unless-stopped
+
+volumes:
+  caddy-daten:
+  luanti-welten:

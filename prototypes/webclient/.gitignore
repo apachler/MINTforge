@@ -1,0 +1,5 @@
+# Ergebnis von wasm/build.sh – wird gebaut, nie committet
+web/client/
+wasm/.arbeit/
+# Abhängigkeiten
+node_modules/

@@ -1,0 +1,16 @@
+{
+  "name": "mintforge-webclient-tests",
+  "version": "0.0.0",
+  "private": true,
+  "license": "EUPL-1.2",
+  "type": "module",
+  "scripts": {
+    "html": "html-validate ../web/*.html",
+    "manifest": "node pruefe-manifest.mjs ../web",
+    "browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "html-validate": "11.17.0"
+  }
+}
